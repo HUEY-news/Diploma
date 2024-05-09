@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftBorder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/dimens_size_16" />
+
+
+    <TextView
+        android:id="@+id/team"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimens_size_64"
+        android:layout_marginTop="@dimen/dimens_size_24"
+        android:fontFamily="@font/ys_text_medium"
+        android:gravity="center_vertical"
+        android:text="@string/team"
+        android:textColor="?attr/colorOnSecondary"
+        android:textFontWeight="500"
+        android:textSize="@dimen/text_size_22"
+        app:layout_constraintStart_toStartOf="@id/leftBorder"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/working_on_the_application"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimens_size_76"
+        android:layout_marginTop="@dimen/dimens_size_24"
+        android:fontFamily="@font/ys_text_bold"
+        android:gravity="center_vertical"
+        android:text="@string/working_on_the_application"
+        android:textColor="?attr/colorOnSecondary"
+        android:textFontWeight="700"
+        android:textSize="@dimen/text_size_32"
+        app:layout_constraintStart_toStartOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@+id/team" />
+
+    <TextView
+        android:id="@+id/said"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_size_24"
+        android:fontFamily="@font/ys_text_medium"
+        android:gravity="center_vertical"
+        android:text="@string/said"
+        android:textColor="?attr/colorOnSecondary"
+        android:textFontWeight="500"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintStart_toStartOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@+id/working_on_the_application" />
+
+    <TextView
+        android:id="@+id/evgeniy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_size_16"
+        android:fontFamily="@font/ys_text_medium"
+        android:gravity="center_vertical"
+        android:text="@string/evgeniy"
+        android:textColor="?attr/colorOnSecondary"
+        android:textFontWeight="500"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintStart_toStartOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@+id/said" />
+
+    <TextView
+        android:id="@+id/nikita"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_size_16"
+        android:fontFamily="@font/ys_text_medium"
+        android:gravity="center_vertical"
+        android:text="@string/nikita"
+        android:textColor="?attr/colorOnSecondary"
+        android:textFontWeight="500"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintStart_toStartOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@+id/evgeniy" />
+
+    <TextView
+        android:id="@+id/yulia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_size_16"
+        android:fontFamily="@font/ys_text_medium"
+        android:gravity="center_vertical"
+        android:text="@string/yulia"
+        android:textColor="?attr/colorOnSecondary"
+        android:textFontWeight="500"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintStart_toStartOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@+id/nikita" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
