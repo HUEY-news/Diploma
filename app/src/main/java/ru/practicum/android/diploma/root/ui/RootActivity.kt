@@ -10,6 +10,9 @@ class RootActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_root)
 
+        /*        val navHostFragment = supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
+                val navController = navHostFragment.navController*/
+
         // Пример использования access token для HeadHunter API
         networkRequestExample(accessToken = BuildConfig.HH_ACCESS_TOKEN)
     }
