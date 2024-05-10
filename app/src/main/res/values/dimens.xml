@@ -8,4 +8,7 @@
     <dimen name="dimens_size_12">12dp</dimen>
     <dimen name="dimens_size_16">16dp</dimen>
     <dimen name="dimens_size_24">24dp</dimen>
+    <dimen name="dimens_size_64">64dp</dimen>
+    <dimen name="dimens_size_76">76dp</dimen>
+
 </resources>
