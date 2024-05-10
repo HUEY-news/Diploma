@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/primaryBackgroundColor"
-    tools:ignore="hardcodedText" >
+    tools:context=".search.ui.SearchFragment"
+    tools:ignore="hardcodedText">
 
     <TextView
         android:id="@+id/header_text_view"
