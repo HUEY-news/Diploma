@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.favorite.ui
+package ru.practicum.android.diploma.favorite.presentation
 
 import androidx.lifecycle.ViewModel
 

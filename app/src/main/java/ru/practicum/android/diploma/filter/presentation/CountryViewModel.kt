@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter.ui
+package ru.practicum.android.diploma.filter.presentation
 
 import androidx.lifecycle.ViewModel
 
