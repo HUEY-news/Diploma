@@ -1,13 +1,9 @@
 <resources>
-    <attr name="primaryBackgroundColor"/>
-    <attr name="secondaryBackgroundColor"/>
-    <attr name="primaryTextColor"/>
-    <attr name="secondaryTextColor"/>
 
     <style name="Theme.RabotaDlyaFedota" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="primaryBackgroundColor">@color/black</item>
-        <item name="secondaryBackgroundColor">@color/gray</item>
-        <item name="primaryTextColor">@color/white</item>
-        <item name="secondaryTextColor">@color/white</item>
+        <item name="white_black">@color/black</item>
+        <item name="black_white">@color/white</item>
+        <item name="gray_white">@color/white</item>
+        <item name="lightgray_gray">@color/gray</item>
     </style>
 </resources>
