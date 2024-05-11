@@ -1,9 +1,14 @@
-package ru.practicum.android.diploma.db
+package ru.practicum.android.diploma.search.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-@Database(entities = [Vacancy::class], version = 1)
+@Database(
+    version = 1,
+    entities = [
+        VacancyEntity::class
+    ]
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun vacancyDao(): VacancyDao
 }
