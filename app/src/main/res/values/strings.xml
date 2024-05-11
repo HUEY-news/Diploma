@@ -7,7 +7,7 @@
     <string name="team">Команда</string>
     <string name="no_internet">Нет интернета</string>
     <string name="failed_to_get_list_of_vacancies">Не удалось получить\nсписок вакансий</string>
-    <string name="there_are_no_such_vacancies">таких вакансий нет</string>
+    <string name="there_are_no_such_vacancies">Таких вакансий нет</string>
     <string name="filtering_settings">Настройки фильтрации</string>
     <string name="place_of_work">Место работы</string>
     <string name="industry">Отрасль</string>
