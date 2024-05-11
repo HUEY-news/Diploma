@@ -5,11 +5,20 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 
-fun isInternetAvailable(context: Context): Boolean {
-    var result = false
-    val connectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+class CheckConnection(val context: Context) {
+    private var result = false
+    fun isInternetAvailable(): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkConnectNewVersion(connectivityManager)
+        } else {
+            checkConnectOldVersion(connectivityManager)
+        }
+        return result
+    }
+
+    private fun checkConnectNewVersion(connectivityManager: ConnectivityManager) {
         val networkCapabilities = connectivityManager.activeNetwork
         val actNw =
             connectivityManager.getNetworkCapabilities(networkCapabilities)
@@ -23,7 +32,9 @@ fun isInternetAvailable(context: Context): Boolean {
                 else -> false
             }
         }
-    } else {
+    }
+
+    private fun checkConnectOldVersion(connectivityManager: ConnectivityManager) {
         connectivityManager.run {
             connectivityManager.activeNetworkInfo?.run {
                 result = when (type) {
@@ -35,6 +46,4 @@ fun isInternetAvailable(context: Context): Boolean {
             }
         }
     }
-    return result
 }
-
