@@ -30,7 +30,7 @@ class RootActivity : AppCompatActivity() {
                 R.id.filtrationFragment,
                 R.id.placeOfWorkFragment,
                 R.id.regionFragment,
-                R.id.detailsFragment-> {
+                R.id.detailsFragment -> {
                     bottomNavigationView.visibility = View.GONE
                 }
                 else -> {
