@@ -1,12 +1,12 @@
 package ru.practicum.android.diploma
 
 import android.app.Application
-import com.practicum.playlistmaker.di.dataModule
-import com.practicum.playlistmaker.di.interactorModule
-import com.practicum.playlistmaker.di.repositoryModule
-import com.practicum.playlistmaker.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import ru.practicum.android.diploma.di.dataModule
+import ru.practicum.android.diploma.di.interactorModule
+import ru.practicum.android.diploma.di.repositoryModule
+import ru.practicum.android.diploma.di.viewModelModule
 
 class App : Application() {
 

@@ -2,4 +2,4 @@ package ru.practicum.android.diploma.filter.ui
 
 import androidx.lifecycle.ViewModel
 
-class PlaceOfWorkViewModel: ViewModel()
+class PlaceOfWorkViewModel : ViewModel()
