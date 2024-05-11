@@ -15,4 +15,5 @@
     <dimen name="dimens_size_56">56dp</dimen>
     <dimen name="dimens_size_64">64dp</dimen>
     <dimen name="dimens_size_76">76dp</dimen>
+    <dimen name="dimens_size_1">1dp</dimen>
 </resources>
