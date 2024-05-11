@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.main_search.data
+package ru.practicum.android.diploma.mainSearch.data
 
 import ru.practicum.android.diploma.NetworkClient
 

@@ -1,7 +1,7 @@
 package ru.practicum.android.diploma.di
 
 import org.koin.dsl.module
-import ru.practicum.android.diploma.main_search.data.SearchRepository
+import ru.practicum.android.diploma.mainSearch.data.SearchRepository
 import ru.practicum.android.diploma.db.VacancyDetailsRepository
 import ru.practicum.android.diploma.db.VacancyRepository
 
