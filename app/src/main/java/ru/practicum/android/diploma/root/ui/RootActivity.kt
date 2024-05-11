@@ -12,11 +12,10 @@ import ru.practicum.android.diploma.databinding.ActivityRootBinding
 
 class RootActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityRootBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityRootBinding.inflate(layoutInflater)
+        var binding = ActivityRootBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
@@ -27,7 +26,11 @@ class RootActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.countryFragment , R.id.filtrationFragment, R.id.placeOfWorkFragment, R.id.regionFragment, R.id.detailsFragment-> {
+                R.id.countryFragment,
+                R.id.filtrationFragment,
+                R.id.placeOfWorkFragment,
+                R.id.regionFragment,
+                R.id.detailsFragment-> {
                     bottomNavigationView.visibility = View.GONE
                 }
                 else -> {
