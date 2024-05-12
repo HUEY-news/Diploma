@@ -24,6 +24,8 @@ class RetrofitNetworkClient(
                 response.apply { resultCode = ERROR_200 }
             } catch (exception: IOException) {
                 Response().apply { resultCode = ERROR_500 }
+            } catch (exception: Throwable) {
+                Response().apply { resultCode = ERROR_500 }
             }
         }
     }
