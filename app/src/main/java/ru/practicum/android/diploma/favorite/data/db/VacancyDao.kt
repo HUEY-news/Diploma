@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.search.data.db
+package ru.practicum.android.diploma.favorite.data.db
 
 import androidx.room.Dao
 import androidx.room.Query
