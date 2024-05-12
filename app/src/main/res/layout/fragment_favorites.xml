@@ -16,7 +16,7 @@
         android:fontFamily="@font/ys_text_medium"
         android:gravity="center_vertical"
         android:text="@string/favorites"
-        android:textColor="?attr/colorOnSecondary"
+        android:textColor="?attr/black_white"
         android:textFontWeight="500"
         android:textSize="@dimen/text_size_22"
         app:layout_constraintStart_toStartOf="parent"
