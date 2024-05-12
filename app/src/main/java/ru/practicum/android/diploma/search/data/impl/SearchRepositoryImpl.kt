@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.search.data.dto.SearchRequest
 import ru.practicum.android.diploma.search.data.dto.SearchResponse
 import ru.practicum.android.diploma.search.data.network.NetworkClient
-import ru.practicum.android.diploma.search.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.search.data.network.RetrofitNetworkClient.Companion.ERROR_1
 import ru.practicum.android.diploma.search.data.network.RetrofitNetworkClient.Companion.ERROR_200
 import ru.practicum.android.diploma.search.domain.api.SearchRepository
