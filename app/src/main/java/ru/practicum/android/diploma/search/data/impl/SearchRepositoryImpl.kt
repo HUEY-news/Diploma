@@ -6,6 +6,9 @@ import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.search.data.dto.SearchRequest
 import ru.practicum.android.diploma.search.data.dto.SearchResponse
 import ru.practicum.android.diploma.search.data.network.NetworkClient
+import ru.practicum.android.diploma.search.data.network.RetrofitNetworkClient
+import ru.practicum.android.diploma.search.data.network.RetrofitNetworkClient.Companion.ERROR_1
+import ru.practicum.android.diploma.search.data.network.RetrofitNetworkClient.Companion.ERROR_200
 import ru.practicum.android.diploma.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.search.domain.model.Vacancy
 import ru.practicum.android.diploma.util.Resource
@@ -15,17 +18,16 @@ class SearchRepositoryImpl(
     private val client: NetworkClient
 ) : SearchRepository {
 
-    private val errorEmptyText: String = "context.resources.getString(R.string.имя строки)"
-    private val errorInternetText: String = "context.resources.getString(R.string.имя строки)"
-    private val errorServerText: String = "context.resources.getString(R.string.имя строки)"
+    private val errorEmptyText: String = "context.resources.getString(R.string.ПУСТО)"
+    private val errorInternetText: String = "context.resources.getString(R.string.НЕТ ИНТЕРНЕТА)"
+    private val errorServerText: String = "context.resources.getString(R.string.ОШИБКА СЕРВЕРА)"
 
     override fun searchVacancy(expression: String): Flow<Resource<List<Vacancy>>> = flow {
         val response = client.doRequest(SearchRequest(expression))
         when (response.resultCode) {
+            ERROR_1 -> emit(Resource.Error(errorInternetText))
 
-            -1 -> emit(Resource.Error(errorInternetText))
-
-            200 -> {
+            ERROR_200 -> {
                 val vacancyDtoList = (response as SearchResponse).results
                 val vacancyList = vacancyDtoList.map {
                     Vacancy(
@@ -35,8 +37,11 @@ class SearchRepositoryImpl(
                     )
                 }
 
-                if (vacancyList.isNotEmpty()) emit(Resource.Success(vacancyList))
-                else emit(Resource.Error(errorEmptyText))
+                if (vacancyList.isNotEmpty()) {
+                    emit(Resource.Success(vacancyList))
+                } else {
+                    emit(Resource.Error(errorEmptyText))
+                }
             }
             else -> emit(Resource.Error(errorServerText))
         }

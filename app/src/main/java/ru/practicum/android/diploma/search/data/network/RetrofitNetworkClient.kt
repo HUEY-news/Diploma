@@ -14,15 +14,15 @@ class RetrofitNetworkClient(
 ) : NetworkClient {
 
     override suspend fun doRequest(dto: Any): Response {
-        if (!isConnected()) return Response().apply { resultCode = -1 }
-        if (dto !is SearchRequest) return Response().apply { resultCode = 400 }
+        if (!isConnected()) return Response().apply { resultCode = ERROR_1 }
+        if (dto !is SearchRequest) return Response().apply { resultCode = ERROR_400 }
 
         return withContext(Dispatchers.IO) {
             try {
                 val response = service.searchVacancy(dto.expression)
-                response.apply { resultCode = 200 }
+                response.apply { resultCode = ERROR_200 }
             } catch (exception: Throwable) {
-                Response().apply { resultCode = 500 }
+                Response().apply { resultCode = ERROR_500 }
             }
         }
     }
@@ -31,12 +31,19 @@ class RetrofitNetworkClient(
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
         if (capabilities != null) {
-            when {
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> return true
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
-            }
+            if (
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                ) return true
         }
         return false
+    }
+
+    companion object {
+        const val ERROR_1 = -1
+        const val ERROR_200 = 200
+        const val ERROR_400 = 400
+        const val ERROR_500 = 500
     }
 }

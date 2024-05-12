@@ -1,8 +1,8 @@
 package ru.practicum.android.diploma.search.data.impl
 
-import com.practicum.playlistmaker.convertor.DbConvertor
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.practicum.android.diploma.convertor.DbConvertor
 import ru.practicum.android.diploma.search.data.db.AppDatabase
 import ru.practicum.android.diploma.search.data.db.VacancyEntity
 import ru.practicum.android.diploma.search.domain.model.Vacancy
