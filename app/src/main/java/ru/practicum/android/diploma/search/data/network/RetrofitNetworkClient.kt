@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.search.data.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.search.data.dto.Response
@@ -22,9 +23,10 @@ class RetrofitNetworkClient(
         } else {
             withContext(Dispatchers.IO) {
                 try {
-                    val response = service.searchVacancy((dto as SearchRequest).expression)
+                    val response = service.searchVacancy((dto).expression)
                     response.apply { resultCode = ERROR_200 }
                 } catch (exception: IOException) {
+                    Log.e("TEST", "$exception")
                     Response().apply { resultCode = ERROR_500 }
                 }
             }
