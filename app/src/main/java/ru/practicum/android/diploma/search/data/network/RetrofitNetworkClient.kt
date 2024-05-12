@@ -23,7 +23,7 @@ class RetrofitNetworkClient(
         } else {
             withContext(Dispatchers.IO) {
                 try {
-                    val response = service.searchVacancy((dto).expression)
+                    val response = service.searchVacancy(dto.expression)
                     response.apply { resultCode = ERROR_200 }
                 } catch (exception: IOException) {
                     Log.e("TEST", "$exception")
