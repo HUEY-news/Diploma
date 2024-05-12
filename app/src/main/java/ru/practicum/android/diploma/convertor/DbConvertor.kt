@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.convertor
+package ru.practicum.android.diploma.convertor
 
 import ru.practicum.android.diploma.search.data.db.VacancyEntity
 import ru.practicum.android.diploma.search.domain.model.Vacancy
