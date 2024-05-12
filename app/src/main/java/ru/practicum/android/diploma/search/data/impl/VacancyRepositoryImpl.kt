@@ -9,7 +9,8 @@ import ru.practicum.android.diploma.search.domain.api.VacancyRepository
 import ru.practicum.android.diploma.search.domain.model.Vacancy
 
 class VacancyRepositoryImpl(
-    private val appDatabase: AppDatabase, private val dbConvertor: DbConvertor
+    private val appDatabase: AppDatabase,
+    private val dbConvertor: DbConvertor
 ) : VacancyRepository {
 
     override fun getAllVacancies(): Flow<List<Vacancy>> = flow {
