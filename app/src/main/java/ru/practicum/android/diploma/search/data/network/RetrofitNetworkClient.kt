@@ -15,17 +15,18 @@ class RetrofitNetworkClient(
 ) : NetworkClient {
 
     override suspend fun doRequest(dto: Any): Response {
-        if (!isConnected()) return Response().apply { resultCode = ERROR_1 }
-        if (dto !is SearchRequest) return Response().apply { resultCode = ERROR_400 }
-
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = service.searchVacancy(dto.expression)
-                response.apply { resultCode = ERROR_200 }
-            } catch (exception: IOException) {
-                Response().apply { resultCode = ERROR_500 }
-            } catch (exception: Throwable) {
-                Response().apply { resultCode = ERROR_500 }
+        return if (!isConnected()) {
+            Response().apply { resultCode = ERROR_1 }
+        } else if (dto !is SearchRequest) {
+            Response().apply { resultCode = ERROR_400 }
+        } else {
+            withContext(Dispatchers.IO) {
+                try {
+                    val response = service.searchVacancy((dto as SearchRequest).expression)
+                    response.apply { resultCode = ERROR_200 }
+                } catch (exception: IOException) {
+                    Response().apply { resultCode = ERROR_500 }
+                }
             }
         }
     }
