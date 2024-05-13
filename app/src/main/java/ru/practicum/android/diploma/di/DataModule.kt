@@ -1,6 +1,9 @@
 package ru.practicum.android.diploma.di
 
 import androidx.room.Room
+import com.google.gson.Gson
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -16,8 +19,16 @@ val dataModule = module {
 
     single<SearchApiService> {
         Retrofit.Builder()
-            .baseUrl("https://search.com")
+            .baseUrl("https://api.hh.ru")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor(
+                        HttpLoggingInterceptor()
+                            .setLevel(HttpLoggingInterceptor.Level.BODY)
+                    )
+                    .build()
+            )
             .build()
             .create(SearchApiService::class.java)
     }
@@ -27,4 +38,6 @@ val dataModule = module {
             .fallbackToDestructiveMigration()
             .build()
     }
+
+    factory { Gson() }
 }
