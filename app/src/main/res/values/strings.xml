@@ -37,4 +37,10 @@
     <string name="yulia">Юлия Волкова</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <plurals name="plurals_vacancy">
+        <item quantity="zero">вакансий</item>
+        <item quantity="one">%d вакансия</item>
+        <item quantity="few">%d вакансии</item>
+        <item quantity="other">%d вакансий</item>
+    </plurals>
 </resources>
