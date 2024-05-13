@@ -12,10 +12,17 @@ import ru.practicum.android.diploma.favorite.data.db.AppDatabase
 import ru.practicum.android.diploma.search.data.network.NetworkClient
 import ru.practicum.android.diploma.search.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.search.data.network.SearchApiService
+import ru.practicum.android.diploma.util.CheckConnection
 
 val dataModule = module {
 
-    single<NetworkClient> { RetrofitNetworkClient(context = androidContext(), service = get()) }
+    single<NetworkClient> {
+        RetrofitNetworkClient(
+            context = androidContext(),
+            service = get(),
+            checkConnection = get()
+        )
+    }
 
     single<SearchApiService> {
         Retrofit.Builder()
@@ -40,4 +47,6 @@ val dataModule = module {
     }
 
     factory { Gson() }
+
+    factory { CheckConnection(get()) }
 }
