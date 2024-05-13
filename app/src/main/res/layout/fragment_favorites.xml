@@ -22,29 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/placeholder_container_favorites_error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone">
-        <ImageView
-            android:id="@+id/placeholder_image_view_favorites_error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/placeholder_incorrect_request" />
-        <TextView
-            android:id="@+id/placeholder_text_view_favorites_error"
-            style="@style/PlaceholderTextStyle"
-            android:gravity="center"
-            android:text="@string/failed_to_get_list_of_vacancies" />
-    </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycler_view"
         android:layout_width="0dp"
@@ -57,7 +34,7 @@
         tools:visibility="gone" />
 
     <LinearLayout
-        android:id="@+id/placeholder_container_favorites_empty"
+        android:id="@+id/placeholder_favorites"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -66,16 +43,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <ImageView
-            android:id="@+id/placeholder_image_view_favorites_empty"
+            android:id="@+id/placeholder_image_favorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/placeholder_empty_favorite" />
         <TextView
-            android:id="@+id/placeholder_text_view_favorites_empty"
+            android:id="@+id/placeholder_text_favorites"
             style="@style/PlaceholderTextStyle"
             android:gravity="center"
-            android:text="@string/the_list_is_empty" />
+            tools:text="placeholder_text" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
