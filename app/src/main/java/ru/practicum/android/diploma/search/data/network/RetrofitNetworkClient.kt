@@ -1,22 +1,22 @@
 package ru.practicum.android.diploma.search.data.network
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.search.data.dto.Response
 import ru.practicum.android.diploma.search.data.dto.SearchRequest
+import ru.practicum.android.diploma.util.CheckConnection
 import java.io.IOException
 
 class RetrofitNetworkClient(
     private val context: Context,
-    private val service: SearchApiService
+    private val service: SearchApiService,
+    private val checkConnection: CheckConnection,
 ) : NetworkClient {
 
     override suspend fun doRequest(dto: Any): Response {
-        return if (!isConnected()) {
+        return if (!checkConnection.isInternetAvailable()) {
             Response().apply { resultCode = ERROR_1 }
         } else if (dto !is SearchRequest) {
             Response().apply { resultCode = ERROR_400 }
@@ -31,15 +31,6 @@ class RetrofitNetworkClient(
                 }
             }
         }
-    }
-
-    private fun isConnected(): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        return capabilities != null &&
-            (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET))
     }
 
     companion object {
