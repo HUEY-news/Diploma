@@ -16,7 +16,7 @@ class RetrofitNetworkClient(
     private val checkConnection: CheckConnection,
 ) : NetworkClient {
 
-    override suspend fun doRequest(dto: Any): Response {
+    override suspend fun doRequest(dto: Any, options: HashMap<String, String>?): Response {
         return if (!checkConnection.isInternetAvailable()) {
             Response().apply { resultCode = Constants.CONNECTION_ERROR }
         } else if (dto !is SearchRequest) {
@@ -24,7 +24,7 @@ class RetrofitNetworkClient(
         } else {
             withContext(Dispatchers.IO) {
                 try {
-                    val response = service.searchVacancy(dto.expression)
+                    val response = service.searchVacancy(dto.expression, options)
                     response.apply { resultCode = Constants.SUCCESS }
                 } catch (exception: IOException) {
                     Log.e("TEST", "$exception")
