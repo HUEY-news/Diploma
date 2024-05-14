@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/dimens_size_16"
+    android:paddingVertical="@dimen/dimens_size_9">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/vacancy_cover_container"
+        android:layout_width="@dimen/dimens_size_48"
+        android:layout_height="@dimen/dimens_size_48"
+        app:cardBackgroundColor="?attr/color"
+        app:cardCornerRadius="@dimen/text_size_12"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/vacancy_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/icon_android_placeholder" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/job_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimens_size_12"
+        android:fontFamily="@font/ys_text_medium"
+        android:textColor="?attr/black_white"
+        android:textFontWeight="500"
+        android:textSize="@dimen/text_size_22"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vacancy_cover_container"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Vacancy Name а ну ка перенеси мне строку вот спасибо" />
+
+    <TextView
+        android:id="@+id/сompany_name"
+        style="@style/ItemVacancyDetailsStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vacancy_cover_container"
+        app:layout_constraintTop_toBottomOf="@id/job_title"
+        tools:text="самая лучшая компания" />
+
+    <TextView
+        android:id="@+id/salary"
+        style="@style/ItemVacancyDetailsStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vacancy_cover_container"
+        app:layout_constraintTop_toBottomOf="@id/сompany_name"
+        tools:text="зп в которой много нулей" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
