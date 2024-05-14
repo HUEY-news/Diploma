@@ -7,8 +7,7 @@ import ru.practicum.android.diploma.databinding.ItemVacancyBinding
 import ru.practicum.android.diploma.search.domain.model.Salary
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 
-class SearchVacancyViewHolder
-    (private var binding: ItemVacancyBinding) : RecyclerView.ViewHolder(binding.root) {
+class SearchVacancyViewHolder(private var binding: ItemVacancyBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(model: SimpleVacancy) {
         binding.jobTitle.text = model.name
         binding.employer.text = model.employer!!.name
