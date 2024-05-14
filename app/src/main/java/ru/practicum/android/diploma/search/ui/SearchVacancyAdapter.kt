@@ -8,8 +8,6 @@ import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 
 class SearchVacancyAdapter(val vacancyClickListener: SearchVacancyAdapter.VacancyClickListener) :
     RecyclerView.Adapter<SearchVacancyViewHolder>() {
-
-
     var vacancy = ArrayList<SimpleVacancy>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchVacancyViewHolder {
@@ -20,11 +18,9 @@ class SearchVacancyAdapter(val vacancyClickListener: SearchVacancyAdapter.Vacanc
     override fun onBindViewHolder(holder: SearchVacancyViewHolder, position: Int) {
         val item = vacancy[position]
         holder.bind(item)
-
-
-        holder.setOnVacancyListener(object : onVacancyClickListener {
+        holder.setOnVacancyListener(object : onVacClickListener {
             override fun action() {
-                // Log.d("TrackAdapter", "OnTrackClickListener $item ")
+                // Log.d("Adapter", "OnVacancyClickListener $item ")
                 vacancyClickListener.onVacancyClick(item)
             }
         })

@@ -7,10 +7,8 @@ import ru.practicum.android.diploma.databinding.ItemVacancyBinding
 import ru.practicum.android.diploma.search.domain.model.Salary
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 
-
 class SearchVacancyViewHolder
     (private var binding: ItemVacancyBinding) : RecyclerView.ViewHolder(binding.root) {
-
     fun bind(model: SimpleVacancy) {
         binding.jobTitle.text = model.name
         binding.employer.text = model.employer!!.name
@@ -22,7 +20,7 @@ class SearchVacancyViewHolder
             .into(binding.vacancyCover)
     }
 
-    fun setOnVacancyListener(listener: onVacancyClickListener) {
+    fun setOnVacancyListener(listener: onVacClickListener) {
         itemView.setOnClickListener {
             listener.action()
         }
@@ -30,7 +28,7 @@ class SearchVacancyViewHolder
 
     fun getSalary(salary: Salary?): String {
         var stringSalary = ""
-        if ((salary == null) || (salary.from == null && salary.to == null)) {
+        if (salary == null || salary.from == null && salary.to == null) {
             stringSalary = R.string.salary_not_specified.toString()
         } else if (salary.from != null) {
             stringSalary += "${R.string.from} ${salary.from}"
@@ -42,7 +40,7 @@ class SearchVacancyViewHolder
     }
 }
 
-interface onVacancyClickListener {
+interface onVacClickListener {
     fun action()
 }
 
