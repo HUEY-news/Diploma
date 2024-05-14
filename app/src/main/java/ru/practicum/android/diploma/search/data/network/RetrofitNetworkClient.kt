@@ -6,8 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.search.data.dto.Response
 import ru.practicum.android.diploma.search.data.dto.SearchRequest
-import ru.practicum.android.diploma.search.data.model.StateNetwork
 import ru.practicum.android.diploma.util.CheckConnection
+import ru.practicum.android.diploma.util.Constants
 import java.io.IOException
 
 class RetrofitNetworkClient(
@@ -18,17 +18,17 @@ class RetrofitNetworkClient(
 
     override suspend fun doRequest(dto: Any): Response {
         return if (!checkConnection.isInternetAvailable()) {
-            Response().apply { resultCode = StateNetwork.CONNECTION_ERROR.code }
+            Response().apply { resultCode = Constants.CONNECTION_ERROR }
         } else if (dto !is SearchRequest) {
-            Response().apply { resultCode = StateNetwork.NOT_FOUND.code }
+            Response().apply { resultCode = Constants.NOT_FOUND }
         } else {
             withContext(Dispatchers.IO) {
                 try {
                     val response = service.searchVacancy(dto.expression)
-                    response.apply { resultCode = StateNetwork.SUCCESS.code }
+                    response.apply { resultCode = Constants.SUCCESS }
                 } catch (exception: IOException) {
                     Log.e("TEST", "$exception")
-                    Response().apply { resultCode = StateNetwork.SERVER_ERROR.code }
+                    Response().apply { resultCode = Constants.SERVER_ERROR }
                 }
             }
         }

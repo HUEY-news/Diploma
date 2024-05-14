@@ -5,12 +5,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.search.data.dto.SearchRequest
 import ru.practicum.android.diploma.search.data.dto.SearchResponse
-import ru.practicum.android.diploma.search.data.model.StateNetwork
 import ru.practicum.android.diploma.search.data.network.NetworkClient
 import ru.practicum.android.diploma.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.search.domain.model.Employer
 import ru.practicum.android.diploma.search.domain.model.Salary
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
+import ru.practicum.android.diploma.util.Constants
 import ru.practicum.android.diploma.util.Resource
 
 class SearchRepositoryImpl(
@@ -25,9 +25,9 @@ class SearchRepositoryImpl(
     override fun searchVacancy(expression: String): Flow<Resource<List<SimpleVacancy>>> = flow {
         val response = client.doRequest(SearchRequest(expression))
         when (response.resultCode) {
-            StateNetwork.CONNECTION_ERROR.code -> emit(Resource.Error(errorInternetText))
+            Constants.CONNECTION_ERROR -> emit(Resource.Error(errorInternetText))
 
-            StateNetwork.SUCCESS.code -> {
+            Constants.SUCCESS -> {
                 val vacancyDtoList = (response as SearchResponse).results
                 val vacancyList = vacancyDtoList.map { vacancy ->
                     SimpleVacancy(
