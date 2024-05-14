@@ -1,11 +1,11 @@
-package ru.practicum.android.diploma.search.data.impl
+package ru.practicum.android.diploma.favorite.data.impl
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.convertor.DbConvertor
 import ru.practicum.android.diploma.favorite.data.db.AppDatabase
 import ru.practicum.android.diploma.favorite.data.db.VacancyEntity
-import ru.practicum.android.diploma.search.domain.api.VacancyRepository
+import ru.practicum.android.diploma.favorite.domain.api.VacancyRepository
 import ru.practicum.android.diploma.search.domain.model.Vacancy
 
 class VacancyRepositoryImpl(
