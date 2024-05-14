@@ -35,6 +35,9 @@
     <string name="evgeniy">Евгений Никитин</string>
     <string name="nikita">Никита Слепченко</string>
     <string name="yulia">Юлия Волкова</string>
+    <string name="salary_not_specified">Зарплата не указана</string>
+    <string name="from">от</string>
+    <string name="to">до</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <plurals name="plurals_vacancy">
