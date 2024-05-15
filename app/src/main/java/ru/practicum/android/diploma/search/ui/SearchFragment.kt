@@ -31,17 +31,17 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding: FragmentSearchBinding
         get() = _binding!!
-
+    private var isClickAllowed = true
     private var inputTextFromSearch: String? = null
     private var flagSuccessfulDownload: Boolean = false
 
-    private lateinit var recyclerViewVacancy: RecyclerView
-    private lateinit var inputEditTextSearch: EditText
-    private lateinit var progressBarSearchCenter: ProgressBar
-    private lateinit var progressBarSearchBottom: ProgressBar
-    private lateinit var placeHolderContainer: LinearLayout
-    private lateinit var textViewPlaceholder: TextView
-    private lateinit var imageViewPlaceholder: ImageView
+    private val recyclerViewVacancy: RecyclerView by lazy { binding.searchRecyclerView }
+    private val inputEditTextSearch: EditText by lazy { binding.searchFieldEditText }
+    private val progressBarSearchCenter: ProgressBar by lazy { binding.centerProgressBar }
+    private val progressBarSearchBottom: ProgressBar by lazy { binding.bottomProgressBar }
+    private val placeHolderContainer: LinearLayout by lazy { binding.placeholderContainer }
+    private val textViewPlaceholder: TextView by lazy { binding.placeholderTextView }
+    private val imageViewPlaceholder: ImageView by lazy { binding.placeholderImageView }
 
     private val viewModel by viewModel<SearchViewModel>()
 
@@ -56,30 +56,8 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        var isClickAllowed = true
-
-        fun clickDebounce(): Boolean {
-            val current = isClickAllowed
-            if (isClickAllowed) {
-                isClickAllowed = false
-                viewLifecycleOwner.lifecycleScope.launch {
-                    delay(CLICK_DEBOUNCE_DELAY)
-                    isClickAllowed = true
-                }
-            }
-            return current
-        }
-
         binding.apply {
             searchToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
-            inputEditTextSearch = binding.searchFieldEditText
-            progressBarSearchCenter = binding.centerProgressBar
-            progressBarSearchBottom = binding.bottomProgressBar
-            placeHolderContainer = binding.placeholderContainer
-            textViewPlaceholder = binding.placeholderTextView
-            imageViewPlaceholder = binding.placeholderImageView
-            recyclerViewVacancy = binding.searchRecyclerView
             resetImageButton.setOnClickListener {
                 inputEditTextSearch.setText("")
                 activity?.window?.currentFocus?.let { view ->
@@ -90,7 +68,13 @@ class SearchFragment : Fragment() {
                 }
             }
         }
+        inputEditTextInit()
+        viewModel.observeState().observe(viewLifecycleOwner) {
+            render(it)
+        }
+    }
 
+    private fun inputEditTextInit() {
         inputEditTextSearch.addTextChangedListener(
             beforeTextChanged = { s, start, count, after -> },
             onTextChanged = { s, start, before, count ->
@@ -117,9 +101,6 @@ class SearchFragment : Fragment() {
             }
             progressBarSearchCenter.visibility = View.GONE
             false
-        }
-        viewModel.observeState().observe(viewLifecycleOwner) {
-            render(it)
         }
     }
 
@@ -175,6 +156,18 @@ class SearchFragment : Fragment() {
         progressBarSearchBottom.isVisible = false
         placeHolderContainer.isVisible = false
         recyclerViewVacancy.isVisible = true
+    }
+
+    fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
+        }
+        return current
     }
 
     private fun hideKeyboard(activity: Activity) {
