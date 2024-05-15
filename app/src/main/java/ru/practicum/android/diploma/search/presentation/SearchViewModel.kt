@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
+import ru.practicum.android.diploma.search.domain.model.Vacancy
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
 import ru.practicum.android.diploma.sharing.domain.api.ResourceInteractor
 import ru.practicum.android.diploma.util.debounce
@@ -14,9 +15,12 @@ import ru.practicum.android.diploma.util.debounce
 class SearchViewModel(
     private val resourceInteractor: ResourceInteractor,
     private val searchInteractor: SearchInteractor,
-) :
-    ViewModel() {
+) : ViewModel() {
     var lastText: String = ""
+
+    private var currentPage = 1
+    private var maxPages = 0
+    private val vacanciesList = mutableListOf<Vacancy>()
 
     private val stateLiveData = MutableLiveData<VacanciesState>()
 
