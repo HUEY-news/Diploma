@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
@@ -20,7 +21,7 @@ class SearchViewModel(
 
     private var currentPage = 1
     private var maxPages = 0
-    private val vacanciesList = mutableListOf<Vacancy>()
+    private val vacanciesList = mutableListOf<SimpleVacancy>()
 
     private val stateLiveData = MutableLiveData<VacanciesState>()
 
@@ -81,6 +82,28 @@ class SearchViewModel(
 
     private fun renderState(state: VacanciesState) {
         stateLiveData.postValue(state)
+    }
+
+    fun searchVacancies() {
+        viewModelScope.launch {
+            val searchRequest = "your_search_query_here" // Укажи здесь свой поисковый запрос...
+            val options = hashMapOf("page" to currentPage.toString()) // Параметры для пагинации...
+            val result = searchInteractor.searchVacancy(searchRequest, options).first()
+
+            if (result.second != null) {
+                // Обработка ошибки, если есть...
+                return@launch
+            }
+
+            result.first?.let { newVacancies ->
+                vacanciesList.addAll(newVacancies)
+                currentPage++
+                if (currentPage <= maxPages) {
+                    // Рекурсивный вызов для следующей страницы, если нужно...
+                    searchVacancies()
+                }
+            }
+        }
     }
 
     companion object {
