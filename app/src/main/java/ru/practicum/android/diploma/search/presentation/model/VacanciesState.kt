@@ -6,7 +6,7 @@ sealed interface VacanciesState {
     object Loading : VacanciesState
 
     data class Content(
-        val tracks: ArrayList<SimpleVacancy>,
+        val vacancies: ArrayList<SimpleVacancy>,
     ) : VacanciesState
 
     data class Error(
