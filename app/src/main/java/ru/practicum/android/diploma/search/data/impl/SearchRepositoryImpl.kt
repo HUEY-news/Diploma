@@ -22,8 +22,11 @@ class SearchRepositoryImpl(
     private val errorInternetText: String = "context.resources.getString(R.string.НЕТ ИНТЕРНЕТА)"
     private val errorServerText: String = "context.resources.getString(R.string.ОШИБКА СЕРВЕРА)"
 
-    override fun searchVacancy(expression: String): Flow<Resource<List<SimpleVacancy>>> = flow {
-        val response = client.doRequest(SearchRequest(expression))
+    override fun searchVacancy(
+        expression: String,
+        options: HashMap<String, String>?,
+    ): Flow<Resource<List<SimpleVacancy>>> = flow {
+        val response = client.doRequest(SearchRequest(expression), options)
         when (response.resultCode) {
             Constants.CONNECTION_ERROR -> emit(Resource.Error(errorInternetText))
 
