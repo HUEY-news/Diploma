@@ -16,7 +16,6 @@ class SearchViewModel(
     private val searchInteractor: SearchInteractor,
 ) :
     ViewModel() {
-    var lastText: String = ""
 
     private val stateLiveData = MutableLiveData<VacanciesState>()
 
@@ -28,7 +27,6 @@ class SearchViewModel(
         }
 
     fun searchDebounce(changedText: String) {
-        lastText = changedText
         trackSearchDebounce(changedText)
     }
 
@@ -64,7 +62,7 @@ class SearchViewModel(
                             else -> {
                                 renderState(
                                     VacanciesState.Content(
-                                        tracks = vacancies,
+                                        vacancies = vacancies,
                                     )
                                 )
                             }
