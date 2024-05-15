@@ -12,10 +12,14 @@ class SearchVacancyAdapter(
 
     private var vacancyList: List<SimpleVacancy> = emptyList()
 
+    fun setItems(items: List<SimpleVacancy>) {
+        vacancyList = items
+        notifyDataSetChanged() //todo: прикрутить DiffUtil
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchVacancyViewHolder {
         val layoutInspector = LayoutInflater.from(parent.context)
-        return SearchVacancyViewHolder(ItemVacancyBinding.inflate(layoutInspector, parent, false))
-        { position: Int ->
+        return SearchVacancyViewHolder(ItemVacancyBinding.inflate(layoutInspector, parent, false)) { position: Int ->
             if (position != RecyclerView.NO_POSITION) {
                 vacancyList.getOrNull(position)?.let { vacancy ->
                     onItemClick(vacancy)
