@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
