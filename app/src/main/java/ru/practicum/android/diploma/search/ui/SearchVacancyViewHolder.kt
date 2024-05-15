@@ -21,7 +21,7 @@ class SearchVacancyViewHolder(private var binding: ItemVacancyBinding) : Recycle
 
     fun setOnVacancyListener(listener: onVacClickListener) {
         itemView.setOnClickListener {
-            listener.action()
+            listener.actionClick()
         }
     }
 
@@ -40,6 +40,6 @@ class SearchVacancyViewHolder(private var binding: ItemVacancyBinding) : Recycle
 }
 
 interface onVacClickListener {
-    fun action()
+    fun actionClick()
 }
 
