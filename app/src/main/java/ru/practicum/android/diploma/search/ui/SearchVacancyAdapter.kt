@@ -14,7 +14,7 @@ class SearchVacancyAdapter(
 
     fun setItems(items: List<SimpleVacancy>) {
         vacancyList = items
-        notifyDataSetChanged() //todo: прикрутить DiffUtil
+        notifyDataSetChanged() // todo: прикрутить DiffUtil
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchVacancyViewHolder {
