@@ -18,7 +18,7 @@ class SearchVacancyAdapter(val vacancyClickListener: SearchVacancyAdapter.Vacanc
     override fun onBindViewHolder(holder: SearchVacancyViewHolder, position: Int) {
         val item = vacancy[position]
         holder.bind(item)
-        holder.setOnVacancyListener(object : onVacClickListener {
+        holder.setOnVacancyListener(object : vacancyListener {
             override fun actionClick() {
                 // Log.d("Adapter", "OnVacancyClickListener $item ")
                 vacancyClickListener.onVacancyClick(item)
