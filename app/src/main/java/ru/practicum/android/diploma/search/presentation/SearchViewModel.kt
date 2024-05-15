@@ -90,15 +90,14 @@ class SearchViewModel(
 
             if (result.second != null) {
                 // Обработка ошибки, если есть...
-                return@launch
-            }
-
-            result.first?.let { newVacancies ->
-                vacanciesList.addAll(newVacancies)
-                currentPage++
-                if (currentPage <= maxPages) {
-                    // Рекурсивный вызов для следующей страницы, если нужно...
-                    searchVacancies()
+            } else {
+                result.first?.let { newVacancies ->
+                    vacanciesList.addAll(newVacancies)
+                    currentPage++
+                    if (currentPage <= maxPages) {
+                        // Рекурсивный вызов для следующей страницы, если нужно...
+                        searchVacancies()
+                    }
                 }
             }
         }
