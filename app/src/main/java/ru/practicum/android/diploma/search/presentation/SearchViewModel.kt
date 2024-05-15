@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
-import ru.practicum.android.diploma.search.domain.model.Vacancy
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
 import ru.practicum.android.diploma.sharing.domain.api.ResourceInteractor
 import ru.practicum.android.diploma.util.debounce
@@ -16,8 +14,8 @@ import ru.practicum.android.diploma.util.debounce
 class SearchViewModel(
     private val resourceInteractor: ResourceInteractor,
     private val searchInteractor: SearchInteractor,
-) : ViewModel() {
-    var lastText: String = ""
+) :
+    ViewModel() {
 
     private var currentPage = 1
     private var maxPages = 0
@@ -33,7 +31,6 @@ class SearchViewModel(
         }
 
     fun searchDebounce(changedText: String) {
-        lastText = changedText
         trackSearchDebounce(changedText)
     }
 
@@ -69,7 +66,7 @@ class SearchViewModel(
                             else -> {
                                 renderState(
                                     VacanciesState.Content(
-                                        tracks = vacancies,
+                                        vacancies = vacancies,
                                     )
                                 )
                             }

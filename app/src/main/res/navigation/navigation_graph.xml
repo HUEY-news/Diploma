@@ -32,9 +32,9 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="ru.practicum.android.diploma.details.ui.DetailsFragment"
+        android:name="ru.practicum.android.diploma.details.ui.VacancyDetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details_vacancy" />
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="ru.practicum.android.diploma.favorite.ui.FavoritesFragment"
