@@ -40,7 +40,7 @@
         tools:text="Vacancy Name а ну ка перенеси мне строку вот спасибо" />
 
     <TextView
-        android:id="@+id/сompany_name"
+        android:id="@+id/employer"
         style="@style/ItemVacancyDetailsStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/vacancy_cover_container"
@@ -52,7 +52,7 @@
         style="@style/ItemVacancyDetailsStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/vacancy_cover_container"
-        app:layout_constraintTop_toBottomOf="@id/сompany_name"
+        app:layout_constraintTop_toBottomOf="@id/employer"
         tools:text="зп в которой много нулей" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
