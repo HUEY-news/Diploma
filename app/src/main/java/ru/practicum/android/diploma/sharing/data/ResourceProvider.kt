@@ -7,4 +7,12 @@ class ResourceProvider(val context: Context) {
     fun getAppName(): String {
         return context.getString(R.string.app_name)
     }
+
+    fun getErrorInternetConnection(): String {
+        return context.getString(R.string.no_internet)
+    }
+
+    fun getErrorEmptyListVacancy(): String {
+        return context.getString(R.string.failed_to_get_list_of_vacancies)
+    }
 }
