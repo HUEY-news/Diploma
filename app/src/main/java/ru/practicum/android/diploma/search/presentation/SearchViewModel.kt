@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
+import ru.practicum.android.diploma.search.presentation.model.VacanciesState
 import ru.practicum.android.diploma.sharing.domain.api.ResourceInteractor
 import ru.practicum.android.diploma.util.debounce
 
