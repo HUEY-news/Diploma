@@ -17,20 +17,28 @@ class RetrofitNetworkClient(
 ) : NetworkClient {
 
     override suspend fun doRequest(dto: Any, options: HashMap<String, String>): Response {
-        return if (!checkConnection.isInternetAvailable()) {
-            Response().apply { resultCode = Constants.CONNECTION_ERROR }
-        } else if (dto !is SearchRequest) {
-            Response().apply { resultCode = Constants.NOT_FOUND }
-        } else {
-            withContext(Dispatchers.IO) {
-                try {
-                    val response = service.searchVacancy(dto.expression, options)
-                    response.apply { resultCode = Constants.SUCCESS }
-                } catch (exception: IOException) {
-                    Log.e("TEST", "$exception")
-                    Response().apply { resultCode = Constants.SERVER_ERROR }
+        return when (true) {
+            !checkConnection.isInternetAvailable() -> {
+                Response().apply { resultCode = Constants.CONNECTION_ERROR }
+            }
+
+            (dto !is SearchRequest) -> {
+                Response().apply { resultCode = Constants.NOT_FOUND }
+            }
+
+            else -> {
+                withContext(Dispatchers.IO) {
+                    try {
+                        val response = service.searchVacancy(dto.expression, options)
+                        response.apply { resultCode = Constants.SUCCESS }
+                    } catch (exception: IOException) {
+                        Log.e("TEST", "$exception")
+                        Response().apply { resultCode = Constants.SERVER_ERROR }
+                    }
                 }
             }
+
         }
     }
 }
+
