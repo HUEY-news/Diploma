@@ -18,7 +18,14 @@ class SearchViewModel(
     ViewModel() {
     var lastText: String = ""
     var currentPage = 0
-    private var maxPages = 0//Оставил для будущих задач
+    private var maxPages = 0 // Оставил для будущих задач
+
+    private val options: HashMap<String, String> = HashMap()
+
+    private fun setOption() {
+        options["page"] = currentPage.toString()
+        options["per_page"] = 20.toString()
+    }
 
     private val stateLiveData = MutableLiveData<VacanciesState>()
 
@@ -37,10 +44,8 @@ class SearchViewModel(
     fun searchRequest(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
             renderState(VacanciesState.Loading)
-            val options: HashMap<String, String> = HashMap()
-            options["page"] = currentPage.toString()
-            options["per_page"] = 20.toString()
             viewModelScope.launch {
+                setOption()
                 searchInteractor
                     .searchVacancy(newSearchText, options)
                     .collect { pair ->
@@ -48,7 +53,6 @@ class SearchViewModel(
                         if (pair.first != null) {
                             vacancies.addAll(pair.first!!)
                         }
-
                         when {
                             pair.second != null -> {
                                 renderState(
@@ -74,7 +78,6 @@ class SearchViewModel(
                                 )
                             }
                         }
-
                     }
             }
         }

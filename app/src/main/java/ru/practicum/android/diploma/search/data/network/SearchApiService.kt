@@ -9,7 +9,6 @@ import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.search.data.dto.SearchResponse
 
-
 interface SearchApiService {
     fun foo(@Header("Accept-Language", allowUnsafeNonAsciiValues = true) lang: String?): Call<ResponseBody?>?
 
