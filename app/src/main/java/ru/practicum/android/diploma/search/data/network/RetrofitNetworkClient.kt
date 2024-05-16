@@ -17,12 +17,12 @@ class RetrofitNetworkClient(
 ) : NetworkClient {
 
     override suspend fun doRequest(dto: Any, options: HashMap<String, String>): Response {
-        return when (true) {
-            !checkConnection.isInternetAvailable() -> {
+        return when (false) {
+            checkConnection.isInternetAvailable() -> {
                 Response().apply { resultCode = Constants.CONNECTION_ERROR }
             }
 
-            (dto !is SearchRequest) -> {
+            (dto is SearchRequest) -> {
                 Response().apply { resultCode = Constants.NOT_FOUND }
             }
 
@@ -37,7 +37,6 @@ class RetrofitNetworkClient(
                     }
                 }
             }
-
         }
     }
 }
