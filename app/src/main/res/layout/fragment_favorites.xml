@@ -7,20 +7,13 @@
     android:background="?attr/white_black"
     tools:context=".favorite.ui.FavoritesFragment">
 
-    <TextView
-        android:id="@+id/favorites_header"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimens_size_64"
-        android:layout_marginTop="@dimen/dimens_size_24"
-        android:layout_marginStart="@dimen/dimens_size_16"
-        android:fontFamily="@font/ys_text_medium"
-        android:gravity="center_vertical"
-        android:text="@string/favorites"
-        android:textColor="?attr/black_white"
-        android:textFontWeight="500"
-        android:textSize="@dimen/text_size_22"
+    <Toolbar
+        android:id="@+id/favorites_toolbar"
+        style="@style/ToolbarAppStyle"
+        android:title="@string/favorites"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycler_view"
@@ -30,7 +23,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/favorites_header"
+        app:layout_constraintTop_toBottomOf="@id/favorites_toolbar"
         tools:visibility="gone" />
 
     <LinearLayout
