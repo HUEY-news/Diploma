@@ -12,26 +12,19 @@
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/dimens_size_16" />
 
-
-    <TextView
-        android:id="@+id/team"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimens_size_64"
-        android:layout_marginTop="@dimen/dimens_size_24"
-        android:fontFamily="@font/ys_text_medium"
-        android:gravity="center_vertical"
-        android:text="@string/team"
-        android:textColor="?attr/black_white"
-        android:textFontWeight="500"
-        android:textSize="@dimen/text_size_22"
-        app:layout_constraintStart_toStartOf="@id/leftBorder"
-        app:layout_constraintTop_toTopOf="parent" />
+    <Toolbar
+        android:id="@+id/team_toolbar"
+        style="@style/ToolbarAppStyle"
+        android:title="@string/team"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/working_on_the_application"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimens_size_76"
-        android:layout_marginTop="@dimen/dimens_size_24"
+        android:layout_marginTop="@dimen/dimens_size_20"
         android:fontFamily="@font/ys_text_bold"
         android:gravity="center_vertical"
         android:text="@string/working_on_the_application"
@@ -39,7 +32,7 @@
         android:textFontWeight="700"
         android:textSize="@dimen/text_size_32"
         app:layout_constraintStart_toStartOf="@id/leftBorder"
-        app:layout_constraintTop_toBottomOf="@+id/team" />
+        app:layout_constraintTop_toBottomOf="@+id/team_toolbar" />
 
     <TextView
         android:id="@+id/said"
