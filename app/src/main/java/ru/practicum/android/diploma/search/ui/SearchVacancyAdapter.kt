@@ -12,11 +12,18 @@ class SearchVacancyAdapter(
     private val itemClickListener: ItemClickListener,
 ) : ListAdapter<SimpleVacancy, RecyclerView.ViewHolder>(VacancyDiffCallBack()) {
 
-    private var vacancyList: List<SimpleVacancy> = emptyList()
+    private var vacancyList: MutableList<SimpleVacancy> = mutableListOf()
 
     fun setItems(items: List<SimpleVacancy>) {
-        vacancyList = items
+        vacancyList.clear()
+        vacancyList.addAll(items)
         notifyDataSetChanged() // todo: прикрутить DiffUtil
+    }
+
+    fun addItemsInRecycler(newItems: List<SimpleVacancy>) {
+        val startPosition = vacancyList.size
+        vacancyList.addAll(newItems)
+        notifyItemRangeInserted(startPosition, newItems.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchVacancyViewHolder {
