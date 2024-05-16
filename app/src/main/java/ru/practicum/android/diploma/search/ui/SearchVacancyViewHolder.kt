@@ -15,10 +15,6 @@ class SearchVacancyViewHolder(
     onItemClick: (position: Int) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    companion object {
-        private const val RADIUS_IN_DP = 8
-    }
-
     init {
         itemView.setOnClickListener {
             onItemClick(adapterPosition)
@@ -30,12 +26,10 @@ class SearchVacancyViewHolder(
         binding.employer.text = model.employer!!.name
         binding.salary.text = getSalary(model.salary)
 
-        val radiusInPx = dpToPx(RADIUS_IN_DP)
-
         Glide.with(itemView)
             .load(model.employer.logoUrls)
             .placeholder(R.drawable.icon_android_placeholder)
-            .transform(CenterCrop(), RoundedCorners(radiusInPx))
+            .transform(CenterCrop(), RoundedCorners(dpToPx(RADIUS_IN_DP)))
             .into(binding.vacancyCover)
     }
 
@@ -50,6 +44,10 @@ class SearchVacancyViewHolder(
             }
         }
         return stringSalary
+    }
+
+    companion object {
+        private const val RADIUS_IN_DP = 8
     }
 }
 
