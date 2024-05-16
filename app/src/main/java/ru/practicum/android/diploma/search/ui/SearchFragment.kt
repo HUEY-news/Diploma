@@ -190,7 +190,7 @@ class SearchFragment : Fragment() {
 
     private fun showContent(vacancies: ArrayList<SimpleVacancy>) {
         allItems.addAll(vacancies)
-        searchAdapter.submitList(allItems.toList())
+        searchAdapter.addItemsInRecycler(vacancies)
         progressBarSearchCenter.isVisible = false
         progressBarSearchBottom.isVisible = false
         placeHolderContainer.isVisible = false
