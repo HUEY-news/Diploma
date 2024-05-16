@@ -5,19 +5,14 @@ import ru.practicum.android.diploma.search.domain.model.Vacancy
 
 class DbConvertor {
 
-    fun map(vacancy: Vacancy): VacancyEntity {
-        return VacancyEntity(
+    fun map(vacancy: Vacancy): VacancyEntity = VacancyEntity(
             vacancyId = vacancy.vacancyId,
             vacancyTitle = vacancy.vacancyTitle,
-            vacancyDescription = vacancy.vacancyDescription
-        )
-    }
+            vacancyDescription = vacancy.vacancyDescription)
 
-    fun map(vacancyEntity: VacancyEntity): Vacancy {
-        return Vacancy(
+    fun map(vacancyEntity: VacancyEntity): Vacancy = Vacancy(
             vacancyId = vacancyEntity.vacancyId,
             vacancyTitle = vacancyEntity.vacancyTitle,
             vacancyDescription = vacancyEntity.vacancyDescription
         )
-    }
 }
