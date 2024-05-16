@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
@@ -17,10 +16,9 @@ class SearchViewModel(
     private val searchInteractor: SearchInteractor,
 ) :
     ViewModel() {
-
-    private var currentPage = 1
-    private var maxPages = 0
-    private val vacanciesList = mutableListOf<SimpleVacancy>()
+    var lastText: String = ""
+    var currentPage = 0
+    private var maxPages = 0//Оставил для будущих задач
 
     private val stateLiveData = MutableLiveData<VacanciesState>()
 
@@ -32,15 +30,19 @@ class SearchViewModel(
         }
 
     fun searchDebounce(changedText: String) {
+        lastText = changedText
         trackSearchDebounce(changedText)
     }
 
-    private fun searchRequest(newSearchText: String) {
+    fun searchRequest(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
             renderState(VacanciesState.Loading)
+            val options: HashMap<String, String> = HashMap()
+            options["page"] = currentPage.toString()
+            options["per_page"] = 20.toString()
             viewModelScope.launch {
                 searchInteractor
-                    .searchVacancy(newSearchText, null)
+                    .searchVacancy(newSearchText, options)
                     .collect { pair ->
                         val vacancies = ArrayList<SimpleVacancy>()
                         if (pair.first != null) {
@@ -80,27 +82,6 @@ class SearchViewModel(
 
     private fun renderState(state: VacanciesState) {
         stateLiveData.postValue(state)
-    }
-
-    fun searchVacancies() {
-        viewModelScope.launch {
-            val searchRequest = "your_search_query_here" // Укажи здесь свой поисковый запрос...
-            val options = hashMapOf("page" to currentPage.toString()) // Параметры для пагинации...
-            val result = searchInteractor.searchVacancy(searchRequest, options).first()
-
-            if (result.second != null) {
-                // Обработка ошибки, если есть...
-            } else {
-                result.first?.let { newVacancies ->
-                    vacanciesList.addAll(newVacancies)
-                    currentPage++
-                    if (currentPage <= maxPages) {
-                        // Рекурсивный вызов для следующей страницы, если нужно...
-                        searchVacancies()
-                    }
-                }
-            }
-        }
     }
 
     companion object {

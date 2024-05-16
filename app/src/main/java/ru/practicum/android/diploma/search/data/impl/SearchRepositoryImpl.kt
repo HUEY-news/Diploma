@@ -24,7 +24,7 @@ class SearchRepositoryImpl(
 
     override fun searchVacancy(
         expression: String,
-        options: HashMap<String, String>?,
+        options: HashMap<String, String>,
     ): Flow<Resource<List<SimpleVacancy>>> = flow {
         val response = client.doRequest(SearchRequest(expression), options)
         when (response.resultCode) {

@@ -17,6 +17,8 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -42,6 +44,14 @@ class SearchFragment : Fragment() {
     private val placeHolderContainer: LinearLayout by lazy { binding.placeholderContainer }
     private val textViewPlaceholder: TextView by lazy { binding.placeholderTextView }
     private val imageViewPlaceholder: ImageView by lazy { binding.placeholderImageView }
+    private val searchAdapter: SearchVacancyAdapter by lazy {
+        SearchVacancyAdapter { vacancy ->
+            if (clickDebounce()) {
+                findNavController().navigate(R.id.action_searchFragment_to_detailsVacancyFragment)
+            }
+        }
+    }
+    private val allItems = mutableSetOf<SimpleVacancy>()
 
     private val viewModel by viewModel<SearchViewModel>()
 
@@ -51,11 +61,15 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        binding.searchRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.searchRecyclerView.adapter = searchAdapter
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        scrollListener()
         binding.apply {
             searchToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
             resetImageButton.setOnClickListener {
@@ -74,13 +88,36 @@ class SearchFragment : Fragment() {
         }
     }
 
+    private fun scrollListener() {
+        binding.searchRecyclerView.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = binding.searchRecyclerView.layoutManager
+                if (layoutManager is LinearLayoutManager) {
+                    // Позиция последнего видимого элемента
+                    val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                    // Общее количество элементов
+                    val totalItemCount = layoutManager.itemCount
+                    // Условие, определяющее, когда нужно подгрузить новые данные
+                    val isLoadingNeeded = lastVisibleItemPosition + 1 == totalItemCount
+                    if (isLoadingNeeded) {
+                        // Загрузите больше данных
+                        viewModel.currentPage++
+                        viewModel.searchRequest(viewModel.lastText)
+                    }
+                }
+            }
+        })
+    }
+
     private fun inputEditTextInit() {
         inputEditTextSearch.addTextChangedListener(
             beforeTextChanged = { s, start, count, after -> },
             onTextChanged = { s, start, before, count ->
                 binding.resetImageButton.visibility = clearButtonVisibility(s)
                 if (s != null) {
-                    if (s.isNotEmpty()) {
+                    if (s.isNotEmpty() && viewModel.lastText != s.toString()) {
                         inputTextFromSearch = s.toString()
                         viewModel.searchDebounce(inputTextFromSearch!!)
                     } else {
@@ -152,6 +189,8 @@ class SearchFragment : Fragment() {
     }
 
     private fun showContent(vacancies: ArrayList<SimpleVacancy>) {
+        allItems.addAll(vacancies)
+        searchAdapter.submitList(allItems.toList())
         progressBarSearchCenter.isVisible = false
         progressBarSearchBottom.isVisible = false
         placeHolderContainer.isVisible = false

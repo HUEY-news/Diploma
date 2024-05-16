@@ -2,13 +2,15 @@ package ru.practicum.android.diploma.search.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.ItemVacancyBinding
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 
 class SearchVacancyAdapter(
-    private val onItemClick: (vacancy: SimpleVacancy) -> Unit
-) : RecyclerView.Adapter<SearchVacancyViewHolder>() {
+    private val itemClickListener: ItemClickListener,
+) : ListAdapter<SimpleVacancy, RecyclerView.ViewHolder>(VacancyDiffCallBack()) {
 
     private var vacancyList: List<SimpleVacancy> = emptyList()
 
@@ -22,17 +24,31 @@ class SearchVacancyAdapter(
         return SearchVacancyViewHolder(ItemVacancyBinding.inflate(layoutInspector, parent, false)) { position: Int ->
             if (position != RecyclerView.NO_POSITION) {
                 vacancyList.getOrNull(position)?.let { vacancy ->
-                    onItemClick(vacancy)
+                    itemClickListener.onItemClick(vacancy)
                 }
             }
         }
     }
 
-    override fun onBindViewHolder(holder: SearchVacancyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         vacancyList.getOrNull(position)?.let { vacancy ->
-            holder.bind(vacancy)
+            (holder as SearchVacancyViewHolder).bind(vacancy)
         }
     }
 
     override fun getItemCount() = vacancyList.size
+
+    fun interface ItemClickListener {
+        fun onItemClick(vacancy: SimpleVacancy)
+    }
+
+    class VacancyDiffCallBack : DiffUtil.ItemCallback<SimpleVacancy>() {
+        override fun areItemsTheSame(oldItem: SimpleVacancy, newItem: SimpleVacancy): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: SimpleVacancy, newItem: SimpleVacancy): Boolean {
+            return oldItem == newItem
+        }
+    }
 }
