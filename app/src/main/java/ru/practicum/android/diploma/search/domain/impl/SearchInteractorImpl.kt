@@ -10,7 +10,7 @@ import ru.practicum.android.diploma.util.Resource
 class SearchInteractorImpl(private val repository: SearchRepository) : SearchInteractor {
     override fun searchVacancy(
         expression: String,
-        options: HashMap<String, String>?,
+        options: HashMap<String, String>,
     ): Flow<Pair<List<SimpleVacancy>?, String?>> {
         return repository.searchVacancy(expression, options).map { result ->
             when (result) {

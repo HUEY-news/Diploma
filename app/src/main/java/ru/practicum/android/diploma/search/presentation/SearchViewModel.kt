@@ -16,6 +16,16 @@ class SearchViewModel(
     private val searchInteractor: SearchInteractor,
 ) :
     ViewModel() {
+    var lastText: String = ""
+    var currentPage = 0
+    private var maxPages = 0 // Оставил для будущих задач
+
+    private val options: HashMap<String, String> = HashMap()
+
+    private fun setOption() {
+        options["page"] = currentPage.toString()
+        options["per_page"] = 20.toString()
+    }
 
     private val stateLiveData = MutableLiveData<VacanciesState>()
 
@@ -27,21 +37,22 @@ class SearchViewModel(
         }
 
     fun searchDebounce(changedText: String) {
+        lastText = changedText
         trackSearchDebounce(changedText)
     }
 
-    private fun searchRequest(newSearchText: String) {
+    fun searchRequest(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
             renderState(VacanciesState.Loading)
             viewModelScope.launch {
+                setOption()
                 searchInteractor
-                    .searchVacancy(newSearchText, null)
+                    .searchVacancy(newSearchText, options)
                     .collect { pair ->
                         val vacancies = ArrayList<SimpleVacancy>()
                         if (pair.first != null) {
                             vacancies.addAll(pair.first!!)
                         }
-
                         when {
                             pair.second != null -> {
                                 renderState(
@@ -67,7 +78,6 @@ class SearchViewModel(
                                 )
                             }
                         }
-
                     }
             }
         }
