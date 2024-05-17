@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,13 +8,13 @@
     android:background="?attr/white_black"
     android:orientation="vertical"
     tools:context=".details.ui.VacancyDetailsFragment"
-    tools:ignore="hardcodedText" >
+    tools:ignore="hardcodedText">
 
     <LinearLayout
         android:id="@+id/header_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/back_button"
@@ -66,13 +65,13 @@
         android:id="@+id/vacancy_details_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/dimens_size_16" >
+        android:layout_marginHorizontal="@dimen/dimens_size_16">
 
         <LinearLayout
             android:id="@+id/vacancy_details_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/vacancy_name_text_view"
@@ -121,7 +120,7 @@
                     android:layout_marginVertical="@dimen/dimens_size_16"
                     android:layout_marginStart="@dimen/dimens_size_8"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/employer_name_text_view"
@@ -228,13 +227,13 @@
 
             <TextView
                 android:id="@+id/key_skills_value_text_view"
-                android:fontFamily="@font/ys_text_regular"
-                android:textSize="@dimen/text_size_16"
-                android:textFontWeight="400"
-                android:textColor="?attr/black_white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_16"
+                android:fontFamily="@font/ys_text_regular"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="400"
+                android:textSize="@dimen/text_size_16"
                 tools:text="•  Знание классических алгоритмов и\n   структуры данных
                 \n•  Программирование для Android больше\n   одного года
                 \n•  Знание WebRTC" />
@@ -353,7 +352,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:indeterminateTint="@color/blue"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/placeholder_container"
