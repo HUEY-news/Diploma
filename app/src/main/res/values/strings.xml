@@ -39,6 +39,13 @@
     <string name="from">от</string>
     <string name="to">до</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="vacancy_description">Описание вакансии</string>
+    <string name="key_skills">Ключевые навыки</string>
+    <string name="contacts">Контакты</string>
+    <string name="contact_person">Контактное лицо</string>
+    <string name="email">E-mail</string>
+    <string name="phone">Телефон</string>
+    <string name="comment">Комментарий</string>
 
     <plurals name="plurals_vacancy">
         <item quantity="zero">вакансий</item>
