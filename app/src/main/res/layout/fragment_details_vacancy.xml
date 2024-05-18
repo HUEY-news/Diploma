@@ -1,13 +1,393 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".details.ui.VacancyDetailsFragment">
+    android:background="?attr/white_black"
+    android:orientation="vertical"
+    tools:context=".details.ui.VacancyDetailsFragment"
+    tools:ignore="hardcodedText" >
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/icon_back"
+            app:tint="?attr/black_white" />
+
+        <TextView
+            android:id="@+id/header_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/dimens_size_19"
+            android:layout_weight="7"
+            android:fontFamily="@font/ys_text_medium"
+            android:gravity="center_vertical"
+            android:text="@string/job_vacancy"
+            android:textColor="?attr/black_white"
+            android:textFontWeight="500"
+            android:textSize="@dimen/text_size_22" />
+
+        <ImageView
+            android:id="@+id/share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/icon_share"
+            app:tint="?attr/black_white" />
+
+        <ImageView
+            android:id="@+id/favorite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dimens_size_12"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/icon_favorites_off"
+            app:tint="?attr/black_white" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/vacancy_details_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginHorizontal="@dimen/dimens_size_16" >
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/vacancy_details_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/vacancy_name_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/ys_text_bold"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="700"
+                android:textSize="@dimen/text_size_32"
+                tools:text="Android-разработчик" />
+
+            <TextView
+                android:id="@+id/salary_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_4"
+                android:layout_marginBottom="@dimen/dimens_size_8"
+                android:fontFamily="@font/ys_text_medium"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="500"
+                android:textSize="@dimen/text_size_22"
+                tools:text="от 100 000 ₽" />
+
+            <LinearLayout
+                android:id="@+id/employer_info_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_16"
+                android:background="@drawable/shape_employer_background">
+
+                <ImageView
+                    android:id="@+id/employer_logo"
+                    android:layout_width="@dimen/dimens_size_48"
+                    android:layout_height="@dimen/dimens_size_48"
+                    android:layout_marginVertical="@dimen/dimens_size_16"
+                    android:layout_marginStart="@dimen/dimens_size_16"
+                    android:background="@drawable/shape_employer_background"
+                    android:clipToOutline="true"
+                    android:src="@drawable/icon_android_placeholder"
+                    tools:src="@tools:sample/avatars" />
+
+                <LinearLayout
+                    android:id="@+id/employer_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/dimens_size_16"
+                    android:layout_marginStart="@dimen/dimens_size_8"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/employer_name_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ys_text_medium"
+                        android:textColor="@color/black"
+                        android:textFontWeight="500"
+                        android:textSize="@dimen/text_size_22"
+                        tools:text="Еда" />
+
+                    <TextView
+                        android:id="@+id/employer_city_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ys_text_regular"
+                        android:textColor="@color/black"
+                        android:textFontWeight="400"
+                        android:textSize="@dimen/text_size_16"
+                        tools:text="Москва" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_24"
+                android:fontFamily="@font/ys_text_medium"
+                android:text="Требуемый опыт"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="500"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/experience_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_4"
+                android:fontFamily="@font/ys_text_regular"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="400"
+                android:textSize="@dimen/text_size_16"
+                tools:text="От 1 года до 3 лет" />
+
+            <TextView
+                android:id="@+id/employment_and_schedule_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_8"
+                android:fontFamily="@font/ys_text_regular"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="400"
+                android:textSize="@dimen/text_size_16"
+                tools:text="Полная занятость, Удаленная работа" />
+
+            <TextView
+                android:id="@+id/section_vacancy_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_32"
+                android:fontFamily="@font/ys_text_medium"
+                android:text="Описание вакансии"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="500"
+                android:textSize="@dimen/text_size_22" />
+
+            <TextView
+                android:id="@+id/vacancy_description_value_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_16"
+                android:layout_weight="400"
+                android:fontFamily="@font/ys_text_regular"
+                android:textColor="?attr/black_white"
+                android:textSize="@dimen/text_size_16"
+                tools:text="Обязанности\n
+                \n•  Разрабатывать новую функциональность\n   приложения
+                \n•  Помогать с интеграцией нашего SDK в\n   другие приложения
+                \n•  Проектировать большие новые модули
+                \n•  Писать UI- и unit-тесты
+                \n•  Следить за работоспособностью сервиса и\n    устранять технический долг
+                \n\nТребования\n
+                \n•  100% Kotlin
+                \n•  WebRTC
+                \n•  CI по модели Trunk Based Development
+                \n\nУсловия\n
+                \n•  Сильная команда, с которой можно расти
+                \n•  Возможность влиять на процесс и\n    результат
+                \n•  Расширенная программа ДМС:\n   стоматология, обследования, вызов врача
+                \n   на дом и многое другое" />
+
+            <TextView
+                android:id="@+id/section_key_skills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_24"
+                android:fontFamily="@font/ys_text_medium"
+                android:text="Ключевые навыки"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="500"
+                android:textSize="@dimen/text_size_22" />
+
+            <TextView
+                android:id="@+id/key_skills_value_text_view"
+                android:fontFamily="@font/ys_text_regular"
+                android:textSize="@dimen/text_size_16"
+                android:textFontWeight="400"
+                android:textColor="?attr/black_white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_16"
+                tools:text="•  Знание классических алгоритмов и\n   структуры данных
+                \n•  Программирование для Android больше\n   одного года
+                \n•  Знание WebRTC" />
+
+            <TextView
+                android:id="@+id/section_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_24"
+                android:fontFamily="@font/ys_text_medium"
+                android:text="Контакты"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="500"
+                android:textSize="@dimen/text_size_22" />
+
+            <TextView
+                android:id="@+id/contact_person_title_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_16"
+                android:fontFamily="@font/ys_text_medium"
+                android:text="Контактное лицо"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="500"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/contact_person_value_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_4"
+                android:fontFamily="@font/ys_text_regular"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="400"
+                android:textSize="@dimen/text_size_16"
+                tools:text="Ирина" />
+
+            <TextView
+                android:id="@+id/email_title_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_16"
+                android:fontFamily="@font/ys_text_medium"
+                android:text="E-mail"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="500"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/email_value_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_4"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/ys_text_regular"
+                android:textColor="@color/blue"
+                android:textFontWeight="400"
+                android:textSize="@dimen/text_size_16"
+                tools:text="i.lozgkina@yandex.ru" />
+
+            <TextView
+                android:id="@+id/phone_title_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_16"
+                android:fontFamily="@font/ys_text_medium"
+                android:text="Телефон"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="500"
+                android:textSize="@dimen/dimens_size_16" />
+
+            <TextView
+                android:id="@+id/phone_value_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_4"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="@font/ys_text_regular"
+                android:textColor="@color/blue"
+                android:textFontWeight="400"
+                android:textSize="@dimen/text_size_16"
+                tools:text="+7 (904) 329-27-71" />
+
+            <TextView
+                android:id="@+id/comment_title_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_16"
+                android:fontFamily="@font/ys_text_medium"
+                android:text="Комментарий"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="500"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/comment_value_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens_size_4"
+                android:fontFamily="@font/ys_text_regular"
+                android:textColor="?attr/black_white"
+                android:textFontWeight="400"
+                android:textSize="@dimen/text_size_16"
+                tools:text="Заполнить анкету по форме можно на нашем
+                 \nсайте" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="@dimen/dimens_size_36"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/placeholder_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/placeholder_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/placeholder_server_error_vacancy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/placeholder_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimens_size_16"
+            android:fontFamily="@font/ys_text_medium"
+            android:text="@string/server_error"
+            android:textColor="?attr/black_white"
+            android:textFontWeight="500"
+            android:textSize="@dimen/text_size_22"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/placeholder_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
