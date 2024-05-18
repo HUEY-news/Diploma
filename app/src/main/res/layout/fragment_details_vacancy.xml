@@ -114,7 +114,7 @@
             <TextView
                 style="@style/DetailsVacancyTextStyleMedium"
                 android:layout_marginTop="@dimen/dimens_size_24"
-                android:text="Требуемый опыт" />
+                android:text="@string/vacancy_required_experience" />
 
             <TextView
                 style="@style/DetailsVacancyTextStyleRegular"
