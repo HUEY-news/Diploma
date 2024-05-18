@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.search.ui
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -33,17 +34,28 @@ class SearchVacancyViewHolder(
             .into(binding.vacancyCover)
     }
 
+    @SuppressLint("StringFormatMatches")
     private fun getSalary(salary: Salary?): String {
-        var stringSalary = ""
-        if (salary == null || salary.from == null && salary.to == null) {
-            stringSalary = R.string.salary_not_specified.toString()
-        } else if (salary.from != null) {
-            stringSalary += "${R.string.from} ${salary.from}"
-            if (salary.to != null) {
-                stringSalary += "${R.string.to} ${salary.to}"
-            }
+        return when {
+            salary == null -> itemView.context.getString(R.string.salary_not_specified)
+            salary.from != null && salary.to != null -> itemView.context.getString(
+                R.string.salary_from_to,
+                salary.from,
+                salary.to,
+                salary.currency
+            )
+            salary.from != null -> itemView.context.getString(
+                R.string.salary_from,
+                salary.from,
+                salary.currency
+            )
+            salary.to != null -> itemView.context.getString(
+                R.string.salary_to,
+                salary.to,
+                salary.currency
+            )
+            else -> itemView.context.getString(R.string.salary_not_specified)
         }
-        return stringSalary
     }
 
     companion object {
