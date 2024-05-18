@@ -38,9 +38,22 @@ class SearchVacancyViewHolder(
     private fun getSalary(salary: Salary?): String {
         return when {
             salary == null -> itemView.context.getString(R.string.salary_not_specified)
-            salary.from != null && salary.to != null -> itemView.context.getString(R.string.salary_from_to, salary.from, salary.to, salary.currency)
-            salary.from != null -> itemView.context.getString(R.string.salary_from, salary.from, salary.currency)
-            salary.to != null -> itemView.context.getString(R.string.salary_to, salary.to, salary.currency)
+            salary.from != null && salary.to != null -> itemView.context.getString(
+                R.string.salary_from_to,
+                salary.from,
+                salary.to,
+                salary.currency
+            )
+            salary.from != null -> itemView.context.getString(
+                R.string.salary_from,
+                salary.from,
+                salary.currency
+            )
+            salary.to != null -> itemView.context.getString(
+                R.string.salary_to,
+                salary.to,
+                salary.currency
+            )
             else -> itemView.context.getString(R.string.salary_not_specified)
         }
     }
