@@ -11,56 +11,31 @@
     tools:context=".details.ui.VacancyDetailsFragment"
     tools:ignore="hardcodedText" >
 
-    <LinearLayout
-        android:id="@+id/header_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:id="@+id/back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:src="@drawable/icon_back"
-            app:tint="?attr/black_white" />
-
-        <TextView
-            android:id="@+id/header_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/dimens_size_19"
-            android:layout_weight="7"
-            android:fontFamily="@font/ys_text_medium"
-            android:gravity="center_vertical"
-            android:text="@string/job_vacancy"
-            android:textColor="?attr/black_white"
-            android:textFontWeight="500"
-            android:textSize="@dimen/text_size_22" />
-
-        <ImageView
-            android:id="@+id/share_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:src="@drawable/icon_share"
-            app:tint="?attr/black_white" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/details_vacancy_toolbar"
+        style="@style/ToolbarAppStyle">
 
         <ImageView
             android:id="@+id/favorite_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/dimens_size_12"
-            android:layout_weight="1"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dimens_size_16"
             android:clickable="true"
             android:src="@drawable/icon_favorites_off"
             app:tint="?attr/black_white" />
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dimens_size_20"
+            android:clickable="true"
+            android:src="@drawable/icon_share"
+            app:tint="?attr/black_white" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/vacancy_details_nested_scroll_view"
@@ -85,14 +60,10 @@
                 tools:text="Android-разработчик" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:id="@+id/salary_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_4"
                 android:layout_marginBottom="@dimen/dimens_size_8"
-                android:fontFamily="@font/ys_text_medium"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="500"
                 android:textSize="@dimen/text_size_22"
                 tools:text="от 100 000 ₽" />
 
@@ -124,23 +95,16 @@
                     android:orientation="vertical" >
 
                     <TextView
+                        style="@style/DetailsVacancyTextStyleMedium"
                         android:id="@+id/employer_name_text_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/ys_text_medium"
                         android:textColor="@color/black"
-                        android:textFontWeight="500"
                         android:textSize="@dimen/text_size_22"
                         tools:text="Еда" />
 
                     <TextView
+                        style="@style/DetailsVacancyTextStyleRegular"
                         android:id="@+id/employer_city_text_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/ys_text_regular"
                         android:textColor="@color/black"
-                        android:textFontWeight="400"
-                        android:textSize="@dimen/text_size_16"
                         tools:text="Москва" />
 
                 </LinearLayout>
@@ -148,57 +112,33 @@
             </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:layout_marginTop="@dimen/dimens_size_24"
-                android:fontFamily="@font/ys_text_medium"
-                android:text="Требуемый опыт"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="500"
-                android:textSize="@dimen/text_size_16" />
+                android:text="@string/vacancy_required_experience" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/experience_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_4"
-                android:fontFamily="@font/ys_text_regular"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="400"
-                android:textSize="@dimen/text_size_16"
                 tools:text="От 1 года до 3 лет" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/employment_and_schedule_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_8"
-                android:fontFamily="@font/ys_text_regular"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="400"
-                android:textSize="@dimen/text_size_16"
                 tools:text="Полная занятость, Удаленная работа" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:id="@+id/section_vacancy_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_32"
-                android:fontFamily="@font/ys_text_medium"
-                android:text="Описание вакансии"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="500"
+                android:text="@string/vacancy_description"
                 android:textSize="@dimen/text_size_22" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/vacancy_description_value_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_16"
-                android:layout_weight="400"
-                android:fontFamily="@font/ys_text_regular"
-                android:textColor="?attr/black_white"
-                android:textSize="@dimen/text_size_16"
                 tools:text="Обязанности\n
                 \n•  Разрабатывать новую функциональность\n   приложения
                 \n•  Помогать с интеграцией нашего SDK в\n   другие приложения
@@ -216,130 +156,79 @@
                 \n   на дом и многое другое" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:id="@+id/section_key_skills"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_24"
-                android:fontFamily="@font/ys_text_medium"
-                android:text="Ключевые навыки"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="500"
+                android:text="@string/key_skills"
                 android:textSize="@dimen/text_size_22" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/key_skills_value_text_view"
-                android:fontFamily="@font/ys_text_regular"
-                android:textSize="@dimen/text_size_16"
-                android:textFontWeight="400"
-                android:textColor="?attr/black_white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_16"
                 tools:text="•  Знание классических алгоритмов и\n   структуры данных
                 \n•  Программирование для Android больше\n   одного года
                 \n•  Знание WebRTC" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:id="@+id/section_contacts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_24"
-                android:fontFamily="@font/ys_text_medium"
-                android:text="Контакты"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="500"
+                android:text="@string/contacts"
                 android:textSize="@dimen/text_size_22" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:id="@+id/contact_person_title_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_16"
-                android:fontFamily="@font/ys_text_medium"
-                android:text="Контактное лицо"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="500"
-                android:textSize="@dimen/text_size_16" />
+                android:text="@string/contact_person"/>
 
             <TextView
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/contact_person_value_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_4"
-                android:fontFamily="@font/ys_text_regular"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="400"
-                android:textSize="@dimen/text_size_16"
                 tools:text="Ирина" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:id="@+id/email_title_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_16"
-                android:fontFamily="@font/ys_text_medium"
-                android:text="E-mail"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="500"
-                android:textSize="@dimen/text_size_16" />
+                android:text="@string/email" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/email_value_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_4"
                 android:clickable="true"
                 android:focusable="true"
-                android:fontFamily="@font/ys_text_regular"
                 android:textColor="@color/blue"
-                android:textFontWeight="400"
-                android:textSize="@dimen/text_size_16"
                 tools:text="i.lozgkina@yandex.ru" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:id="@+id/phone_title_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_16"
-                android:fontFamily="@font/ys_text_medium"
-                android:text="Телефон"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="500"
-                android:textSize="@dimen/dimens_size_16" />
+                android:text="@string/phone" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/phone_value_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_4"
                 android:clickable="true"
                 android:focusable="true"
-                android:fontFamily="@font/ys_text_regular"
                 android:textColor="@color/blue"
-                android:textFontWeight="400"
-                android:textSize="@dimen/text_size_16"
                 tools:text="+7 (904) 329-27-71" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:id="@+id/comment_title_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_16"
-                android:fontFamily="@font/ys_text_medium"
-                android:text="Комментарий"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="500"
-                android:textSize="@dimen/text_size_16" />
+                android:text="@string/comment" />
 
             <TextView
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/comment_value_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimens_size_4"
-                android:fontFamily="@font/ys_text_regular"
-                android:textColor="?attr/black_white"
-                android:textFontWeight="400"
-                android:textSize="@dimen/text_size_16"
                 tools:text="Заполнить анкету по форме можно на нашем
                  \nсайте" />
 
@@ -374,15 +263,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            style="@style/DetailsVacancyTextStyleMedium"
             android:id="@+id/placeholder_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dimens_size_16"
-            android:fontFamily="@font/ys_text_medium"
             android:text="@string/server_error"
-            android:textColor="?attr/black_white"
-            android:textFontWeight="500"
             android:textSize="@dimen/text_size_22"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
