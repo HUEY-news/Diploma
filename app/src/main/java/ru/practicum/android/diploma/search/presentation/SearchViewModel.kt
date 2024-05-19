@@ -42,8 +42,12 @@ class SearchViewModel(
         trackSearchDebounce(changedText)
     }
 
-    private fun updateTotalVacanciesCount(count: Int) {
-        totalVacanciesCount = count
+    private fun updateTotalVacanciesCount(vacancies: List<SimpleVacancy>) {
+        if (vacancies.isNotEmpty()) {
+            totalVacanciesCount = vacancies[0].found.toInt()
+        } else {
+            totalVacanciesCount = 0
+        }
     } // Количество найденных
 
     fun searchRequest(newSearchText: String) {
@@ -57,7 +61,7 @@ class SearchViewModel(
                         val vacancies = ArrayList<SimpleVacancy>()
                         if (pair.first != null) {
                             vacancies.addAll(pair.first!!)
-                            updateTotalVacanciesCount(vacancies.size) // Количество найденных
+                            updateTotalVacanciesCount(vacancies) // Количество найденных
                         }
                         when {
                             pair.second != null -> {

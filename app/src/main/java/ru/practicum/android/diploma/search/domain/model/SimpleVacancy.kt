@@ -6,4 +6,5 @@ data class SimpleVacancy(
     val address: String?,
     val employer: Employer?,
     val salary: Salary?,
+    var found: Long
 )
