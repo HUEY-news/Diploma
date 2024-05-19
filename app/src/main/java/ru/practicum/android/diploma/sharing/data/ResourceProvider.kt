@@ -15,4 +15,8 @@ class ResourceProvider(val context: Context) {
     fun getErrorEmptyListVacancy(): String {
         return context.getString(R.string.failed_to_get_list_of_vacancies)
     }
+
+    fun getErrorServer(): String {
+        return context.getString(R.string.server_error)
+    }
 }

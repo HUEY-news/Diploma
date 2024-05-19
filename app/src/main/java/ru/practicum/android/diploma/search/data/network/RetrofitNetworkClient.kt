@@ -39,4 +39,28 @@ class RetrofitNetworkClient(
             }
         }
     }
+
+    override suspend fun doRequestDetails(dto: Any): Response {
+        return when {
+            !checkConnection.isInternetAvailable() -> {
+                Response().apply { resultCode = Constants.CONNECTION_ERROR }
+            }
+
+            dto !is SearchRequest -> {
+                Response().apply { resultCode = Constants.NOT_FOUND }
+            }
+
+            else -> {
+                withContext(Dispatchers.IO) {
+                    try {
+                        val response = service.searchVacancyDetails(dto.expression)
+                        response.apply { resultCode = Constants.SUCCESS }
+                    } catch (exception: IOException) {
+                        Log.e("TEST", "$exception")
+                        Response().apply { resultCode = Constants.SERVER_ERROR }
+                    }
+                }
+            }
+        }
+    }
 }
