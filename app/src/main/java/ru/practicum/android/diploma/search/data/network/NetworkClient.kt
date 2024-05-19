@@ -4,4 +4,5 @@ import ru.practicum.android.diploma.search.data.dto.Response
 
 interface NetworkClient {
     suspend fun doRequest(dto: Any, options: HashMap<String, String>): Response
+    suspend fun doRequestDetails(dto: Any): Response
 }
