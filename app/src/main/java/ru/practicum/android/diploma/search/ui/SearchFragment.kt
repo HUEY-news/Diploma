@@ -122,6 +122,7 @@ class SearchFragment : Fragment() {
                         viewModel.searchDebounce(inputTextFromSearch!!)
                     } else {
                         showPlaceholderSearch()
+                        binding.vacancyMessageTextView.visibility = View.GONE
                     }
                 }
             },
@@ -143,7 +144,20 @@ class SearchFragment : Fragment() {
 
     private fun render(state: VacanciesState) {
         when (state) {
-            is VacanciesState.Content -> showContent(state.vacancies)
+            is VacanciesState.Content -> {
+                showContent(state.vacancies)
+                binding.vacancyMessageTextView.text = getString(
+                    R.string.search_results_count,
+                    viewModel.totalVacanciesCount
+                )
+                val vacanciesCount = state.vacancies.size
+                if (vacanciesCount > 0) {
+                    binding.vacancyMessageTextView.visibility = View.VISIBLE
+                } else {
+                    binding.vacancyMessageTextView.visibility = View.VISIBLE
+                    binding.vacancyMessageTextView.text = getString(R.string.there_are_no_such_vacancies)
+                }
+            }
             is VacanciesState.Empty -> showEmptyTrackList(state.message)
             is VacanciesState.Error -> showErrorConnection(state.errorMessage)
             is VacanciesState.Loading -> showLoading()

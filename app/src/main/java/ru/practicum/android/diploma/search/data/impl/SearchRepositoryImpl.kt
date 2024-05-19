@@ -47,6 +47,7 @@ class SearchRepositoryImpl(
                             from = vacancy.salary?.from,
                             to = vacancy.salary?.to,
                         ),
+                        found = response.found
                     )
                 }
                 if (vacancyList.isNotEmpty()) {
