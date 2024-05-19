@@ -35,7 +35,6 @@ class VacancyDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var vacancyId = arguments?.getString(ARGS_VACANCY_ID)
-        vacancyId = "96123298"
         if (vacancyId != null) {
             viewModel.searchRequest(vacancyId)
         }

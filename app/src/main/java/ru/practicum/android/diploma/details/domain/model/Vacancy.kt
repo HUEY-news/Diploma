@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.details.domain.model
 
-
 data class Vacancy(
     val address: String?,
     val alternateUrl: String?,

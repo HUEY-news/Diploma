@@ -7,7 +7,7 @@ import ru.practicum.android.diploma.details.domain.api.SearchDetailsInteractor
 import ru.practicum.android.diploma.details.domain.model.Vacancy
 
 class VacancyDetailsViewModel(private val vacancyDetailsInteractor: SearchDetailsInteractor) : ViewModel() {
-    lateinit var vacancy: Vacancy
+    private lateinit var vacancy: Vacancy
     fun searchRequest(id: String) {
         viewModelScope.launch {
             vacancyDetailsInteractor
