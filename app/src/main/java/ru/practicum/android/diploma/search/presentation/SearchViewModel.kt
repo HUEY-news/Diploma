@@ -19,6 +19,7 @@ class SearchViewModel(
     var lastText: String = ""
     var currentPage = 0
     private var maxPages = 0 // Оставил для будущих задач
+    var totalVacanciesCount: Int = 0 // Количество найденных
 
     private val options: HashMap<String, String> = HashMap()
 
@@ -41,6 +42,10 @@ class SearchViewModel(
         trackSearchDebounce(changedText)
     }
 
+    private fun updateTotalVacanciesCount(count: Int) {
+        totalVacanciesCount = count
+    } // Количество найденных
+
     fun searchRequest(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
             renderState(VacanciesState.Loading)
@@ -52,6 +57,7 @@ class SearchViewModel(
                         val vacancies = ArrayList<SimpleVacancy>()
                         if (pair.first != null) {
                             vacancies.addAll(pair.first!!)
+                            updateTotalVacanciesCount(vacancies.size) // Количество найденных
                         }
                         when {
                             pair.second != null -> {

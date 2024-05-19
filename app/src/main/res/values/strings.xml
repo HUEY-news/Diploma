@@ -50,6 +50,7 @@
     <string name="email">E-mail</string>
     <string name="phone">Телефон</string>
     <string name="comment">Комментарий</string>
+    <string name="search_results_count">Найдено %1$d вакансий</string>
 
     <plurals name="plurals_vacancy">
         <item quantity="zero">вакансий</item>
