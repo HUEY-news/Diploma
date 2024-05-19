@@ -43,10 +43,10 @@ class SearchViewModel(
     }
 
     private fun updateTotalVacanciesCount(vacancies: List<SimpleVacancy>) {
-        if (vacancies.isNotEmpty()) {
-            totalVacanciesCount = vacancies[0].found.toInt()
+        totalVacanciesCount = if (vacancies.isNotEmpty()) {
+            vacancies[0].found.toInt()
         } else {
-            totalVacanciesCount = 0
+            0
         }
     } // Количество найденных
 

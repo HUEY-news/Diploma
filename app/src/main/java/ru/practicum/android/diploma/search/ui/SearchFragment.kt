@@ -146,8 +146,12 @@ class SearchFragment : Fragment() {
         when (state) {
             is VacanciesState.Content -> {
                 showContent(state.vacancies)
-                binding.vacancyMessageTextView.text = getString(R.string.search_results_count, viewModel.totalVacanciesCount)
-                if (viewModel.totalVacanciesCount > 0) {
+                binding.vacancyMessageTextView.text = getString(
+                    R.string.search_results_count,
+                    viewModel.totalVacanciesCount
+                )
+                val vacanciesCount = state.vacancies.size
+                if (vacanciesCount > 0) {
                     binding.vacancyMessageTextView.visibility = View.VISIBLE
                 } else {
                     binding.vacancyMessageTextView.visibility = View.VISIBLE
