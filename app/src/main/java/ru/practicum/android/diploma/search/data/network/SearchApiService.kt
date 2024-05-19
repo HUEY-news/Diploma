@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.search.data.network
 
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
@@ -16,7 +17,7 @@ interface SearchApiService {
     )
     @GET("/vacancies?entity=vacancy")
     suspend fun searchVacancy(
-        @Query("searchRequest") searchRequest: String,
+        @Query("text") searchRequest: String,
         @QueryMap options: Map<String, String>,
     ): SearchResponse
 
@@ -25,9 +26,9 @@ interface SearchApiService {
         "HH-User-Agent: Работа для Федота",
         allowUnsafeNonAsciiValues = true
     )
-    @GET("/vacancies/vacancy?entity=vacancy")
+    @GET("/vacancies/{vacancy_id}")
     suspend fun searchVacancyDetails(
-        @Query("searchRequest") searchRequest: String,
+        @Path("vacancy_id") searchRequest: String,
     ): SearchDetailsResponse
 
     companion object {
