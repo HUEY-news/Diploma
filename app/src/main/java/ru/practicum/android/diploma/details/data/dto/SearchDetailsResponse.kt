@@ -13,14 +13,14 @@ import ru.practicum.android.diploma.search.data.dto.Response
 
 data class SearchDetailsResponse(
     @SerializedName("address") val address: AddressDto?,
-    @SerializedName("alternateUrl") val alternateUrl: String?,
+    @SerializedName("alternate_url") val alternateUrl: String?,
     @SerializedName("contacts") val contacts: ContactsDto?,
     @SerializedName("description") val description: String?,
     @SerializedName("employer") val employer: EmployerDto?,
     @SerializedName("experience") val experience: ExperienceDto?,
-    @SerializedName("keySkills") val keySkills: List<KeySkillDto>?,
+    @SerializedName("key_skills") val keySkills: List<KeySkillDto>?,
     @SerializedName("name") val name: String?,
-    @SerializedName("professionalRoles") val professionalRoles: List<ProfessionalRoleDto>?,
+    @SerializedName("professional_roles") val professionalRoles: List<ProfessionalRoleDto>?,
     @SerializedName("salary") val salary: SalaryDto?,
     @SerializedName("schedule") val schedule: ScheduleDto?,
 ) : Response()

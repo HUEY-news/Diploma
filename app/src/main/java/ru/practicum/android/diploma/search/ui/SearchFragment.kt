@@ -8,11 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -30,33 +25,13 @@ import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 import ru.practicum.android.diploma.search.presentation.SearchViewModel
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
 
-
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding: FragmentSearchBinding
         get() = _binding!!
-    private var isClickAllowed = true
     private var inputTextFromSearch: String? = null
     private var flagSuccessfulDownload: Boolean = false
-
-    private val recyclerViewVacancy: RecyclerView by lazy { binding.searchRecyclerView }
-    private val inputEditTextSearch: EditText by lazy { binding.searchFieldEditText }
-    private val progressBarSearchCenter: ProgressBar by lazy { binding.centerProgressBar }
-    private val progressBarSearchBottom: ProgressBar by lazy { binding.bottomProgressBar }
-    private val placeHolderContainer: LinearLayout by lazy { binding.placeholderContainer }
-    private val textViewPlaceholder: TextView by lazy { binding.placeholderTextView }
-    private val imageViewPlaceholder: ImageView by lazy { binding.placeholderImageView }
-    private val searchAdapter: SearchVacancyAdapter by lazy {
-        SearchVacancyAdapter { vacancy ->
-            if (clickDebounce()) {
-                findNavController().navigate(
-                    R.id.action_searchFragment_to_detailsVacancyFragment,
-                    VacancyDetailsFragment.createArgs(vacancy.id)
-                )
-            }
-        }
-    }
-    private val allItems = mutableSetOf<SimpleVacancy>()
+    private var searchAdapter: SearchVacancyAdapter? = null
 
     private val viewModel by viewModel<SearchViewModel>()
 
@@ -68,17 +43,24 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         binding.searchRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.searchRecyclerView.adapter = searchAdapter
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         scrollListener()
+        searchAdapter = SearchVacancyAdapter { vacancy ->
+            if (clickDebounce()) {
+                findNavController().navigate(
+                    R.id.action_searchFragment_to_detailsVacancyFragment,
+                    VacancyDetailsFragment.createArgs(vacancy.id)
+                )
+            }
+        }
         binding.apply {
             searchToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
             resetImageButton.setOnClickListener {
-                inputEditTextSearch.setText("")
+                searchFieldEditText.setText("")
                 activity?.window?.currentFocus?.let { view ->
                     val imm =
                         requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -86,9 +68,11 @@ class SearchFragment : Fragment() {
                     showPlaceholderSearch()
                 }
             }
+            searchRecyclerView.adapter = searchAdapter
         }
         inputEditTextInit()
-        viewModel.observeState().observe(viewLifecycleOwner) {
+        viewModel.observeState().observe(viewLifecycleOwner)
+        {
             render(it)
         }
     }
@@ -117,7 +101,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun inputEditTextInit() {
-        inputEditTextSearch.addTextChangedListener(
+        binding.searchFieldEditText.addTextChangedListener(
             beforeTextChanged = { s, start, count, after -> },
             onTextChanged = { s, start, before, count ->
                 binding.resetImageButton.visibility = clearButtonVisibility(s)
@@ -135,14 +119,14 @@ class SearchFragment : Fragment() {
                 inputTextFromSearch = s.toString()
             }
         )
-        inputEditTextSearch.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE && inputEditTextSearch.text.isNotEmpty()) {
+        binding.searchFieldEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && binding.searchFieldEditText.text.isNotEmpty()) {
                 if (!flagSuccessfulDownload) {
                     inputTextFromSearch?.let { viewModel.searchRequest(it) }
                 }
                 true
             }
-            progressBarSearchCenter.visibility = View.GONE
+            binding.centerProgressBar.visibility = View.GONE
             false
         }
     }
@@ -155,69 +139,83 @@ class SearchFragment : Fragment() {
                     R.string.search_results_count,
                     viewModel.totalVacanciesCount
                 )
-                val vacanciesCount = state.vacancies.size
-                if (vacanciesCount > 0) {
-                    binding.vacancyMessageTextView.visibility = View.VISIBLE
-                } else {
-                    binding.vacancyMessageTextView.visibility = View.VISIBLE
-                    binding.vacancyMessageTextView.text = getString(R.string.there_are_no_such_vacancies)
-                }
+                binding.vacancyMessageTextView.isVisible = true
             }
 
-            is VacanciesState.Empty -> showEmptyTrackList(state.message)
+            is VacanciesState.Empty -> {
+                showEmptyResult(state.message)
+                binding.vacancyMessageTextView.isVisible = true
+                binding.vacancyMessageTextView.text = getString(R.string.there_are_no_such_vacancies)
+            }
+
             is VacanciesState.Error -> showErrorConnection(state.errorMessage)
             is VacanciesState.Loading -> showLoading()
         }
     }
 
     private fun showPlaceholderSearch() {
-        progressBarSearchCenter.isVisible = false
-        progressBarSearchBottom.isVisible = false
-        placeHolderContainer.isVisible = true
-        textViewPlaceholder.isVisible = false
-        recyclerViewVacancy.isVisible = false
-        imageViewPlaceholder.setImageResource(R.drawable.placeholder_empty_search)
+        with(binding) {
+            centerProgressBar.isVisible = false
+            bottomProgressBar.isVisible = false
+            placeholderContainer.isVisible = true
+            placeholderTextView.isVisible = false
+            searchRecyclerView.isVisible = false
+            placeholderImageView.setImageResource(R.drawable.placeholder_empty_search)
+        }
     }
 
     private fun showLoading() {
-        progressBarSearchCenter.isVisible = true
-        progressBarSearchBottom.isVisible = false
-        placeHolderContainer.isVisible = false
-        recyclerViewVacancy.isVisible = false
+        with(binding) {
+            centerProgressBar.isVisible = true
+            bottomProgressBar.isVisible = false
+            placeholderContainer.isVisible = false
+            searchRecyclerView.isVisible = false
+            vacancyMessageTextView.isVisible = false
+        }
     }
 
     private fun showErrorConnection(errorMessage: String) {
         hideKeyboard(requireActivity())
-        progressBarSearchCenter.isVisible = false
-        progressBarSearchBottom.isVisible = false
-        placeHolderContainer.isVisible = true
-        recyclerViewVacancy.isVisible = false
-        textViewPlaceholder.isVisible = true
-        textViewPlaceholder.text = errorMessage
-        imageViewPlaceholder.setImageResource(R.drawable.placeholder_no_internet_connection)
+        with(binding) {
+            centerProgressBar.isVisible = false
+            bottomProgressBar.isVisible = false
+            placeholderContainer.isVisible = true
+            searchRecyclerView.isVisible = false
+            placeholderTextView.isVisible = true
+            placeholderTextView.text = errorMessage
+            vacancyMessageTextView.isVisible = false
+            placeholderImageView.setImageResource(R.drawable.placeholder_no_internet_connection)
+        }
     }
 
-    private fun showEmptyTrackList(message: String) {
+    private fun showEmptyResult(message: String) {
         hideKeyboard(requireActivity())
-        progressBarSearchCenter.isVisible = false
-        progressBarSearchBottom.isVisible = false
-        placeHolderContainer.isVisible = true
-        recyclerViewVacancy.isVisible = false
-        textViewPlaceholder.isVisible = true
-        textViewPlaceholder.text = message
-        imageViewPlaceholder.setImageResource(R.drawable.placeholder_empty_search)
+        with(binding) {
+            centerProgressBar.isVisible = false
+            bottomProgressBar.isVisible = false
+            placeholderContainer.isVisible = true
+            searchRecyclerView.isVisible = false
+            placeholderTextView.isVisible = true
+            placeholderTextView.text = message
+            placeholderImageView.setImageResource(R.drawable.placeholder_incorrect_request)
+        }
     }
 
     private fun showContent(vacancies: ArrayList<SimpleVacancy>) {
-        allItems.addAll(vacancies)
-        searchAdapter.addItemsInRecycler(vacancies)
-        progressBarSearchCenter.isVisible = false
-        progressBarSearchBottom.isVisible = false
-        placeHolderContainer.isVisible = false
-        recyclerViewVacancy.isVisible = true
+        with(mutableListOf<SimpleVacancy>()) {
+            addAll(vacancies)
+            searchAdapter?.setItems(vacancies)
+        }
+        with(binding) {
+            centerProgressBar.isVisible = false
+            bottomProgressBar.isVisible = false
+            placeholderContainer.isVisible = false
+            searchRecyclerView.isVisible = true
+        }
     }
 
-    fun clickDebounce(): Boolean {
+    private fun clickDebounce(): Boolean {
+        var isClickAllowed = true
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
@@ -247,6 +245,8 @@ class SearchFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        searchAdapter = null
+        binding.searchRecyclerView.adapter = null
         _binding = null
         super.onDestroyView()
     }

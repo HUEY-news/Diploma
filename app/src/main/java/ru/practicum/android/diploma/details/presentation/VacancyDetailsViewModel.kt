@@ -7,14 +7,17 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.details.domain.api.SearchDetailsInteractor
 import ru.practicum.android.diploma.details.presentation.model.StateLoadVacancy
 import ru.practicum.android.diploma.sharing.domain.api.ResourceInteractor
+import ru.practicum.android.diploma.sharing.domain.api.SharingInteractor
 
 class VacancyDetailsViewModel(
     private val vacancyDetailsInteractor: SearchDetailsInteractor,
-    private val resourceInteractor: ResourceInteractor
+    private val resourceInteractor: ResourceInteractor,
+    private val sharingInteractor: SharingInteractor,
 ) : ViewModel() {
     private val vacancyLiveData = MutableLiveData<StateLoadVacancy>()
     fun observeVacancy(): MutableLiveData<StateLoadVacancy> = vacancyLiveData
     fun searchRequest(id: String) {
+        vacancyLiveData.postValue(StateLoadVacancy.Loading)
         viewModelScope.launch {
             vacancyDetailsInteractor
                 .searchVacancy(id)
@@ -37,5 +40,17 @@ class VacancyDetailsViewModel(
                     }
                 }
         }
+    }
+
+    fun callPhoneNumber(phone: String) {
+        sharingInteractor.callPhoneNumber(phone)
+    }
+
+    fun writeToEmployer(mail: String) {
+        sharingInteractor.writeToEmployer(mail)
+    }
+
+    fun shareVacancy(url: String) {
+        sharingInteractor.shareVacancy(url)
     }
 }

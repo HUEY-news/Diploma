@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.details.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentDetailsVacancyBinding
+import ru.practicum.android.diploma.details.domain.model.Contacts
 import ru.practicum.android.diploma.details.domain.model.Phone
 import ru.practicum.android.diploma.details.domain.model.Salary
 import ru.practicum.android.diploma.details.domain.model.Vacancy
@@ -32,7 +34,7 @@ class VacancyDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentDetailsVacancyBinding.inflate(inflater, container, false)
         setupToolbar()
@@ -57,6 +59,10 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun showContent(vacancy: Vacancy) {
         binding.apply {
+            progressBar.isVisible = false
+            vacancyDetailsNestedScrollView.isVisible = true
+            placeholderContainer.isVisible = false
+            shareButton.setOnClickListener { viewModel.shareVacancy(vacancy.alternateUrl.toString()) }
             vacancyNameTextView.text = vacancy.name
             salaryTextView.text = getSalary(vacancy.salary)
             Glide.with(employerLogo)
@@ -78,24 +84,60 @@ class VacancyDetailsFragment : Fragment() {
             } else {
                 sectionVacancyDescription.isVisible = false
             }
-
-            keySkillsValueTextView.text = getKeySkills(vacancy.keySkills)
-            if (vacancy.contacts != null) {
-                contactPersonValueTextView.text = vacancy.contacts.name
-                emailValueTextView.text = vacancy.contacts.email
-                phoneValueTextView.text = getPhones(vacancy.contacts.phones)
-                commentValueTextView.text = vacancy.contacts.phones?.toString()
+            if (vacancy.keySkills.isNullOrEmpty()) {
+                sectionKeySkills.isVisible = false
+                keySkillsValueTextView.isVisible = false
             } else {
-                sectionContacts.isVisible = false
+                keySkillsValueTextView.text = getKeySkills(vacancy.keySkills)
+            }
+            Log.d("VacancyContacts", vacancy.contacts.toString())
+            showVacancyContacts(vacancy.contacts)
+        }
+    }
+
+    private fun showVacancyContacts(contacts: Contacts?) {
+        with(binding) {
+            if (contacts == null || (contacts.name.isNullOrEmpty() &&
+                    contacts.email.isNullOrEmpty() && contacts.phones.isNullOrEmpty())
+            ) {
+                contactsContainer.isVisible = false
+            } else {
+                contactsContainer.isVisible = true
+                contactPersonValueTextView.text = contacts.name
+                if (!contacts.email.isNullOrEmpty()) {
+                    emailValueTextView.isClickable = true
+                    emailValueTextView.isVisible = true
+                    emailValueTextView.text = contacts.email
+                    emailValueTextView.setOnClickListener {
+                        viewModel.writeToEmployer(contacts.email)
+                    }
+                }
+                if (!contacts.phones.isNullOrEmpty()) {
+                    phoneValueTextView.isClickable = true
+                    phoneValueTextView.isVisible = true
+                    phoneValueTextView.text = getPhones(contacts.phones)
+                    phoneValueTextView.setOnClickListener {
+                        viewModel.callPhoneNumber(getPhones(contacts.phones))
+                    }
+                }
+                commentValueTextView.text = getComments(contacts.phones)
             }
         }
+    }
+
+    private fun getComments(phones: List<Phone>?): String {
+        var resultString = ""
+        phones?.forEach { phone ->
+            resultString += "${phone.comment} \n"
+        }
+        return resultString
     }
 
     private fun getPhones(phones: List<Phone>?): String {
         var resultString = ""
         phones?.forEach { phone ->
             resultString += "${phone.country} ${phone.city} " +
-                "${phone.number} ${phone.comment} \n"
+                "${phone.number} \n"
         }
         return resultString
     }
@@ -149,11 +191,29 @@ class VacancyDetailsFragment : Fragment() {
             is StateLoadVacancy.Error -> {
                 showError(state.errorMessage)
             }
+
+            is StateLoadVacancy.Loading -> {
+                showProgressBar()
+            }
+        }
+    }
+
+    private fun showProgressBar() {
+        with(binding) {
+            progressBar.isVisible = true
+            vacancyDetailsNestedScrollView.isVisible = false
+            placeholderContainer.isVisible = false
         }
     }
 
     private fun showError(message: String) {
-
+        with(binding) {
+            progressBar.isVisible = false
+            vacancyDetailsNestedScrollView.isVisible = false
+            placeholderContainer.isVisible = true
+            placeholderMessage.text = message
+            placeholderImage.setImageResource(R.drawable.placeholder_server_error_vacancy)
+        }
     }
 
     private fun setupToolbar() {

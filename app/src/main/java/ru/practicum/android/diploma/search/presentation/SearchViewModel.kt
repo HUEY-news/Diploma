@@ -18,14 +18,17 @@ class SearchViewModel(
     ViewModel() {
     var lastText: String = ""
     var currentPage = 0
-    private var maxPages = 0 // Оставил для будущих задач
-    var totalVacanciesCount: Int = 0 // Количество найденных
+    private var maxPages = 0
+    var totalVacanciesCount: Int = 0
 
     private val options: HashMap<String, String> = HashMap()
 
     private fun setOption() {
-        options["page"] = currentPage.toString()
-        options["per_page"] = 20.toString()
+        maxPages = totalVacanciesCount / 20 + 1
+        if (totalVacanciesCount > 20 && currentPage < maxPages) {
+            options["page"] = currentPage.toString()
+            options["per_page"] = 20.toString()
+        }
     }
 
     private val stateLiveData = MutableLiveData<VacanciesState>()
@@ -48,7 +51,7 @@ class SearchViewModel(
         } else {
             0
         }
-    } // Количество найденных
+    }
 
     fun searchRequest(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
@@ -61,7 +64,12 @@ class SearchViewModel(
                         val vacancies = ArrayList<SimpleVacancy>()
                         if (pair.first != null) {
                             vacancies.addAll(pair.first!!)
-                            updateTotalVacanciesCount(vacancies) // Количество найденных
+                            updateTotalVacanciesCount(vacancies)
+                            renderState(
+                                VacanciesState.Content(
+                                    vacancies = vacancies,
+                                )
+                            )
                         }
                         when {
                             pair.second != null -> {
@@ -80,13 +88,6 @@ class SearchViewModel(
                                 )
                             }
 
-                            else -> {
-                                renderState(
-                                    VacanciesState.Content(
-                                        vacancies = vacancies,
-                                    )
-                                )
-                            }
                         }
                     }
             }
