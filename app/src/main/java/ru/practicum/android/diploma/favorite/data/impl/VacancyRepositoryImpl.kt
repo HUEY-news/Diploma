@@ -14,7 +14,7 @@ class VacancyRepositoryImpl(
 ) : VacancyRepository {
 
     override fun getAllVacancies(): Flow<List<Vacancy>> = flow {
-        val vacancyEntityList = appDatabase.vacancyDao().getAllVacancies()
+        val vacancyEntityList = appDatabase.vacancyDao().getAllItems()
         val vacancyList = convertFromVacancyEntity(vacancyEntityList.sortedByDescending { it.addingTime })
         emit(vacancyList)
     }

@@ -23,5 +23,6 @@ data class VacancyEntity(
     val phone: List<PhonesDto>?,
     val email: String?,
     val contactPerson: String?,
-    val url: String
+    val url: String,
+    val addingTime: Long = 0
 )
