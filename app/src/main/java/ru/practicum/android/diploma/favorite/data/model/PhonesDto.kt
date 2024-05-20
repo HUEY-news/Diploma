@@ -1,6 +1,6 @@
-package ru.practicum.android.diploma.search.domain.model
+package ru.practicum.android.diploma.favorite.data.model
 
-data class Phones(
+data class PhonesDto(
     val country: String,
     val city: String,
     val number: String,

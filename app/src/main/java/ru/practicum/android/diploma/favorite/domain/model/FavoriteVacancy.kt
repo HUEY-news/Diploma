@@ -1,8 +1,6 @@
-package ru.practicum.android.diploma.search.data.model
+package ru.practicum.android.diploma.favorite.domain.model
 
-import ru.practicum.android.diploma.search.domain.model.Phones
-
-data class Vacancy(
+data class FavoriteVacancy(
     val id: String,
     val name: String,
     val city: String,
@@ -19,5 +17,6 @@ data class Vacancy(
     val phone: List<Phones>?,
     val email: String?,
     val contactPerson: String?,
-    val url: String
+    val url: String,
+    var isFavorite: Boolean = false
 )

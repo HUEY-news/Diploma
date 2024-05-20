@@ -2,12 +2,13 @@ package ru.practicum.android.diploma.favorite.data.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ru.practicum.android.diploma.search.data.model.PhonesDto
+import ru.practicum.android.diploma.favorite.data.model.PhonesDto
+import ru.practicum.android.diploma.favorite.domain.model.Phones
 
 @Entity(tableName = "vacancy_table")
-data class VacancyEntity(
+data class FavoriteVacancyEntity(
     @PrimaryKey
-    val id: Int,
+    val id: String,
     val name: String,
     val city: String,
     val employer: String,
