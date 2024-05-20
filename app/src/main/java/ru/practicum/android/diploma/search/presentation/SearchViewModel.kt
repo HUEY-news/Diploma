@@ -24,10 +24,10 @@ class SearchViewModel(
     private val options: HashMap<String, String> = HashMap()
 
     private fun setOption() {
-        maxPages = totalVacanciesCount / 20 + 1
-        if (totalVacanciesCount > 20 && currentPage < maxPages) {
+        maxPages = totalVacanciesCount / VACANCIES_PER_PAGE + 1
+        if (totalVacanciesCount > VACANCIES_PER_PAGE && currentPage < maxPages) {
             options["page"] = currentPage.toString()
-            options["per_page"] = 20.toString()
+            options["per_page"] = VACANCIES_PER_PAGE.toString()
         }
     }
 
@@ -100,5 +100,6 @@ class SearchViewModel(
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val VACANCIES_PER_PAGE = 20
     }
 }

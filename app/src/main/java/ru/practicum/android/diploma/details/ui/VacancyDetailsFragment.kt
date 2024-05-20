@@ -97,30 +97,30 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun showVacancyContacts(contacts: Contacts?) {
         with(binding) {
-            if (contacts == null || (contacts.name.isNullOrEmpty() &&
-                    contacts.email.isNullOrEmpty() && contacts.phones.isNullOrEmpty())
+            if (contacts?.name.isNullOrEmpty() &&
+                contacts?.email.isNullOrEmpty() && contacts?.phones.isNullOrEmpty()
             ) {
                 contactsContainer.isVisible = false
             } else {
                 contactsContainer.isVisible = true
-                contactPersonValueTextView.text = contacts.name
-                if (!contacts.email.isNullOrEmpty()) {
+                contactPersonValueTextView.text = contacts?.name
+                if (!contacts?.email.isNullOrEmpty()) {
                     emailValueTextView.isClickable = true
                     emailValueTextView.isVisible = true
-                    emailValueTextView.text = contacts.email
+                    emailValueTextView.text = contacts?.email
                     emailValueTextView.setOnClickListener {
-                        viewModel.writeToEmployer(contacts.email)
+                        contacts?.email?.let { mail -> viewModel.writeToEmployer(mail) }
                     }
                 }
-                if (!contacts.phones.isNullOrEmpty()) {
+                if (!contacts?.phones.isNullOrEmpty()) {
                     phoneValueTextView.isClickable = true
                     phoneValueTextView.isVisible = true
-                    phoneValueTextView.text = getPhones(contacts.phones)
+                    phoneValueTextView.text = getPhones(contacts?.phones)
                     phoneValueTextView.setOnClickListener {
-                        viewModel.callPhoneNumber(getPhones(contacts.phones))
+                        viewModel.callPhoneNumber(getPhones(contacts?.phones))
                     }
                 }
-                commentValueTextView.text = getComments(contacts.phones)
+                commentValueTextView.text = getComments(contacts?.phones)
             }
         }
     }

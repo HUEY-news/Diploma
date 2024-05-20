@@ -24,7 +24,7 @@ class ExternalNavigator(val context: Context) {
         context.startActivity(
             Intent.createChooser(
                 emailIntent,
-                ("")
+                ""
             ).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
         )
     }

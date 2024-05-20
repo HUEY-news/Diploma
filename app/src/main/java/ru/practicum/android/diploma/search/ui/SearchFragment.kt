@@ -71,8 +71,7 @@ class SearchFragment : Fragment() {
             searchRecyclerView.adapter = searchAdapter
         }
         inputEditTextInit()
-        viewModel.observeState().observe(viewLifecycleOwner)
-        {
+        viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
     }
