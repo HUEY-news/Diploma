@@ -25,9 +25,11 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
+import ru.practicum.android.diploma.details.ui.VacancyDetailsFragment
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 import ru.practicum.android.diploma.search.presentation.SearchViewModel
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
+
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
@@ -47,7 +49,10 @@ class SearchFragment : Fragment() {
     private val searchAdapter: SearchVacancyAdapter by lazy {
         SearchVacancyAdapter { vacancy ->
             if (clickDebounce()) {
-                findNavController().navigate(R.id.action_searchFragment_to_detailsVacancyFragment)
+                findNavController().navigate(
+                    R.id.action_searchFragment_to_detailsVacancyFragment,
+                    VacancyDetailsFragment.createArgs(vacancy.id)
+                )
             }
         }
     }
@@ -133,7 +138,7 @@ class SearchFragment : Fragment() {
         inputEditTextSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && inputEditTextSearch.text.isNotEmpty()) {
                 if (!flagSuccessfulDownload) {
-                    inputTextFromSearch?.let { viewModel.searchDebounce(it) }
+                    inputTextFromSearch?.let { viewModel.searchRequest(it) }
                 }
                 true
             }
@@ -158,6 +163,7 @@ class SearchFragment : Fragment() {
                     binding.vacancyMessageTextView.text = getString(R.string.there_are_no_such_vacancies)
                 }
             }
+
             is VacanciesState.Empty -> showEmptyTrackList(state.message)
             is VacanciesState.Error -> showErrorConnection(state.errorMessage)
             is VacanciesState.Loading -> showLoading()
