@@ -68,6 +68,7 @@ class SearchDetailsRepositoryImpl(
             phones = contacts?.phones?.map { phone ->
                 Phone(
                     phone?.city,
+                    phone?.comment,
                     phone?.country,
                     phone?.number
                 )

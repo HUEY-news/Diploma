@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +8,7 @@
     android:background="?attr/white_black"
     android:orientation="vertical"
     tools:context=".details.ui.VacancyDetailsFragment"
-    tools:ignore="hardcodedText" >
+    tools:ignore="hardcodedText">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/details_vacancy_toolbar"
@@ -41,13 +40,13 @@
         android:id="@+id/vacancy_details_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/dimens_size_16" >
+        android:layout_marginHorizontal="@dimen/dimens_size_16">
 
         <LinearLayout
             android:id="@+id/vacancy_details_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/vacancy_name_text_view"
@@ -60,8 +59,8 @@
                 tools:text="Android-разработчик" />
 
             <TextView
-                style="@style/DetailsVacancyTextStyleMedium"
                 android:id="@+id/salary_text_view"
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:layout_marginTop="@dimen/dimens_size_4"
                 android:layout_marginBottom="@dimen/dimens_size_8"
                 android:textSize="@dimen/text_size_22"
@@ -92,18 +91,18 @@
                     android:layout_marginVertical="@dimen/dimens_size_16"
                     android:layout_marginStart="@dimen/dimens_size_8"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <TextView
-                        style="@style/DetailsVacancyTextStyleMedium"
                         android:id="@+id/employer_name_text_view"
+                        style="@style/DetailsVacancyTextStyleMedium"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_22"
                         tools:text="Еда" />
 
                     <TextView
-                        style="@style/DetailsVacancyTextStyleRegular"
                         android:id="@+id/employer_city_text_view"
+                        style="@style/DetailsVacancyTextStyleRegular"
                         android:textColor="@color/black"
                         tools:text="Москва" />
 
@@ -117,27 +116,27 @@
                 android:text="@string/vacancy_required_experience" />
 
             <TextView
-                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/experience_text_view"
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:layout_marginTop="@dimen/dimens_size_4"
                 tools:text="От 1 года до 3 лет" />
 
             <TextView
-                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/employment_and_schedule_text_view"
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:layout_marginTop="@dimen/dimens_size_8"
                 tools:text="Полная занятость, Удаленная работа" />
 
             <TextView
-                style="@style/DetailsVacancyTextStyleMedium"
                 android:id="@+id/section_vacancy_description"
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:layout_marginTop="@dimen/dimens_size_32"
                 android:text="@string/vacancy_description"
                 android:textSize="@dimen/text_size_22" />
 
             <TextView
-                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/vacancy_description_value_text_view"
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:layout_marginTop="@dimen/dimens_size_16"
                 tools:text="Обязанности\n
                 \n•  Разрабатывать новую функциональность\n   приложения
@@ -156,82 +155,88 @@
                 \n   на дом и многое другое" />
 
             <TextView
-                style="@style/DetailsVacancyTextStyleMedium"
                 android:id="@+id/section_key_skills"
+                style="@style/DetailsVacancyTextStyleMedium"
                 android:layout_marginTop="@dimen/dimens_size_24"
                 android:text="@string/key_skills"
                 android:textSize="@dimen/text_size_22" />
 
             <TextView
-                style="@style/DetailsVacancyTextStyleRegular"
                 android:id="@+id/key_skills_value_text_view"
+                style="@style/DetailsVacancyTextStyleRegular"
                 android:layout_marginTop="@dimen/dimens_size_16"
                 tools:text="•  Знание классических алгоритмов и\n   структуры данных
                 \n•  Программирование для Android больше\n   одного года
                 \n•  Знание WebRTC" />
 
-            <TextView
-                style="@style/DetailsVacancyTextStyleMedium"
-                android:id="@+id/section_contacts"
-                android:layout_marginTop="@dimen/dimens_size_24"
-                android:text="@string/contacts"
-                android:textSize="@dimen/text_size_22" />
+            <LinearLayout
+                android:id="@+id/contacts_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <TextView
-                style="@style/DetailsVacancyTextStyleMedium"
-                android:id="@+id/contact_person_title_text_view"
-                android:layout_marginTop="@dimen/dimens_size_16"
-                android:text="@string/contact_person"/>
+                <TextView
+                    android:id="@+id/section_contacts"
+                    style="@style/DetailsVacancyTextStyleMedium"
+                    android:layout_marginTop="@dimen/dimens_size_24"
+                    android:text="@string/contacts"
+                    android:textSize="@dimen/text_size_22" />
 
-            <TextView
-                style="@style/DetailsVacancyTextStyleRegular"
-                android:id="@+id/contact_person_value_text_view"
-                android:layout_marginTop="@dimen/dimens_size_4"
-                tools:text="Ирина" />
+                <TextView
+                    android:id="@+id/contact_person_title_text_view"
+                    style="@style/DetailsVacancyTextStyleMedium"
+                    android:layout_marginTop="@dimen/dimens_size_16"
+                    android:text="@string/contact_person" />
 
-            <TextView
-                style="@style/DetailsVacancyTextStyleMedium"
-                android:id="@+id/email_title_text_view"
-                android:layout_marginTop="@dimen/dimens_size_16"
-                android:text="@string/email" />
+                <TextView
+                    android:id="@+id/contact_person_value_text_view"
+                    style="@style/DetailsVacancyTextStyleRegular"
+                    android:layout_marginTop="@dimen/dimens_size_4"
+                    tools:text="Ирина" />
 
-            <TextView
-                style="@style/DetailsVacancyTextStyleRegular"
-                android:id="@+id/email_value_text_view"
-                android:layout_marginTop="@dimen/dimens_size_4"
-                android:clickable="true"
-                android:focusable="true"
-                android:textColor="@color/blue"
-                tools:text="i.lozgkina@yandex.ru" />
+                <TextView
+                    android:id="@+id/email_title_text_view"
+                    style="@style/DetailsVacancyTextStyleMedium"
+                    android:layout_marginTop="@dimen/dimens_size_16"
+                    android:text="@string/email" />
 
-            <TextView
-                style="@style/DetailsVacancyTextStyleMedium"
-                android:id="@+id/phone_title_text_view"
-                android:layout_marginTop="@dimen/dimens_size_16"
-                android:text="@string/phone" />
+                <TextView
+                    android:id="@+id/email_value_text_view"
+                    style="@style/DetailsVacancyTextStyleRegular"
+                    android:layout_marginTop="@dimen/dimens_size_4"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textColor="@color/blue"
+                    tools:text="i.lozgkina@yandex.ru" />
 
-            <TextView
-                style="@style/DetailsVacancyTextStyleRegular"
-                android:id="@+id/phone_value_text_view"
-                android:layout_marginTop="@dimen/dimens_size_4"
-                android:clickable="true"
-                android:focusable="true"
-                android:textColor="@color/blue"
-                tools:text="+7 (904) 329-27-71" />
+                <TextView
+                    android:id="@+id/phone_title_text_view"
+                    style="@style/DetailsVacancyTextStyleMedium"
+                    android:layout_marginTop="@dimen/dimens_size_16"
+                    android:text="@string/phone" />
 
-            <TextView
-                style="@style/DetailsVacancyTextStyleMedium"
-                android:id="@+id/comment_title_text_view"
-                android:layout_marginTop="@dimen/dimens_size_16"
-                android:text="@string/comment" />
+                <TextView
+                    android:id="@+id/phone_value_text_view"
+                    style="@style/DetailsVacancyTextStyleRegular"
+                    android:layout_marginTop="@dimen/dimens_size_4"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textColor="@color/blue"
+                    tools:text="+7 (904) 329-27-71" />
 
-            <TextView
-                style="@style/DetailsVacancyTextStyleRegular"
-                android:id="@+id/comment_value_text_view"
-                android:layout_marginTop="@dimen/dimens_size_4"
-                tools:text="Заполнить анкету по форме можно на нашем
+                <TextView
+                    android:id="@+id/comment_title_text_view"
+                    style="@style/DetailsVacancyTextStyleMedium"
+                    android:layout_marginTop="@dimen/dimens_size_16"
+                    android:text="@string/comment" />
+
+                <TextView
+                    android:id="@+id/comment_value_text_view"
+                    style="@style/DetailsVacancyTextStyleRegular"
+                    android:layout_marginTop="@dimen/dimens_size_4"
+                    tools:text="Заполнить анкету по форме можно на нашем
                  \nсайте" />
-
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -242,7 +247,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:indeterminateTint="@color/blue"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/placeholder_container"
@@ -263,8 +268,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            style="@style/DetailsVacancyTextStyleMedium"
             android:id="@+id/placeholder_message"
+            style="@style/DetailsVacancyTextStyleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
