@@ -41,6 +41,7 @@ class SearchViewModel(
         }
 
     fun searchDebounce(changedText: String) {
+        renderState(VacanciesState.Loading)
         lastText = changedText
         trackSearchDebounce(changedText)
     }
@@ -53,9 +54,8 @@ class SearchViewModel(
         }
     }
 
-    fun searchRequest(newSearchText: String) {
+    private fun searchRequest(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
-            renderState(VacanciesState.Loading)
             viewModelScope.launch {
                 setOption()
                 searchInteractor
@@ -96,6 +96,17 @@ class SearchViewModel(
 
     private fun renderState(state: VacanciesState) {
         stateLiveData.postValue(state)
+    }
+
+    fun uploadData() {
+        currentPage++
+        searchRequest(lastText)
+        renderState(VacanciesState.BottomLoading)
+    }
+
+    fun downloadData(request: String) {
+        renderState(VacanciesState.Loading)
+        searchRequest(request)
     }
 
     companion object {
