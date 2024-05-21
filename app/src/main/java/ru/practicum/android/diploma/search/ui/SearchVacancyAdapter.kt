@@ -14,6 +14,12 @@ class SearchVacancyAdapter(
 
     private var vacancyList: MutableList<SimpleVacancy> = mutableListOf()
 
+    fun setItems(items: List<SimpleVacancy>) {
+        vacancyList.clear()
+        vacancyList = items.toMutableList()
+        notifyDataSetChanged()
+    }
+
     fun addItemsInRecycler(newItems: List<SimpleVacancy>) {
         val startPosition = vacancyList.size
         vacancyList.addAll(newItems)
