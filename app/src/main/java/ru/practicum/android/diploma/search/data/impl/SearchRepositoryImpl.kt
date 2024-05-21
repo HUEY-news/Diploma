@@ -53,7 +53,7 @@ class SearchRepositoryImpl(
                 if (vacancyList.isNotEmpty()) {
                     emit(Resource.Success(vacancyList))
                 } else {
-                    emit(Resource.Error(errorEmptyText))
+                    emit(Resource.Success(emptyList()))
                 }
             }
 
