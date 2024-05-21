@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 
@@ -20,6 +21,15 @@ class FiltrationFragment : Fragment() {
         _binding = FragmentFiltrationBinding.inflate(inflater, container, false)
         setupToolbar()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+            filtrationWorkPlace.setOnClickListener {
+                findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
+            }
+        }
     }
 
     private fun setupToolbar() {
