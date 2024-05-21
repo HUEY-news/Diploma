@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.details.domain.api.SearchDetailsInteractor
 import ru.practicum.android.diploma.details.presentation.model.StateLoadVacancy
+import ru.practicum.android.diploma.favorite.domain.api.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.sharing.domain.api.ResourceInteractor
 import ru.practicum.android.diploma.sharing.domain.api.SharingInteractor
 
@@ -13,6 +14,7 @@ class VacancyDetailsViewModel(
     private val vacancyDetailsInteractor: SearchDetailsInteractor,
     private val resourceInteractor: ResourceInteractor,
     private val sharingInteractor: SharingInteractor,
+    private val favoriteInteractor: FavoriteVacancyInteractor
 ) : ViewModel() {
     private val vacancyLiveData = MutableLiveData<StateLoadVacancy>()
     fun observeVacancy(): MutableLiveData<StateLoadVacancy> = vacancyLiveData
