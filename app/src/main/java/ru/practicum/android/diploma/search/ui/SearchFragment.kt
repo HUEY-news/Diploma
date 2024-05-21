@@ -24,6 +24,7 @@ import ru.practicum.android.diploma.details.ui.VacancyDetailsFragment
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 import ru.practicum.android.diploma.search.presentation.SearchViewModel
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
+import ru.practicum.android.diploma.util.Constants.VACANCIES_PER_PAGE
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
@@ -79,7 +80,7 @@ class SearchFragment : Fragment() {
                     val totalItemCount = layoutManager.itemCount
                     val isLoadingNeeded = lastVisibleItemPosition + 1 == totalItemCount
                     if (isLoadingNeeded && (lastVisibleItemPosition < viewModel.totalVacanciesCount
-                            && viewModel.totalVacanciesCount > 20)
+                            && viewModel.totalVacanciesCount > VACANCIES_PER_PAGE)
                     ) {
                         viewModel.uploadData()
                     }

@@ -59,9 +59,9 @@ class SearchRepositoryImpl(
             )
         }
         return if (vacancyList.isNotEmpty()) {
-            (Resource.Success(vacancyList))
+            Resource.Success(vacancyList)
         } else {
-            (Resource.Success(emptyList()))
+            Resource.Success(emptyList())
         }
     }
 }
