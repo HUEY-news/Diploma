@@ -1,13 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/white_black"
     tools:context=".filter.ui.FiltrationFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/filtration_vacancy_toolbar"
+        style="@style/ToolbarAppStyle"
+        app:title="@string/filtering_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </androidx.appcompat.widget.Toolbar>
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/filtration_work_place"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_size_60"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtration_vacancy_toolbar">
+        <TextView
+            style="@style/FiltrationVacancyTextStyleRegular"
+            android:layout_marginStart="@dimen/dimens_size_16"
+            android:layout_gravity="center|start"
+            android:text="@string/place_of_work" />
+        <ImageView
+            style="@style/ForwardArrow"
+            android:src="@drawable/icon_arrow_forward" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/filtration_industry"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_size_60"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtration_work_place">
+        <TextView
+            style="@style/FiltrationVacancyTextStyleRegular"
+            android:layout_gravity="center|start"
+            android:layout_marginStart="@dimen/dimens_size_16"
+            android:text="@string/industry" />
+        <ImageView
+            style="@style/ForwardArrow"
+            android:src="@drawable/icon_arrow_forward" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/filtration_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_filtration_background"
+        android:layout_marginHorizontal="@dimen/dimens_size_16"
+        android:layout_marginTop="@dimen/dimens_size_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtration_industry">
+        <LinearLayout
+            android:id="@+id/filtration_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/dimens_size_16"
+            android:layout_marginStart="@dimen/dimens_size_8"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/filtration_expected_salary_text_view"
+                style="@style/DetailsVacancyTextStyleMedium"
+                android:textColor="?attr/gray_white"
+                android:textSize="@dimen/text_size_12"
+                android:text="@string/expected_salary" />
+            <TextView
+                android:id="@+id/filtration_enter_amount_text_view"
+                style="@style/DetailsVacancyTextStyleRegular"
+                android:textSize="@dimen/text_size_16"
+                android:textColor="?attr/gray_white"
+                android:text="@string/enter_amount" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/filtration_pay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_size_60"
+        android:layout_marginTop="@dimen/dimens_size_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtration_info_container">
+        <TextView
+            style="@style/FiltrationVacancyTextStyleRegular"
+            android:layout_gravity="center|start"
+            android:layout_marginStart="@dimen/dimens_size_16"
+            android:textColor="?attr/black_white"
+            android:text="@string/dont_show_without_salary" />
+        <ImageView
+            style="@style/ForwardArrow"
+            android:src="@drawable/icon_checkbox_off" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

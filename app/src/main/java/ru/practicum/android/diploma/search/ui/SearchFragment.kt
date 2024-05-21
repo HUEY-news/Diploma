@@ -62,6 +62,9 @@ class SearchFragment : Fragment() {
                     showPlaceholderSearch()
                 }
             }
+            filterImageButton.setOnClickListener {
+                findNavController().navigate(R.id.action_searchFragment_to_filtrationFragment)
+            }
         }
         inputEditTextInit()
         viewModel.observeState().observe(viewLifecycleOwner) {
