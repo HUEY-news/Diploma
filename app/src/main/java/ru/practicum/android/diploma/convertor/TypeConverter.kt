@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.practicum.android.diploma.favorite.data.model.PhonesDto
-import ru.practicum.android.diploma.favorite.domain.model.Phones
 
 class TypeConverter {
 
@@ -13,7 +12,7 @@ class TypeConverter {
 
     @TypeConverter
     fun jsonToStringList(list: String?): List<String> {
-        if (list == null || list.trim() == "null"){
+        if (list == null || list.trim() == "null") {
             return listOf()
         }
 
@@ -26,7 +25,7 @@ class TypeConverter {
 
     @TypeConverter
     fun jsonToPhonesList(list: String?): List<PhonesDto> {
-        if (list == null || list.trim() == "null"){
+        if (list == null || list.trim() == "null") {
             return listOf()
         }
 

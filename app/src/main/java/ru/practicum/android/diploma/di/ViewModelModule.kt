@@ -11,7 +11,7 @@ import ru.practicum.android.diploma.filter.presentation.RegionViewModel
 import ru.practicum.android.diploma.search.presentation.SearchViewModel
 
 val viewModelModule = module {
-    viewModel { VacancyDetailsViewModel(get(), get(), get(), favoriteInteractor = get(),)}
+    viewModel { VacancyDetailsViewModel(get(), get(), get(), favoriteInteractor = get()) }
     viewModel { FavoritesViewModel(favoriteInteractor = get()) }
     viewModel { CountryViewModel() }
     viewModel { FiltrationViewModel() }

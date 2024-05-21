@@ -37,7 +37,7 @@ class FavoriteVacancyRepositoryImpl(
         emit(itemList)
     }
 
-    private fun convertFromVacancyEntity(favoriteVacancyEntityList: List<FavoriteVacancyEntity>): List<FavoriteVacancy> {
-        return favoriteVacancyEntityList.map { vacancyEntity -> dbConverter.map(vacancyEntity) }
+    private fun convertFromVacancyEntity(entityList: List<FavoriteVacancyEntity>): List<FavoriteVacancy> {
+        return entityList.map { vacancyEntity -> dbConverter.map(vacancyEntity) }
     }
 }
