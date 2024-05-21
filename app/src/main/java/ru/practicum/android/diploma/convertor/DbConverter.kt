@@ -1,14 +1,14 @@
 package ru.practicum.android.diploma.convertor
 
-import ru.practicum.android.diploma.favorite.domain.model.FavoriteVacancy
 import ru.practicum.android.diploma.favorite.data.db.FavoriteVacancyEntity
 import ru.practicum.android.diploma.favorite.data.model.PhonesDto
+import ru.practicum.android.diploma.favorite.domain.model.FavoriteVacancy
 import ru.practicum.android.diploma.favorite.domain.model.Phones
 
 class DbConverter {
 
     fun map(vacancy: FavoriteVacancy): FavoriteVacancyEntity = FavoriteVacancyEntity(
-        id = vacancy.id,
+        id = vacancy.id.toInt(),
         name = vacancy.name,
         city = vacancy.city,
         employer = vacancy.employer,
@@ -29,7 +29,7 @@ class DbConverter {
     )
 
     fun map(entity: FavoriteVacancyEntity): FavoriteVacancy = FavoriteVacancy(
-        id = entity.id,
+        id = entity.id.toString(),
         name = entity.name,
         city = entity.city,
         employer = entity.employer,

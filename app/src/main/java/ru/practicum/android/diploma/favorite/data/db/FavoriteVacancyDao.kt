@@ -7,16 +7,20 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface VacancyDao {
-    @Query("SELECT * FROM vacancy_table")
-    suspend fun getAllItems(): List<FavoriteVacancyEntity>
-
-    @Query("SELECT * FROM vacancy_table WHERE id = :id")
-    suspend fun getItem(id: Int): FavoriteVacancyEntity
+interface FavoriteVacancyDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addItem(entity: FavoriteVacancyEntity)
 
     @Delete
     suspend fun removeItem(entity: FavoriteVacancyEntity)
+
+    @Query("SELECT * FROM vacancy_table")
+    suspend fun getAllItems(): List<FavoriteVacancyEntity>
+
+    @Query("SELECT id FROM vacancy_table")
+    suspend fun getAllItemIds(): List<Int>
+
+    @Query("SELECT * FROM vacancy_table WHERE id = :id")
+    suspend fun getItem(id: Int): FavoriteVacancyEntity
 }
