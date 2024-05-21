@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteVacancyRepository
 import ru.practicum.android.diploma.favorite.domain.model.FavoriteVacancy
+import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 
 class FavoriteVacancyInteractorImpl(
     private val repository: FavoriteVacancyRepository
@@ -21,7 +22,7 @@ class FavoriteVacancyInteractorImpl(
         return repository.getVacancyFromFavoriteList(id)
     }
 
-    override fun getAllVacancies(): Flow<List<FavoriteVacancy>> {
+    override fun getAllVacancies(): Flow<List<SimpleVacancy>> {
         return repository.getAllFavoriteVacancies()
     }
 

@@ -7,6 +7,7 @@ import ru.practicum.android.diploma.favorite.data.db.AppDatabase
 import ru.practicum.android.diploma.favorite.data.db.FavoriteVacancyEntity
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteVacancyRepository
 import ru.practicum.android.diploma.favorite.domain.model.FavoriteVacancy
+import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 
 class FavoriteVacancyRepositoryImpl(
     private val appDatabase: AppDatabase,
@@ -29,10 +30,11 @@ class FavoriteVacancyRepositoryImpl(
         emit(item)
     }
 
-    override fun getAllFavoriteVacancies(): Flow<List<FavoriteVacancy>> = flow {
+    override fun getAllFavoriteVacancies(): Flow<List<SimpleVacancy>> = flow {
         val entityList = appDatabase.favoriteVacancyDao().getAllItems()
         val itemList = convertFromVacancyEntity(entityList.sortedByDescending { it.addingTime })
-        emit(itemList)
+        val simpleList = convertFromFavoriteVacancy(itemList)
+        emit(simpleList)
     }
 
     override fun isVacancyFavorite(id: Int): Flow<Boolean> = flow {
@@ -42,5 +44,9 @@ class FavoriteVacancyRepositoryImpl(
 
     private fun convertFromVacancyEntity(entityList: List<FavoriteVacancyEntity>): List<FavoriteVacancy> {
         return entityList.map { vacancyEntity -> dbConverter.map(vacancyEntity) }
+    }
+
+    private fun convertFromFavoriteVacancy(vacancyList: List<FavoriteVacancy>): List<SimpleVacancy> {
+        return vacancyList.map { favoriteVacancy -> dbConverter.mapFavoriteToSimple(favoriteVacancy) }
     }
 }

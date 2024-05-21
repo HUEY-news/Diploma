@@ -1,68 +1,48 @@
 package ru.practicum.android.diploma.convertor
 
 import ru.practicum.android.diploma.favorite.data.db.FavoriteVacancyEntity
-import ru.practicum.android.diploma.favorite.data.model.PhonesDto
 import ru.practicum.android.diploma.favorite.domain.model.FavoriteVacancy
-import ru.practicum.android.diploma.favorite.domain.model.Phones
+import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 
 class DbConverter {
 
     fun map(vacancy: FavoriteVacancy): FavoriteVacancyEntity = FavoriteVacancyEntity(
         id = vacancy.id.toInt(),
-        name = vacancy.name,
-        city = vacancy.city,
-        employer = vacancy.employer,
-        employerLogoUrls = vacancy.employerLogoUrls,
-        currency = vacancy.currency,
-        salaryFrom = vacancy.salaryFrom,
-        salaryTo = vacancy.salaryTo,
-        experience = vacancy.experience,
-        employmentType = vacancy.employmentType,
-        schedule = vacancy.schedule,
+        address = vacancy.address,
+        alternateUrl = vacancy.alternateUrl,
+        contacts = vacancy.contacts,
         description = vacancy.description,
+        employer = vacancy.employer,
+        experience = vacancy.experience,
         keySkills = vacancy.keySkills,
-        phone = vacancy.phone?.map { map(it) },
-        email = vacancy.email,
-        contactPerson = vacancy.contactPerson,
-        url = vacancy.url,
+        name = vacancy.name,
+        professionalRoles = vacancy.professionalRoles,
+        salary = vacancy.salary,
+        schedule = vacancy.schedule,
         addingTime = System.currentTimeMillis()
     )
 
     fun map(entity: FavoriteVacancyEntity): FavoriteVacancy = FavoriteVacancy(
         id = entity.id.toString(),
-        name = entity.name,
-        city = entity.city,
-        employer = entity.employer,
-        employerLogoUrls = entity.employerLogoUrls,
-        currency = entity.currency,
-        salaryFrom = entity.salaryFrom,
-        salaryTo = entity.salaryTo,
-        experience = entity.experience,
-        employmentType = entity.employmentType,
-        schedule = entity.schedule,
+        address = entity.address,
+        alternateUrl = entity.alternateUrl,
+        contacts = entity.contacts,
         description = entity.description,
+        employer = entity.employer,
+        experience = entity.experience,
         keySkills = entity.keySkills,
-        phone = entity.phone?.map { map(it) },
-        email = entity.email,
-        contactPerson = entity.contactPerson,
-        url = entity.url,
+        name = entity.name,
+        professionalRoles = entity.professionalRoles,
+        salary = entity.salary,
+        schedule = entity.schedule
     )
 
-    private fun map(phonesDto: PhonesDto): Phones {
-        return Phones(
-            country = phonesDto.country,
-            city = phonesDto.city,
-            number = phonesDto.number,
-            comment = phonesDto.comment
-        )
-    }
-
-    private fun map(phones: Phones): PhonesDto {
-        return PhonesDto(
-            country = phones.country,
-            city = phones.city,
-            number = phones.number,
-            comment = phones.comment
-        )
-    }
+    fun mapFavoriteToSimple(vacancy: FavoriteVacancy): SimpleVacancy = SimpleVacancy(
+        id = vacancy.id,
+        name = vacancy.name,
+        address = vacancy.address,
+        employer = vacancy.employer,
+        salary = vacancy.salary,
+        found = 0
+    )
 }

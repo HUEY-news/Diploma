@@ -1,21 +1,20 @@
 package ru.practicum.android.diploma.favorite.domain.model
 
+import ru.practicum.android.diploma.details.domain.model.Contacts
+import ru.practicum.android.diploma.search.domain.model.Employer
+import ru.practicum.android.diploma.search.domain.model.Salary
+
 data class FavoriteVacancy(
     val id: String,
+    val address: String?,
+    val alternateUrl: String?,
+    val contacts: Contacts?,
+    val description: String?,
+    val employer: Employer?,
+    val experience: String?,
+    val keySkills: List<String?>?,
     val name: String,
-    val city: String,
-    val employer: String,
-    val employerLogoUrls: String?,
-    val currency: String?,
-    val salaryFrom: Int?,
-    val salaryTo: Int?,
-    val experience: String,
-    val employmentType: String,
-    val schedule: String,
-    val description: String,
-    val keySkills: List<String>,
-    val phone: List<Phones>?,
-    val email: String?,
-    val contactPerson: String?,
-    val url: String
+    val professionalRoles: List<String?>?,
+    val salary: Salary?,
+    val schedule: String?,
 )
