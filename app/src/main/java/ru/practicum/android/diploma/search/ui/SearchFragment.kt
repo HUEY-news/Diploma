@@ -49,14 +49,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         scrollListener()
-        searchAdapter = SearchVacancyAdapter { vacancy ->
-            if (clickDebounce()) {
-                findNavController().navigate(
-                    R.id.action_searchFragment_to_detailsVacancyFragment,
-                    VacancyDetailsFragment.createArgs(vacancy.id)
-                )
-            }
-        }
+        searchAdapterReset()
         binding.apply {
             searchToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
             resetImageButton.setOnClickListener {
@@ -68,7 +61,6 @@ class SearchFragment : Fragment() {
                     showPlaceholderSearch()
                 }
             }
-            searchRecyclerView.adapter = searchAdapter
         }
         inputEditTextInit()
         viewModel.observeState().observe(viewLifecycleOwner) {
@@ -83,16 +75,11 @@ class SearchFragment : Fragment() {
                 super.onScrolled(recyclerView, dx, dy)
                 val layoutManager = binding.searchRecyclerView.layoutManager
                 if (layoutManager is LinearLayoutManager) {
-                    // Позиция последнего видимого элемента
                     val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
-                    // Общее количество элементов
                     val totalItemCount = layoutManager.itemCount
-                    // Условие, определяющее, когда нужно подгрузить новые данные
                     val isLoadingNeeded = lastVisibleItemPosition + 1 == totalItemCount
                     if (isLoadingNeeded) {
-                        // Загрузите больше данных
-                        viewModel.currentPage++
-                        viewModel.searchRequest(viewModel.lastText)
+                        viewModel.uploadData()
                     }
                 }
             }
@@ -107,6 +94,7 @@ class SearchFragment : Fragment() {
                 if (s != null) {
                     if (s.isNotEmpty() && viewModel.lastText != s.toString()) {
                         inputTextFromSearch = s.toString()
+                        searchAdapterReset()
                         viewModel.searchDebounce(inputTextFromSearch!!)
                     } else {
                         showPlaceholderSearch()
@@ -121,13 +109,29 @@ class SearchFragment : Fragment() {
         binding.searchFieldEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && binding.searchFieldEditText.text.isNotEmpty()) {
                 if (!flagSuccessfulDownload) {
-                    inputTextFromSearch?.let { viewModel.searchRequest(it) }
+                    inputTextFromSearch?.let {
+                        searchAdapterReset()
+                        viewModel.downloadData(it)
+                    }
                 }
                 true
             }
             binding.centerProgressBar.visibility = View.GONE
             false
         }
+    }
+
+    private fun searchAdapterReset() {
+        searchAdapter = null
+        searchAdapter = SearchVacancyAdapter { vacancy ->
+            if (clickDebounce()) {
+                findNavController().navigate(
+                    R.id.action_searchFragment_to_detailsVacancyFragment,
+                    VacancyDetailsFragment.createArgs(vacancy.id)
+                )
+            }
+        }
+        binding.searchRecyclerView.adapter = searchAdapter
     }
 
     private fun render(state: VacanciesState) {
@@ -149,6 +153,7 @@ class SearchFragment : Fragment() {
 
             is VacanciesState.Error -> showErrorConnection(state.errorMessage)
             is VacanciesState.Loading -> showLoading()
+            is VacanciesState.BottomLoading -> showBottomLoading()
         }
     }
 
@@ -167,6 +172,16 @@ class SearchFragment : Fragment() {
         with(binding) {
             centerProgressBar.isVisible = true
             bottomProgressBar.isVisible = false
+            placeholderContainer.isVisible = false
+            searchRecyclerView.isVisible = false
+            vacancyMessageTextView.isVisible = false
+        }
+    }
+
+    private fun showBottomLoading() {
+        with(binding) {
+            centerProgressBar.isVisible = false
+            bottomProgressBar.isVisible = true
             placeholderContainer.isVisible = false
             searchRecyclerView.isVisible = false
             vacancyMessageTextView.isVisible = false
@@ -203,7 +218,7 @@ class SearchFragment : Fragment() {
     private fun showContent(vacancies: ArrayList<SimpleVacancy>) {
         with(mutableListOf<SimpleVacancy>()) {
             addAll(vacancies)
-            searchAdapter?.setItems(vacancies)
+            searchAdapter?.addItemsInRecycler(vacancies)
         }
         with(binding) {
             centerProgressBar.isVisible = false
