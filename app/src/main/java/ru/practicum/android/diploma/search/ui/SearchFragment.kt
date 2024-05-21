@@ -78,7 +78,9 @@ class SearchFragment : Fragment() {
                     val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
                     val totalItemCount = layoutManager.itemCount
                     val isLoadingNeeded = lastVisibleItemPosition + 1 == totalItemCount
-                    if (isLoadingNeeded) {
+                    if (isLoadingNeeded && (lastVisibleItemPosition < viewModel.totalVacanciesCount
+                            && viewModel.totalVacanciesCount > 20)
+                    ) {
                         viewModel.uploadData()
                     }
                 }
@@ -198,7 +200,11 @@ class SearchFragment : Fragment() {
             placeholderTextView.isVisible = true
             placeholderTextView.text = errorMessage
             vacancyMessageTextView.isVisible = false
-            placeholderImageView.setImageResource(R.drawable.placeholder_no_internet_connection)
+            if (errorMessage == requireContext().getString(R.string.no_internet)) {
+                placeholderImageView.setImageResource(R.drawable.placeholder_no_internet_connection)
+            } else {
+                placeholderImageView.setImageResource(R.drawable.placeholder_server_error_search)
+            }
         }
     }
 

@@ -13,7 +13,7 @@ import ru.practicum.android.diploma.sharing.data.ExternalNavigator
 import ru.practicum.android.diploma.sharing.data.ResourceProvider
 
 val repositoryModule = module {
-    single<SearchRepository> { SearchRepositoryImpl(context = androidContext(), client = get()) }
+    single<SearchRepository> { SearchRepositoryImpl(resourceProvider = get(), client = get()) }
     single<SearchDetailsRepository> { SearchDetailsRepositoryImpl(client = get(), resourceProvider = get()) }
     single<VacancyRepository> { VacancyRepositoryImpl(appDatabase = get(), dbConvertor = get()) }
     factory { DbConvertor() }

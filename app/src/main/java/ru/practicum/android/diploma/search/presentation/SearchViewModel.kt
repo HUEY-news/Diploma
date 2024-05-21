@@ -9,6 +9,9 @@ import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
 import ru.practicum.android.diploma.sharing.domain.api.ResourceInteractor
+import ru.practicum.android.diploma.util.Constants.PAGE
+import ru.practicum.android.diploma.util.Constants.PER_PAGE
+import ru.practicum.android.diploma.util.Constants.VACANCIES_PER_PAGE
 import ru.practicum.android.diploma.util.debounce
 
 class SearchViewModel(
@@ -17,7 +20,7 @@ class SearchViewModel(
 ) :
     ViewModel() {
     var lastText: String = ""
-    var currentPage = 0
+    private var currentPage = 0
     private var maxPages = 0
     var totalVacanciesCount: Int = 0
 
@@ -26,8 +29,8 @@ class SearchViewModel(
     private fun setOption() {
         maxPages = totalVacanciesCount / VACANCIES_PER_PAGE + 1
         if (totalVacanciesCount > VACANCIES_PER_PAGE && currentPage < maxPages) {
-            options["page"] = currentPage.toString()
-            options["per_page"] = VACANCIES_PER_PAGE.toString()
+            options[PAGE] = currentPage.toString()
+            options[PER_PAGE] = VACANCIES_PER_PAGE.toString()
         }
     }
 
@@ -75,7 +78,7 @@ class SearchViewModel(
                             pair.second != null -> {
                                 renderState(
                                     VacanciesState.Error(
-                                        errorMessage = resourceInteractor.getErrorInternetConnection()
+                                        errorMessage = pair.second!!
                                     ),
                                 )
                             }
@@ -111,6 +114,5 @@ class SearchViewModel(
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
-        private const val VACANCIES_PER_PAGE = 20
     }
 }
