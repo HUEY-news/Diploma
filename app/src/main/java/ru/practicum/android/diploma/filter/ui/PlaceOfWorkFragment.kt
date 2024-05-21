@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 import ru.practicum.android.diploma.databinding.FragmentPlaceOfWorkBinding
 
 class PlaceOfWorkFragment : Fragment() {
