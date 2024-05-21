@@ -10,4 +10,6 @@ interface FavoriteVacancyInteractor {
 
     fun getVacancyFromFavoriteList(id: Int): Flow<FavoriteVacancy>
     fun getAllVacancies(): Flow<List<FavoriteVacancy>>
+
+    fun isVacancyFavorite(id: Int): Flow<Boolean>
 }

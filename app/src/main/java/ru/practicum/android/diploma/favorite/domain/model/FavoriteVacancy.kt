@@ -17,6 +17,5 @@ data class FavoriteVacancy(
     val phone: List<Phones>?,
     val email: String?,
     val contactPerson: String?,
-    val url: String,
-    var isFavorite: Boolean = false
+    val url: String
 )
