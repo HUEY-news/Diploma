@@ -18,7 +18,6 @@ val dataModule = module {
 
     single<NetworkClient> {
         RetrofitNetworkClient(
-            context = androidContext(),
             service = get(),
             checkConnection = get()
         )
