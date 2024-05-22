@@ -38,7 +38,6 @@ class FiltrationFragment : Fragment() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.icon_back)
         }
-
         binding.filtrationVacancyToolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }
