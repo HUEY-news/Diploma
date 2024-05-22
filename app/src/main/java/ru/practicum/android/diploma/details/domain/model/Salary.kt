@@ -5,5 +5,5 @@ import java.math.BigDecimal
 data class Salary(
     val currency: String?,
     val from: BigDecimal?,
-    val to: BigDecimal?,
+    val to: BigDecimal?
 )
