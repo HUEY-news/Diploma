@@ -1,24 +1,24 @@
 package ru.practicum.android.diploma.favorite.domain.impl
 
 import kotlinx.coroutines.flow.Flow
+import ru.practicum.android.diploma.details.domain.model.Vacancy
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteVacancyRepository
-import ru.practicum.android.diploma.favorite.domain.model.FavoriteVacancy
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 
 class FavoriteVacancyInteractorImpl(
     private val repository: FavoriteVacancyRepository
 ) : FavoriteVacancyInteractor {
 
-    override suspend fun addVacancyToFavoriteList(vacancy: FavoriteVacancy) {
+    override suspend fun addVacancyToFavoriteList(vacancy: Vacancy) {
         repository.addVacancyToFavoriteList(vacancy)
     }
 
-    override suspend fun removeVacancyFromFavoriteList(vacancy: FavoriteVacancy) {
+    override suspend fun removeVacancyFromFavoriteList(vacancy: Vacancy) {
         repository.removeVacancyFromFavoriteList(vacancy)
     }
 
-    override fun getVacancyFromFavoriteList(id: Int): Flow<FavoriteVacancy> {
+    override suspend fun getVacancyFromFavoriteList(id: String): Vacancy {
         return repository.getVacancyFromFavoriteList(id)
     }
 
@@ -26,7 +26,7 @@ class FavoriteVacancyInteractorImpl(
         return repository.getAllFavoriteVacancies()
     }
 
-    override fun isVacancyFavorite(id: Int): Flow<Boolean> {
+    override suspend fun isVacancyFavorite(id: String): Boolean {
         return repository.isVacancyFavorite(id)
     }
 }
