@@ -40,6 +40,7 @@ class VacancyDetailsViewModel(
                     .searchVacancy(id)
                     .collect { pair ->
                         if (pair.first != null) {
+                            currentVacancy = pair.first
                             renderState(StateLoadVacancy.Content(pair.first!!, isFavorite))
                         }
                         when {
@@ -83,6 +84,7 @@ class VacancyDetailsViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             favoriteInteractor.addVacancyToFavoriteList(vacancy)
             renderState(StateLoadVacancy.Content(vacancy, true))
+            isFavorite = true
         }
     }
 }

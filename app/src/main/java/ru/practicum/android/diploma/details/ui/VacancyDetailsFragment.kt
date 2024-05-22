@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -31,12 +32,18 @@ class VacancyDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModel<VacancyDetailsViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        _binding = FragmentDetailsVacancyBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentDetailsVacancyBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+
         setupToolbar()
         return binding.root
     }
@@ -48,13 +55,18 @@ class VacancyDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val vacancyId = requireArguments().getString(ARGS_VACANCY_ID)
-        if (vacancyId != null) {
-            viewModel.searchRequest(vacancyId)
-        }
-        viewModel.observeVacancy().observe(viewLifecycleOwner) {
-            render(it)
-        }
+        if (vacancyId != null) { viewModel.searchRequest(vacancyId) }
+        viewModel.observeVacancy().observe(viewLifecycleOwner) { render(it) }
+
+        binding.favoriteButton.setOnClickListener {
+            viewModel.onFavoriteClicked() }
+    }
+
+    private fun updateFavoriteFlag(isFavorite: Boolean): Int {
+        return if (isFavorite) R.drawable.icon_favorites_on
+        else R.drawable.icon_favorites_off
     }
 
     private fun showContent(vacancy: Vacancy) {
@@ -90,7 +102,6 @@ class VacancyDetailsFragment : Fragment() {
             } else {
                 keySkillsValueTextView.text = getKeySkills(vacancy.keySkills)
             }
-            Log.d("VacancyContacts", vacancy.contacts.toString())
             showVacancyContacts(vacancy.contacts)
         }
     }
@@ -185,7 +196,14 @@ class VacancyDetailsFragment : Fragment() {
     private fun render(state: StateLoadVacancy) {
         when (state) {
             is StateLoadVacancy.Content -> {
-                showContent(state.vacancies)
+                showContent(state.data)
+                binding.favoriteButton.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        updateFavoriteFlag(state.isFavorite),
+                        null
+                    )
+                )
             }
 
             is StateLoadVacancy.Error -> {
