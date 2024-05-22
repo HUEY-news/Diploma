@@ -96,4 +96,21 @@
         <item name="android:fontWeight">500</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
+
+    <style name="FiltrationVacancyTextStyleRegular">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ys_text_regular</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="ForwardArrow">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/dimens_size_16</item>
+        <item name="android:layout_gravity">center|end</item>
+    </style>
+
 </resources>
