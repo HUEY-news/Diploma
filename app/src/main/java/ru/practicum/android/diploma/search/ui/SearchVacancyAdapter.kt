@@ -16,8 +16,8 @@ class SearchVacancyAdapter(
 
     fun setItems(items: List<SimpleVacancy>) {
         vacancyList.clear()
-        vacancyList.addAll(items)
-        notifyDataSetChanged() // todo: прикрутить DiffUtil
+        vacancyList = items.toMutableList()
+        notifyDataSetChanged()
     }
 
     fun addItemsInRecycler(newItems: List<SimpleVacancy>) {
