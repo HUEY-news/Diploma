@@ -4,8 +4,8 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.practicum.android.diploma.details.domain.model.Contacts
-import ru.practicum.android.diploma.search.domain.model.Employer
-import ru.practicum.android.diploma.search.domain.model.Salary
+import ru.practicum.android.diploma.details.domain.model.Employer
+import ru.practicum.android.diploma.details.domain.model.Salary
 
 class TypeConverter {
 
