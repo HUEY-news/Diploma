@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.favorite.presentation.model.FavoriteScreenState
+import java.io.IOException
 
 class FavoritesViewModel(
     private val favoriteInteractor: FavoriteVacancyInteractor
@@ -20,10 +21,13 @@ class FavoritesViewModel(
         viewModelScope.launch {
             try {
                 favoriteInteractor.getAllVacancies().collect { data ->
-                    if (data.isEmpty()) renderState(FavoriteScreenState.Empty)
-                    else renderState(FavoriteScreenState.Content(data))
+                    if (data.isEmpty()) {
+                        renderState(FavoriteScreenState.Empty)
+                    } else {
+                        renderState(FavoriteScreenState.Content(data))
+                    }
                 }
-            } catch (exception: Exception) {
+            } catch (exception: IOException) {
                 exception.printStackTrace()
                 renderState(FavoriteScreenState.Error)
             }

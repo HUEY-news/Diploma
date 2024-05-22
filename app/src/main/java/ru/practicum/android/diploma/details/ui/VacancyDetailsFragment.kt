@@ -57,7 +57,11 @@ class VacancyDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val vacancyId = requireArguments().getString(ARGS_VACANCY_ID)
-        if (vacancyId != null) { viewModel.searchRequest(vacancyId) }
+
+        if (vacancyId != null) {
+            viewModel.searchRequest(vacancyId)
+        }
+
         viewModel.observeVacancy().observe(viewLifecycleOwner) { render(it) }
 
         binding.favoriteButton.setOnClickListener {
@@ -65,8 +69,11 @@ class VacancyDetailsFragment : Fragment() {
     }
 
     private fun updateFavoriteFlag(isFavorite: Boolean): Int {
-        return if (isFavorite) R.drawable.icon_favorites_on
-        else R.drawable.icon_favorites_off
+        return if (isFavorite) {
+            R.drawable.icon_favorites_on
+        } else {
+            R.drawable.icon_favorites_off
+        }
     }
 
     private fun showContent(vacancy: Vacancy) {

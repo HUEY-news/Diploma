@@ -84,7 +84,13 @@ class FavoritesFragment : Fragment() {
         binding.recyclerView.isVisible = false
         binding.placeholderContainer.isVisible = true
         binding.placeholderMessage.text = requireContext().getString(R.string.the_list_is_empty)
-        binding.placeholderImage.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.placeholder_empty_favorite, null))
+        binding.placeholderImage.setImageDrawable(
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.placeholder_empty_favorite,
+                null
+            )
+        )
     }
 
     private fun showError() {
@@ -92,7 +98,13 @@ class FavoritesFragment : Fragment() {
         binding.recyclerView.isVisible = false
         binding.placeholderContainer.isVisible = true
         binding.placeholderMessage.text = requireContext().getString(R.string.failed_to_get_list_of_vacancies)
-        binding.placeholderImage.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.placeholder_incorrect_request, null))
+        binding.placeholderImage.setImageDrawable(
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.placeholder_incorrect_request,
+                null
+            )
+        )
     }
 
     private var isClickAllowed = true

@@ -67,8 +67,11 @@ class VacancyDetailsViewModel(
 
     fun onFavoriteClicked() {
         currentVacancy?.let {
-            if (isFavorite) removeVacancy(currentVacancy!!)
-            else addVacancy(currentVacancy!!)
+            if (isFavorite) {
+                removeVacancy(currentVacancy!!)
+            } else {
+                addVacancy(currentVacancy!!)
+            }
         }
     }
 

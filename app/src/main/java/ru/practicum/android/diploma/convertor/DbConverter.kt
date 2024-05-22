@@ -1,8 +1,8 @@
 package ru.practicum.android.diploma.convertor
 
-import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 import ru.practicum.android.diploma.details.domain.model.Vacancy
 import ru.practicum.android.diploma.favorite.data.db.FavoriteVacancyEntity
+import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 
 class DbConverter {
 
