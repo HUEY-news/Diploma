@@ -1,9 +1,7 @@
 package ru.practicum.android.diploma.details.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,11 +18,11 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentDetailsVacancyBinding
 import ru.practicum.android.diploma.details.domain.model.Contacts
 import ru.practicum.android.diploma.details.domain.model.Phone
-import ru.practicum.android.diploma.details.domain.model.Salary
 import ru.practicum.android.diploma.details.domain.model.Vacancy
 import ru.practicum.android.diploma.details.presentation.VacancyDetailsViewModel
 import ru.practicum.android.diploma.details.presentation.model.StateLoadVacancy
 import ru.practicum.android.diploma.util.dpToPx
+import ru.practicum.android.diploma.util.getSalary
 
 class VacancyDetailsFragment : Fragment() {
 
@@ -83,7 +81,7 @@ class VacancyDetailsFragment : Fragment() {
             placeholderContainer.isVisible = false
             shareButton.setOnClickListener { viewModel.shareVacancy(vacancy.alternateUrl.toString()) }
             vacancyNameTextView.text = vacancy.name
-            salaryTextView.text = getSalary(vacancy.salary)
+            salaryTextView.text = getSalary(requireContext(), vacancy.salary)
             Glide.with(employerLogo)
                 .load(vacancy.employer?.logoUrls)
                 .placeholder(R.drawable.icon_android_placeholder)
@@ -171,33 +169,6 @@ class VacancyDetailsFragment : Fragment() {
             }
         }
         return resultString
-    }
-
-    @SuppressLint("StringFormatMatches")
-    private fun getSalary(salary: Salary?): String {
-        return when {
-            salary == null -> getString(R.string.salary_not_specified)
-            salary.from != null && salary.to != null -> getString(
-                R.string.salary_from_to,
-                salary.from,
-                salary.to,
-                salary.currency
-            )
-
-            salary.from != null -> getString(
-                R.string.salary_from,
-                salary.from,
-                salary.currency
-            )
-
-            salary.to != null -> getString(
-                R.string.salary_to,
-                salary.to,
-                salary.currency
-            )
-
-            else -> getString(R.string.salary_not_specified)
-        }
     }
 
     private fun render(state: StateLoadVacancy) {
