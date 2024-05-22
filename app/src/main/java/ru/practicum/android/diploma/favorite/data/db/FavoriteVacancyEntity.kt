@@ -3,8 +3,8 @@ package ru.practicum.android.diploma.favorite.data.db
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.practicum.android.diploma.details.domain.model.Contacts
-import ru.practicum.android.diploma.search.domain.model.Employer
-import ru.practicum.android.diploma.search.domain.model.Salary
+import ru.practicum.android.diploma.details.domain.model.Employer
+import ru.practicum.android.diploma.details.domain.model.Salary
 
 @Entity(tableName = "vacancy_table")
 data class FavoriteVacancyEntity(
