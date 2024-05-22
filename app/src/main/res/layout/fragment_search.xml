@@ -7,26 +7,13 @@
     android:background="?attr/white_black"
     tools:context=".search.ui.SearchFragment">
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/search_toolbar"
         style="@style/ToolbarAppStyle"
         android:title="@string/search_vacancies"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/filter_image_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/dimens_size_20"
-            android:background="?attr/white_black"
-            android:src="@drawable/icon_filter_off"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/search_toolbar"
-            app:tint="?attr/black_white" />
-    </Toolbar>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/search_field_edit_text"
