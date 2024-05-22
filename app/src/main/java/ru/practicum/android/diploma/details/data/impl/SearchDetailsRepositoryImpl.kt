@@ -47,6 +47,7 @@ class SearchDetailsRepositoryImpl(
 
     private fun createVacancyFromResponse(response: SearchDetailsResponse): Vacancy {
         return Vacancy(
+            id = response.id,
             address = response.address?.city,
             alternateUrl = response.alternateUrl,
             contacts = createContactsFromResponse(response.contacts),
