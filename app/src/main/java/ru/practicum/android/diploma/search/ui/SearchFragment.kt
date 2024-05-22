@@ -4,13 +4,20 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,8 +58,9 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         scrollListener()
         searchAdapterReset()
+        setupToolbar()
+
         binding.apply {
-            searchToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
             resetImageButton.setOnClickListener {
                 searchFieldEditText.setText("")
                 activity?.window?.currentFocus?.let { view ->
@@ -67,6 +75,26 @@ class SearchFragment : Fragment() {
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.search_toolbar_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_filter -> {
+                        findNavController().navigate(
+                            R.id.action_searchFragment_to_filtrationFragment
+                        )
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun scrollListener() {
@@ -232,6 +260,14 @@ class SearchFragment : Fragment() {
             bottomProgressBar.isVisible = false
             placeholderContainer.isVisible = false
             searchRecyclerView.isVisible = true
+        }
+    }
+
+    private fun setupToolbar() {
+        (activity as? AppCompatActivity)?.setSupportActionBar(binding.searchToolbar)
+        (activity as? AppCompatActivity)?.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = getString(R.string.search_vacancies)
         }
     }
 
