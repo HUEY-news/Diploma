@@ -21,7 +21,8 @@
             android:layout_gravity="end"
             android:layout_marginEnd="@dimen/dimens_size_16"
             android:clickable="true"
-            android:src="@drawable/icon_favorites_off" />
+            android:src="@drawable/icon_favorites_off"
+            app:tint="?attr/black_white" />
 
         <ImageView
             android:id="@+id/share_button"
