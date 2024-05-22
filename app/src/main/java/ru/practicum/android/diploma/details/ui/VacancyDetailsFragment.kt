@@ -29,6 +29,7 @@ class VacancyDetailsFragment : Fragment() {
 
     private var _binding: FragmentDetailsVacancyBinding? = null
     private val binding get() = _binding!!
+
     private val viewModel by viewModel<VacancyDetailsViewModel>()
 
     override fun onCreateView(
@@ -41,6 +42,7 @@ class VacancyDetailsFragment : Fragment() {
             container,
             false
         )
+
         setupToolbar()
         return binding.root
     }
@@ -52,11 +54,15 @@ class VacancyDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val vacancyId = requireArguments().getString(ARGS_VACANCY_ID)
+
         if (vacancyId != null) {
             viewModel.searchRequest(vacancyId)
         }
+
         viewModel.observeVacancy().observe(viewLifecycleOwner) { render(it) }
+
         binding.favoriteButton.setOnClickListener {
             viewModel.onFavoriteClicked() }
     }
@@ -176,16 +182,19 @@ class VacancyDetailsFragment : Fragment() {
                 salary.to,
                 salary.currency
             )
+
             salary.from != null -> getString(
                 R.string.salary_from,
                 salary.from,
                 salary.currency
             )
+
             salary.to != null -> getString(
                 R.string.salary_to,
                 salary.to,
                 salary.currency
             )
+
             else -> getString(R.string.salary_not_specified)
         }
     }
@@ -194,16 +203,19 @@ class VacancyDetailsFragment : Fragment() {
         when (state) {
             is StateLoadVacancy.Content -> {
                 showContent(state.data)
-                binding.favoriteButton.setImageDrawable(ResourcesCompat.getDrawable(
+                binding.favoriteButton.setImageDrawable(
+                    ResourcesCompat.getDrawable(
                         resources,
                         updateFavoriteFlag(state.isFavorite),
                         null
                     )
                 )
             }
+
             is StateLoadVacancy.Error -> {
                 showError(state.errorMessage)
             }
+
             is StateLoadVacancy.Loading -> {
                 showProgressBar()
             }
@@ -235,6 +247,7 @@ class VacancyDetailsFragment : Fragment() {
             setHomeAsUpIndicator(R.drawable.icon_back)
             title = getString(R.string.job_vacancy)
         }
+
         binding.detailsVacancyToolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }
