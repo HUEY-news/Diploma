@@ -1,12 +1,12 @@
 package ru.practicum.android.diploma.convertor
 
-import ru.practicum.android.diploma.favorite.data.db.FavoriteVacancyEntity
-import ru.practicum.android.diploma.favorite.domain.model.FavoriteVacancy
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
+import ru.practicum.android.diploma.details.domain.model.Vacancy
+import ru.practicum.android.diploma.favorite.data.db.FavoriteVacancyEntity
 
 class DbConverter {
 
-    fun map(vacancy: FavoriteVacancy): FavoriteVacancyEntity = FavoriteVacancyEntity(
+    fun map(vacancy: Vacancy): FavoriteVacancyEntity = FavoriteVacancyEntity(
         id = vacancy.id.toInt(),
         address = vacancy.address,
         alternateUrl = vacancy.alternateUrl,
@@ -22,7 +22,7 @@ class DbConverter {
         addingTime = System.currentTimeMillis()
     )
 
-    fun map(entity: FavoriteVacancyEntity): FavoriteVacancy = FavoriteVacancy(
+    fun map(entity: FavoriteVacancyEntity): Vacancy = Vacancy(
         id = entity.id.toString(),
         address = entity.address,
         alternateUrl = entity.alternateUrl,
@@ -37,7 +37,7 @@ class DbConverter {
         schedule = entity.schedule
     )
 
-    fun mapFavoriteToSimple(vacancy: FavoriteVacancy): SimpleVacancy = SimpleVacancy(
+    fun mapFavoriteToSimple(vacancy: Vacancy): SimpleVacancy = SimpleVacancy(
         id = vacancy.id,
         name = vacancy.name,
         address = vacancy.address,
