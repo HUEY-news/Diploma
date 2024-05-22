@@ -29,7 +29,6 @@ class VacancyDetailsViewModel(
     fun searchRequest(id: String) {
         renderState(StateLoadVacancy.Loading)
         viewModelScope.launch {
-
             isFavorite = favoriteInteractor.isVacancyFavorite(id)
 
             if (isFavorite) {
