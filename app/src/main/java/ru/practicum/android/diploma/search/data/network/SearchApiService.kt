@@ -38,8 +38,7 @@ interface SearchApiService {
         allowUnsafeNonAsciiValues = true
     )
     @GET("/industries")
-    suspend fun searchIndustries(
-    ): SearchIndustriesResponse
+    suspend fun searchIndustries(): SearchIndustriesResponse
 
     companion object {
         const val TOKEN = BuildConfig.HH_ACCESS_TOKEN
