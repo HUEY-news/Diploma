@@ -34,7 +34,44 @@ tools:context=".filter.ui.IndustryFragment">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/industry_edit_text"
         app:layout_constraintBottom_toTopOf="@id/сhoose_filter_button"
-       />
+        tools:visibility="gone"
+        />
+
+    <ProgressBar
+        android:id="@+id/center_progress_bar"
+        style="@style/ProgressBarStyle"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/industry_edit_text" />
+
+    <LinearLayout
+        android:id="@+id/placeholder_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimens_size_16"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/industry_edit_text">
+
+        <ImageView
+            android:id="@+id/placeholder_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/placeholder_empty_search"
+            tools:src="@drawable/placeholder_incorrect_request" />
+
+        <TextView
+            android:id="@+id/placeholder_text_view"
+            style="@style/PlaceholderTextStyle"
+            android:gravity="center"
+            tools:text="какой-то текст" />
+
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/сhoose_filter_button"
@@ -44,5 +81,6 @@ tools:context=".filter.ui.IndustryFragment">
         android:layout_marginBottom="@dimen/dimens_size_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>
