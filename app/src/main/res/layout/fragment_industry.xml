@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="?attr/white_black"
+tools:context=".filter.ui.IndustryFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/industry_toolbar"
+        style="@style/ToolbarAppStyle"
+        app:title="@string/enter_industry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </androidx.appcompat.widget.Toolbar>
+
+<EditText
+    android:id="@+id/industry_edit_text"
+    style="@style/SearchEditTextStyle"
+    android:layout_marginTop="@dimen/dimens_size_20"
+    android:hint="@string/enter_industry"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/industry_toolbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/industry_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dimens_size_8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/industry_edit_text"
+        app:layout_constraintBottom_toTopOf="@id/сhoose_filter_button"
+        tools:visibility="gone"
+        />
+
+    <ProgressBar
+        android:id="@+id/center_progress_bar"
+        style="@style/ProgressBarStyle"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/industry_edit_text" />
+
+    <LinearLayout
+        android:id="@+id/placeholder_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimens_size_16"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/industry_edit_text">
+
+        <ImageView
+            android:id="@+id/placeholder_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/placeholder_empty_search"
+            tools:src="@drawable/placeholder_incorrect_request" />
+
+        <TextView
+            android:id="@+id/placeholder_text_view"
+            style="@style/PlaceholderTextStyle"
+            android:gravity="center"
+            tools:text="какой-то текст" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/сhoose_filter_button"
+        style="@style/ButtonFilterStyle"
+        android:background="@drawable/shape_button_filter_background"
+        android:text="@string/сhoose"
+        android:layout_marginBottom="@dimen/dimens_size_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone" />
+</androidx.constraintlayout.widget.ConstraintLayout>

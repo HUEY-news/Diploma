@@ -16,7 +16,7 @@ class FiltrationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentFiltrationBinding.inflate(inflater, container, false)
         setupToolbar()
@@ -29,6 +29,9 @@ class FiltrationFragment : Fragment() {
             filtrationWorkPlace.setOnClickListener {
                 findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
             }
+            filtrationIndustry.setOnClickListener {
+                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
+            }
         }
     }
 
@@ -38,7 +41,6 @@ class FiltrationFragment : Fragment() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.icon_back)
         }
-
         binding.filtrationVacancyToolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }

@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_filtrationFragment_to_placeOfWorkFragment"
             app:destination="@id/placeOfWorkFragment" />
+        <action
+            android:id="@+id/action_filtrationFragment_to_industryFragment"
+            app:destination="@id/industryFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsVacancyFragment"
@@ -66,4 +69,9 @@
         android:name="ru.practicum.android.diploma.filter.ui.RegionFragment"
         android:label="fragment_region"
         tools:layout="@layout/fragment_region" />
+    <fragment
+        android:id="@+id/industryFragment"
+        android:name="ru.practicum.android.diploma.filter.ui.IndustryFragment"
+        android:label="fragment_industry"
+        tools:layout="@layout/fragment_industry" />
 </navigation>
