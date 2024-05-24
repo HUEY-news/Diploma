@@ -8,7 +8,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/filter_country_name"
+        android:id="@+id/filter_country_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
