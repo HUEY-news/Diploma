@@ -7,14 +7,14 @@ android:layout_height="match_parent"
 android:background="?attr/white_black"
 tools:context=".filter.ui.IndustryFragment">
 
-<androidx.appcompat.widget.Toolbar
-    android:id="@+id/industry_toolbar"
-    style="@style/ToolbarAppStyle"
-    android:title="@string/industry_selection"
-    android:collapseIcon="@drawable/icon_arrow_forward"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/industry_toolbar"
+        style="@style/ToolbarAppStyle"
+        app:title="@string/enter_industry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </androidx.appcompat.widget.Toolbar>
 
 <EditText
     android:id="@+id/industry_edit_text"
@@ -55,6 +55,7 @@ tools:context=".filter.ui.IndustryFragment">
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/industry_edit_text">
 
         <ImageView

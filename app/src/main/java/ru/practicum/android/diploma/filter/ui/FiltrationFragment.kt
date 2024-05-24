@@ -29,6 +29,9 @@ class FiltrationFragment : Fragment() {
             filtrationWorkPlace.setOnClickListener {
                 findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
             }
+            filtrationIndustry.setOnClickListener{
+                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
+            }
         }
     }
 
