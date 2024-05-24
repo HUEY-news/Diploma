@@ -11,7 +11,7 @@
     android:paddingEnd="@dimen/dimens_size_12">
 
     <RadioButton
-        android:id="@+id/radio_button"
+        android:id="@+id/filter_industry_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
