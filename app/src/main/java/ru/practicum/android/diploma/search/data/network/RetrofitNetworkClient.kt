@@ -3,10 +3,12 @@ package ru.practicum.android.diploma.search.data.network
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.practicum.android.diploma.filter.data.model.IndustryDto
 import ru.practicum.android.diploma.search.data.dto.Response
 import ru.practicum.android.diploma.search.data.dto.SearchRequest
 import ru.practicum.android.diploma.util.CheckConnection
 import ru.practicum.android.diploma.util.Constants
+import ru.practicum.android.diploma.util.Resource
 import java.io.IOException
 
 class RetrofitNetworkClient(
@@ -62,23 +64,32 @@ class RetrofitNetworkClient(
         }
     }
 
-    override suspend fun doRequestIndustries(): Response {
+    override suspend fun doRequestIndustries(): Resource<List<IndustryDto>> {
         return when {
             !checkConnection.isInternetAvailable() -> {
-                Response().apply { resultCode = Constants.CONNECTION_ERROR }
+                Resource.Error(CONNECTION_ERROR)
             }
 
             else -> {
                 withContext(Dispatchers.IO) {
                     try {
                         val response = service.searchIndustries()
-                        response.apply { resultCode = Constants.SUCCESS }
+                        val industriesList = mutableListOf<IndustryDto>()
+                        response.body()
+                            ?.forEach { it.results.forEach { industryDto -> industriesList.add(industryDto) } }
+                        Resource.Success(industriesList)
+
                     } catch (exception: IOException) {
                         Log.e("TEST", "$exception")
-                        Response().apply { resultCode = Constants.SERVER_ERROR }
+                        Resource.Error(SERVER_ERROR)
                     }
                 }
             }
         }
+    }
+
+    companion object {
+        const val CONNECTION_ERROR = "Ошибка соединения"
+        const val SERVER_ERROR = "Ошибка сервера"
     }
 }
