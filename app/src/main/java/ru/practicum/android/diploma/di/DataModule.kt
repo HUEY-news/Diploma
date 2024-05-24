@@ -19,7 +19,8 @@ val dataModule = module {
     single<NetworkClient> {
         RetrofitNetworkClient(
             service = get(),
-            checkConnection = get()
+            checkConnection = get(),
+            resourceProvider = get()
         )
     }
 

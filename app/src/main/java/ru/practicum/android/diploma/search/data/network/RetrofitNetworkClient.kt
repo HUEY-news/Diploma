@@ -6,6 +6,7 @@ import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.filter.data.model.IndustryDto
 import ru.practicum.android.diploma.search.data.dto.Response
 import ru.practicum.android.diploma.search.data.dto.SearchRequest
+import ru.practicum.android.diploma.sharing.data.ResourceProvider
 import ru.practicum.android.diploma.util.CheckConnection
 import ru.practicum.android.diploma.util.Constants
 import ru.practicum.android.diploma.util.Resource
@@ -14,6 +15,7 @@ import java.io.IOException
 class RetrofitNetworkClient(
     private val service: SearchApiService,
     private val checkConnection: CheckConnection,
+    private val resourceProvider: ResourceProvider,
 ) : NetworkClient {
 
     override suspend fun doRequest(dto: Any, options: HashMap<String, String>): Response {
@@ -67,29 +69,29 @@ class RetrofitNetworkClient(
     override suspend fun doRequestIndustries(): Resource<List<IndustryDto>> {
         return when {
             !checkConnection.isInternetAvailable() -> {
-                Resource.Error(CONNECTION_ERROR)
+                Resource.Error(resourceProvider.getErrorInternetConnection())
             }
 
             else -> {
                 withContext(Dispatchers.IO) {
                     try {
-                        val response = service.searchIndustries()
+                        val response = service.searchIndustries().body()
                         val industriesList = mutableListOf<IndustryDto>()
-                        response.body()
-                            ?.forEach { it.results.forEach { industryDto -> industriesList.add(industryDto) } }
+                        if (!response.isNullOrEmpty()) {
+                            response.forEach { searchIndustriesResponse ->
+                                searchIndustriesResponse.results.forEach { industryDto ->
+                                    industriesList.add(industryDto)
+                                }
+                            }
+                        }
                         Resource.Success(industriesList)
 
                     } catch (exception: IOException) {
                         Log.e("TEST", "$exception")
-                        Resource.Error(SERVER_ERROR)
+                        Resource.Error(resourceProvider.getErrorServer())
                     }
                 }
             }
         }
-    }
-
-    companion object {
-        const val CONNECTION_ERROR = "Ошибка соединения"
-        const val SERVER_ERROR = "Ошибка сервера"
     }
 }

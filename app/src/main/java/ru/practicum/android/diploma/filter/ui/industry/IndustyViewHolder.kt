@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter.presentation.industry
+package ru.practicum.android.diploma.filter.ui.industry
 
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.ItemIndustryBinding

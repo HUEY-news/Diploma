@@ -11,25 +11,20 @@ import ru.practicum.android.diploma.util.Resource
 
 class SearchIndustriesRepositoryImpl(
     private val client: NetworkClient,
-    private val resourceProvider: ResourceProvider,
 ) :
     SearchIndustriesRepository {
 
     override suspend fun searchIndustries(): Flow<Resource<List<Industry>>> = flow {
         val response = client.doRequestIndustries()
-        if (!response.data.isNullOrEmpty()) {
+        if (response.data != null) {
             emit(handleSuccessResponse(response.data))
-        } else if (!response.message.isNullOrEmpty()) {
-            emit(handleErrorResponse(response.message))
-        } else emit(handleServerError())
+        } else {
+            response.message?.let { handleErrorResponse(it) }?.let { emit(it) }
+        }
     }
 
     private fun handleErrorResponse(message: String): Resource<List<Industry>> {
         return Resource.Error(message)
-    }
-
-    private fun handleServerError(): Resource.Error<List<Industry>> {
-        return Resource.Error(resourceProvider.getErrorServer())
     }
 
     private fun handleSuccessResponse(response: List<IndustryDto>): Resource.Success<List<Industry>> {

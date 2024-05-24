@@ -44,6 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/filtration_work_place">
 
         <TextView
+            android:id="@+id/filtration_industry_text_view"
             style="@style/FiltrationVacancyTextStyleRegular"
             android:layout_gravity="center|start"
             android:layout_marginStart="@dimen/dimens_size_16"
