@@ -13,5 +13,6 @@ object Constants {
     const val INDUSTRY = "industry"
     const val SALARY = "salary_from"
     const val ONLY_WITH_SALARY = "only_with_salary"
+    const val FILTRATION_PREFERENCES_INDUSTRY = "filtration_preferences"
     const val VACANCIES_PER_PAGE = 20
 }

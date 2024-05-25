@@ -21,5 +21,5 @@ val repositoryModule = module {
     factory { DbConverter() }
     single<ExternalNavigator> { ExternalNavigator(context = androidContext()) }
     single<ResourceProvider> { ResourceProvider(context = androidContext()) }
-    single<SearchIndustriesRepository> { SearchIndustriesRepositoryImpl(client = get(), resourceProvider = get()) }
+    single<SearchIndustriesRepository> { SearchIndustriesRepositoryImpl(client = get()) }
 }

@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.search.data.network
 
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
@@ -38,7 +39,7 @@ interface SearchApiService {
         allowUnsafeNonAsciiValues = true
     )
     @GET("/industries")
-    suspend fun searchIndustries(): SearchIndustriesResponse
+    suspend fun searchIndustries(): Response<List<SearchIndustriesResponse>>
 
     companion object {
         const val TOKEN = BuildConfig.HH_ACCESS_TOKEN

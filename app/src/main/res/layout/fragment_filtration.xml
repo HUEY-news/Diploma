@@ -25,6 +25,7 @@
         app:layout_constraintTop_toBottomOf="@+id/filtration_vacancy_toolbar">
 
         <TextView
+            android:id="@+id/filtration_work_place_text_view"
             style="@style/FiltrationVacancyTextStyleRegular"
             android:layout_gravity="center|start"
             android:layout_marginStart="@dimen/dimens_size_16"
@@ -44,6 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/filtration_work_place">
 
         <TextView
+            android:id="@+id/filtration_industry_text_view"
             style="@style/FiltrationVacancyTextStyleRegular"
             android:layout_gravity="center|start"
             android:layout_marginStart="@dimen/dimens_size_16"
@@ -62,6 +64,7 @@
         android:background="@drawable/shape_filtration_background"
         android:textColorHint="?attr/gray_white"
         app:endIconDrawable="@drawable/icon_close"
+        android:hint="@string/enter_amount"
         app:endIconMode="clear_text"
         app:hintTextColor="@color/blue"
         app:layout_constraintBottom_toTopOf="@+id/filtration_pay"
@@ -70,15 +73,29 @@
         app:layout_constraintTop_toBottomOf="@+id/filtration_industry">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/playlist_description_edit_text"
+            android:id="@+id/salary_edit_text"
             style="@style/TextEditorOutLinedStyle"
             android:hint="@string/expected_salary"
             android:inputType="numberDecimal"
-            android:text="@string/enter_amount"
             android:textColorHint="?attr/gray_white"
             app:boxStrokeColor="@color/blue"
-            app:hintTextColor="@color/blue" />
+            app:hintTextColor="@color/blue"
+            />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/reset_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimens_size_12"
+        android:background="?attr/lightgray_gray"
+        android:src="@drawable/icon_close"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/playlist_desctiption_field"
+        app:layout_constraintEnd_toEndOf="@id/playlist_desctiption_field"
+        app:layout_constraintTop_toTopOf="@id/playlist_desctiption_field"
+        app:tint="@color/black"
+        tools:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/filtration_pay"
@@ -98,6 +115,7 @@
             android:textColor="?attr/black_white" />
 
         <ImageView
+            android:id="@+id/filtration_pay_checkbox"
             style="@style/ForwardArrow"
             android:src="@drawable/icon_checkbox_off" />
     </FrameLayout>
