@@ -26,7 +26,7 @@ class FiltrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (arguments!=null){
+        if (arguments != null) {
             val industry = arguments?.getString(ARGS_INDUSTRY_NAME)
             binding.filtrationIndustryTextView.text = industry
         }
