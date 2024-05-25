@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/filter_country_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/white_black"
@@ -42,19 +43,19 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/recycler_country_block"
+        android:id="@+id/output_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/dimens_size_16">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_country"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
 
         <ProgressBar
-            android:id="@+id/progress_bar_country"
+            android:id="@+id/progress_bar"
             android:layout_width="@dimen/dimens_size_36"
             android:layout_height="@dimen/dimens_size_36"
             android:layout_gravity="center"
