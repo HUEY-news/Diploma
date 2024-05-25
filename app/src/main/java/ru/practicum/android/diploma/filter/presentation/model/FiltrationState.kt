@@ -8,5 +8,6 @@ sealed interface FiltrationState {
         val workPlace: String,
         val industry: String,
         val salary: String,
+        val checkbox: Boolean
     ) : FiltrationState
 }
