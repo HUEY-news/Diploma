@@ -6,6 +6,7 @@
     <dimen name="text_size_12">12sp</dimen>
     <dimen name="dimens_size_1">1dp</dimen>
     <dimen name="dimens_size_4">4dp</dimen>
+    <dimen name="dimens_size_6">6dp</dimen>
     <dimen name="dimens_size_8">8dp</dimen>
     <dimen name="dimens_size_9">9dp</dimen>
     <dimen name="dimens_size_12">12dp</dimen>
