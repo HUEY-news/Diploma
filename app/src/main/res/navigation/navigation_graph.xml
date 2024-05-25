@@ -71,7 +71,11 @@
         tools:layout="@layout/fragment_region" />
     <fragment
         android:id="@+id/industryFragment"
-        android:name="ru.practicum.android.diploma.filter.ui.IndustryFragment"
+        android:name="ru.practicum.android.diploma.filter.ui.industry.IndustryFragment"
         android:label="fragment_industry"
-        tools:layout="@layout/fragment_industry" />
+        tools:layout="@layout/fragment_industry" >
+        <action
+            android:id="@+id/action_industryFragment_to_filtrationFragment"
+            app:destination="@id/filtrationFragment" />
+    </fragment>
 </navigation>

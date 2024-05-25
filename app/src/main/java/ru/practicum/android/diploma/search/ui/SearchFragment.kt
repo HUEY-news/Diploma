@@ -266,7 +266,7 @@ class SearchFragment : Fragment() {
     private fun setupToolbar() {
         (activity as? AppCompatActivity)?.setSupportActionBar(binding.searchToolbar)
         (activity as? AppCompatActivity)?.supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
+            setDisplayHomeAsUpEnabled(false)
             title = getString(R.string.search_vacancies)
         }
     }
