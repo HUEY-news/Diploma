@@ -1,41 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="?attr/white_black"
-tools:context=".filter.ui.IndustryFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/white_black"
+    tools:context=".filter.ui.industry.IndustryFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/industry_toolbar"
         style="@style/ToolbarAppStyle"
-        app:title="@string/enter_industry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </androidx.appcompat.widget.Toolbar>
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/industry_selection" />
 
-<EditText
-    android:id="@+id/industry_edit_text"
-    style="@style/SearchEditTextStyle"
-    android:layout_marginTop="@dimen/dimens_size_20"
-    android:hint="@string/enter_industry"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/industry_toolbar" />
+    <EditText
+        android:id="@+id/industry_edit_text"
+        style="@style/SearchEditTextStyle"
+        android:layout_marginTop="@dimen/dimens_size_20"
+        android:hint="@string/enter_industry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/industry_toolbar" />
+
+    <ImageButton
+        android:id="@+id/reset_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimens_size_12"
+        android:background="?attr/lightgray_gray"
+        android:src="@drawable/icon_close"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/industry_edit_text"
+        app:layout_constraintEnd_toEndOf="@id/industry_edit_text"
+        app:layout_constraintTop_toTopOf="@id/industry_edit_text"
+        app:tint="@color/black"
+        tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/industry_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/dimens_size_8"
+        app:layout_constraintBottom_toTopOf="@id/industry_filter_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/industry_edit_text"
-        app:layout_constraintBottom_toTopOf="@id/сhoose_filter_button"
-        tools:visibility="gone"
-        />
+        tools:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/center_progress_bar"
@@ -55,8 +67,8 @@ tools:context=".filter.ui.IndustryFragment">
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/industry_edit_text">
+        app:layout_constraintTop_toBottomOf="@id/industry_edit_text"
+        tools:visibility="gone">
 
         <ImageView
             android:id="@+id/placeholder_image_view"
@@ -75,8 +87,9 @@ tools:context=".filter.ui.IndustryFragment">
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/сhoose_filter_button"
+        android:id="@+id/industry_filter_button"
         style="@style/ButtonFilterStyle"
+        android:layout_marginBottom="@dimen/dimens_size_24"
         android:background="@drawable/shape_button_filter_background"
         android:text="@string/choose"
         android:layout_marginBottom="@dimen/dimens_size_24"
