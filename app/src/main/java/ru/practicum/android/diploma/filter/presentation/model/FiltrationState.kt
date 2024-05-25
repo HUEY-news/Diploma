@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.filter.presentation.model
 
-sealed interface FiltrationState  {
+sealed interface FiltrationState {
 
     object NoFilters : FiltrationState
 
