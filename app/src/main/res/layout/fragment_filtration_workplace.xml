@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/white_black">
+
+    <LinearLayout
+        android:id="@+id/header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimens_size_16"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dimens_size_16"
+            android:clickable="true"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:id="@+id/header_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimens_size_4"
+            android:fontFamily="@font/ys_text_medium"
+            android:gravity="center_vertical"
+            android:paddingVertical="@dimen/dimens_size_19"
+            android:text="@string/choosing_a_place_to_work"
+            android:textColor="?attr/black_white"
+            android:textSize="@dimen/text_size_22" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/filtration_country_unselected"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_size_16"
+        android:fontFamily="@font/ys_text_regular"
+        android:gravity="center_vertical"
+        android:paddingVertical="@dimen/dimens_size_20"
+        android:paddingStart="@dimen/dimens_size_16"
+        android:paddingEnd="@dimen/dimens_size_24"
+        android:text="@string/country"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_size_16"
+        app:drawableEndCompat="@drawable/icon_arrow_forward"
+        app:drawableTint="?attr/black_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_container"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/filtration_region_unselected"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_size_76"
+        android:fontFamily="@font/ys_text_regular"
+        android:gravity="center_vertical"
+        android:paddingVertical="@dimen/dimens_size_20"
+        android:paddingStart="@dimen/dimens_size_16"
+        android:paddingEnd="@dimen/dimens_size_24"
+        android:text="@string/region"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_size_16"
+        app:drawableEndCompat="@drawable/icon_arrow_forward"
+        app:drawableTint="?attr/black_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_container" />
+
+    <LinearLayout
+        android:id="@+id/filtration_county_selected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_size_16"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingVertical="@dimen/dimens_size_12"
+        android:paddingStart="@dimen/dimens_size_16"
+        android:paddingEnd="@dimen/dimens_size_24"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_container"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/ys_text_regular"
+            android:text="@string/country"
+            android:textColor="?attr/black_white"
+            android:textSize="@dimen/text_size_12" />
+
+        <TextView
+            android:id="@+id/filtration_country_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/ys_text_regular"
+            android:textColor="?attr/black_white"
+            android:textSize="@dimen/text_size_16"
+            tools:text="Италия" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/reset_country_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimens_size_24"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/icon_close"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/filtration_county_selected"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/filtration_county_selected"
+        app:tint="?attr/black_white"
+        tools:visibility="visible" />
+
+
+    <LinearLayout
+        android:id="@+id/filtration_region_selected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_size_76"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingVertical="@dimen/dimens_size_12"
+        android:paddingStart="@dimen/dimens_size_16"
+        android:paddingEnd="@dimen/dimens_size_24"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_container">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/ys_text_regular"
+            android:text="@string/region"
+            android:textColor="?attr/black_white"
+            android:textSize="@dimen/text_size_12" />
+
+        <TextView
+            android:id="@+id/filtration_region_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/ys_text_regular"
+            android:textColor="?attr/black_white"
+            android:textSize="@dimen/text_size_16"
+            tools:text="Рим" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/reset_region_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimens_size_24"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/icon_close"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/filtration_region_selected"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/filtration_region_selected"
+        app:tint="?attr/black_white" />
+
+    <Button
+        android:id="@+id/select_button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dimens_size_60"
+        android:layout_marginHorizontal="@dimen/dimens_size_16"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/blue"
+        android:fontFamily="@font/ys_text_medium"
+        android:letterSpacing="0"
+        android:text="@string/choose"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16"
+        android:visibility="gone"
+        app:cornerRadius="@dimen/dimens_size_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
