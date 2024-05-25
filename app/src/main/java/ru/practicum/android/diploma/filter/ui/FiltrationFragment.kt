@@ -1,12 +1,9 @@
 package ru.practicum.android.diploma.filter.ui
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
@@ -48,10 +45,21 @@ class FiltrationFragment : Fragment() {
                 findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
             }
             filtrationPayCheckbox.setOnClickListener {
-                binding.resetFilterButton.visibility = View.VISIBLE
-                binding.applyFilterButton.visibility = View.VISIBLE
-
                 viewModel.checkboxClick()
+            }
+            resetFilterButton.setOnClickListener {
+                binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
+                binding.filtrationIndustryTextView.text == getString(R.string.industry)
+                binding.filtrationPayCheckbox.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.icon_checkbox_off,
+                        null
+                    )
+                )
+                binding.salaryEditText.setText("")
+                binding.resetFilterButton.visibility = View.GONE
+                binding.applyFilterButton.visibility = View.GONE
             }
         }
         binding.salaryEditText.addTextChangedListener(
@@ -66,7 +74,8 @@ class FiltrationFragment : Fragment() {
                             binding.applyFilterButton.visibility = View.GONE
                         }
                     } else {
-                       // binding.resetFilterButton.visibility = View.GONE
+                        checkFilterStateReset()
+                        checkFilterStateApply()
                     }
                 }
             },
@@ -74,7 +83,28 @@ class FiltrationFragment : Fragment() {
                 inputTextFromApply = s.toString()
             }
         )
-        viewModel.observeState().observe(viewLifecycleOwner) { state ->
+        viewModel.observeCheckBoxState().observe(viewLifecycleOwner){checkBox ->
+            if (checkBox) {
+                binding.filtrationPayCheckbox.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.icon_checkbox_on,
+                        null
+                    )
+                )
+            } else {
+                binding.filtrationPayCheckbox.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.icon_checkbox_off,
+                        null
+                    )
+                )
+            }
+            checkFilterStateApply()
+            checkFilterStateReset()
+        }
+        viewModel.observeFiltersState().observe(viewLifecycleOwner) { state ->
             when (state.first) {
                 true -> {
                     binding.applyFilterButton.visibility = View.VISIBLE
@@ -115,13 +145,6 @@ class FiltrationFragment : Fragment() {
     private fun showEmptyFilters() {
         binding.applyFilterButton.visibility = View.GONE
         binding.resetFilterButton.visibility = View.GONE
-        binding.filtrationPayCheckbox.setImageDrawable(
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.icon_checkbox_off,
-                null
-            )
-        )
     }
 
     private fun showFiltersContent(workPlace: String, industry: String, salary: String, checkBox: Boolean) {
@@ -129,22 +152,19 @@ class FiltrationFragment : Fragment() {
         binding.filtrationWorkPlaceTextView.text = workPlace
         binding.filtrationIndustryTextView.text = industry
         binding.salaryEditText.setText(salary)
-        if (checkBox) {
-            binding.filtrationPayCheckbox.setImageDrawable(
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.icon_checkbox_on,
-                    null
-                )
-            )
-        } else {
-            binding.filtrationPayCheckbox.setImageDrawable(
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.icon_checkbox_off,
-                    null
-                )
-            )
+    }
+
+    private fun checkFilterStateReset(){
+        when{
+            binding.filtrationWorkPlaceTextView.text == getString(R.string.place_of_work) && binding.filtrationIndustryTextView.text == getString(R.string.industry) && !viewModel.checkbox && binding.salaryEditText.text.isNullOrEmpty() -> binding.resetFilterButton.visibility = View.GONE
+            else ->  binding.resetFilterButton.visibility = View.VISIBLE
+        }
+    }
+
+    private fun checkFilterStateApply(){
+        when{
+            binding.filtrationWorkPlaceTextView.text == viewModel.workPlace && binding.filtrationIndustryTextView.text == viewModel.industry && binding.salaryEditText.text.toString() == viewModel.lastText -> binding.applyFilterButton.visibility = View.GONE
+            else ->  binding.applyFilterButton.visibility = View.VISIBLE
         }
     }
 
