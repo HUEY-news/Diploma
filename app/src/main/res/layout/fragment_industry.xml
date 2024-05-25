@@ -92,6 +92,7 @@
         android:layout_marginBottom="@dimen/dimens_size_24"
         android:background="@drawable/shape_button_filter_background"
         android:text="@string/choose"
+        android:layout_marginBottom="@dimen/dimens_size_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
