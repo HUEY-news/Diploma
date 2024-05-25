@@ -137,11 +137,9 @@ class IndustryFragment : Fragment() {
             beforeTextChanged = { s, start, count, after -> },
             onTextChanged = { s, start, before, count ->
                 binding.resetImageButton.visibility = clearButtonVisibility(s)
-                if (s != null) {
-                    if (s.isNotEmpty()) {
-                        inputTextFromSearch = s.toString()
-                        containsMethod(inputTextFromSearch)
-                    }
+                if (!s.isNullOrEmpty()) {
+                    inputTextFromSearch = s.toString()
+                    containsMethod(inputTextFromSearch)
                 }
             },
             afterTextChanged = { s ->
@@ -162,8 +160,11 @@ class IndustryFragment : Fragment() {
     private fun containsMethod(inputTextFromSearch: String?) {
         if (!inputTextFromSearch.isNullOrEmpty()) {
             inputTextFromSearch.replaceFirstChar {
-                if (it.isLowerCase()) it.titlecase(Locale.getDefault())
-                else it.toString()
+                if (it.isLowerCase()) {
+                    it.titlecase(Locale.getDefault())
+                } else {
+                    it.toString()
+                }
             }
             industryAdapter?.setItems(listIndustries.filter { industry ->
                 industry.name.contains(inputTextFromSearch)
