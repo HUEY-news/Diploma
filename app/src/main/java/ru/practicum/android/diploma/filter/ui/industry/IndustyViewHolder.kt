@@ -16,6 +16,6 @@ class IndustyViewHolder(
     }
 
     fun bind(model: Industry) {
-        binding.industryRadioButton.text = model.name
+        binding.filterIndustryItem.text = model.name
     }
 }

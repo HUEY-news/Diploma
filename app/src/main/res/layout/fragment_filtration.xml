@@ -25,6 +25,7 @@
         app:layout_constraintTop_toBottomOf="@+id/filtration_vacancy_toolbar">
 
         <TextView
+            android:id="@+id/filtration_work_place_text_view"
             style="@style/FiltrationVacancyTextStyleRegular"
             android:layout_gravity="center|start"
             android:layout_marginStart="@dimen/dimens_size_16"
@@ -71,7 +72,7 @@
         app:layout_constraintTop_toBottomOf="@+id/filtration_industry">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/playlist_description_edit_text"
+            android:id="@+id/salary_edit_text"
             style="@style/TextEditorOutLinedStyle"
             android:hint="@string/expected_salary"
             android:inputType="numberDecimal"

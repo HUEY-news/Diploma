@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dimens_size_60">
+    android:layout_height="wrap_content"
+    android:paddingVertical="@dimen/dimens_size_6"
+    android:paddingStart="16dp"
+    android:paddingEnd="@dimen/dimens_size_12">
 
     <RadioButton
-        android:id="@+id/industry_radio_button"
+        android:id="@+id/filter_industry_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dimens_size_4"
-        android:layout_marginEnd="@dimen/dimens_size_16"
-        android:fontFamily="@font/ys_text_regular"
-        android:gravity="center|start"
+        android:layout_gravity="start"
+        android:buttonTint="@color/blue"
         android:layoutDirection="rtl"
-        android:text="@string/industry"
-        android:textAlignment="inherit"
-        android:textColor="?attr/black_white"
-        android:textFontWeight="400"
+        android:paddingStart="48dp"
+        android:textAlignment="textStart"
         android:textSize="@dimen/text_size_16"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Автокомпоненты, запчасти, шины (продвеждение, оптовая торговля)" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

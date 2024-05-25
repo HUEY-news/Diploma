@@ -8,12 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
+import ru.practicum.android.diploma.filter.presentation.FiltrationViewModel
+import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 
 class FiltrationFragment : Fragment() {
     private var _binding: FragmentFiltrationBinding? = null
     private val binding get() = _binding!!
+    private val viewModel by viewModel<FiltrationViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,7 +30,7 @@ class FiltrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (arguments!=null){
+        if (arguments != null) {
             val industry = arguments?.getString(ARGS_INDUSTRY_NAME)
             binding.filtrationIndustryTextView.text = industry
         }
@@ -36,6 +40,19 @@ class FiltrationFragment : Fragment() {
             }
             filtrationIndustry.setOnClickListener {
                 findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
+            }
+        }
+        viewModel.observeState().observe(viewLifecycleOwner) { state ->
+            when (state.first) {
+                true -> {
+                    binding.applyFilterButton.visibility = View.VISIBLE
+                    render(state.second)
+                }
+
+                false -> {
+                    binding.applyFilterButton.visibility = View.GONE
+                    render(state.second)
+                }
             }
         }
     }
@@ -49,6 +66,25 @@ class FiltrationFragment : Fragment() {
         binding.filtrationVacancyToolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }
+    }
+
+    private fun render(state: FiltrationState) {
+        when (state) {
+            is FiltrationState.NoFilters -> showEmptyFilters()
+            is FiltrationState.FiltersContent -> showFiltersContent(state.workPlace, state.industry, state.salary)
+        }
+    }
+
+    private fun showEmptyFilters() {
+        binding.applyFilterButton.visibility = View.GONE
+        binding.resetFilterButton.visibility = View.GONE
+    }
+
+    private fun showFiltersContent(workPlace: String, industry: String, salary: String) {
+        binding.resetFilterButton.visibility = View.VISIBLE
+        binding.filtrationWorkPlaceTextView.text = workPlace
+        binding.filtrationIndustryTextView.text = industry
+        binding.salaryEditText.setText(salary)
     }
 
     companion object {
