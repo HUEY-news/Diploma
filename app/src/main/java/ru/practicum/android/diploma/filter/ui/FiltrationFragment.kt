@@ -64,58 +64,40 @@ class FiltrationFragment : Fragment() {
         }
         binding.salaryEditText.addTextChangedListener(
             beforeTextChanged = { s, start, count, after -> },
-            onTextChanged = { s, start, before, count ->
-                if (s != null) {
-                    if (s.isNotEmpty()) {
-                        binding.resetFilterButton.visibility = View.VISIBLE
-                        if (viewModel.lastText != s.toString()) {
-                            binding.applyFilterButton.visibility = View.VISIBLE
-                        } else {
-                            binding.applyFilterButton.visibility = View.GONE
-                        }
-                    } else {
-                        checkFilterStateReset()
-                        checkFilterStateApply()
-                    }
-                }
-            },
+            onTextChanged = { s, start, before, count -> },
             afterTextChanged = { s ->
                 inputTextFromApply = s.toString()
+                checkFilterStateApply()
+                checkFilterStateApply()
             }
         )
-        viewModel.observeCheckBoxState().observe(viewLifecycleOwner){checkBox ->
-            if (checkBox) {
-                binding.filtrationPayCheckbox.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        resources,
-                        R.drawable.icon_checkbox_on,
-                        null
-                    )
-                )
-            } else {
-                binding.filtrationPayCheckbox.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        resources,
-                        R.drawable.icon_checkbox_off,
-                        null
-                    )
-                )
-            }
+        viewModel.observeCheckBoxState().observe(viewLifecycleOwner) { checkBox ->
             checkFilterStateApply()
             checkFilterStateReset()
-        }
-        viewModel.observeFiltersState().observe(viewLifecycleOwner) { state ->
-            when (state.first) {
+            when (checkBox) {
                 true -> {
-                    binding.applyFilterButton.visibility = View.VISIBLE
-                    render(state.second)
+                    binding.filtrationPayCheckbox.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.icon_checkbox_on,
+                            null
+                        )
+                    )
                 }
 
                 false -> {
-                    binding.applyFilterButton.visibility = View.GONE
-                    render(state.second)
+                    binding.filtrationPayCheckbox.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.icon_checkbox_off,
+                            null
+                        )
+                    )
                 }
             }
+        }
+        viewModel.observeFiltersState().observe(viewLifecycleOwner) { state ->
+            render(state)
         }
     }
 
@@ -154,17 +136,27 @@ class FiltrationFragment : Fragment() {
         binding.salaryEditText.setText(salary)
     }
 
-    private fun checkFilterStateReset(){
-        when{
-            binding.filtrationWorkPlaceTextView.text == getString(R.string.place_of_work) && binding.filtrationIndustryTextView.text == getString(R.string.industry) && !viewModel.checkbox && binding.salaryEditText.text.isNullOrEmpty() -> binding.resetFilterButton.visibility = View.GONE
-            else ->  binding.resetFilterButton.visibility = View.VISIBLE
+    private fun checkFilterStateReset() {
+        when {
+            binding.filtrationWorkPlaceTextView.text == getString(R.string.place_of_work)
+                && binding.filtrationIndustryTextView.text == getString(R.string.industry)
+                && !viewModel.checkbox
+                && inputTextFromApply == viewModel.lastText
+            -> binding.resetFilterButton.visibility = View.GONE
+
+            else -> binding.resetFilterButton.visibility = View.VISIBLE
         }
     }
 
-    private fun checkFilterStateApply(){
-        when{
-            binding.filtrationWorkPlaceTextView.text == viewModel.workPlace && binding.filtrationIndustryTextView.text == viewModel.industry && binding.salaryEditText.text.toString() == viewModel.lastText -> binding.applyFilterButton.visibility = View.GONE
-            else ->  binding.applyFilterButton.visibility = View.VISIBLE
+    private fun checkFilterStateApply() {
+        when {
+            binding.filtrationWorkPlaceTextView.text == viewModel.workPlace
+                && binding.filtrationIndustryTextView.text == viewModel.industry
+                && inputTextFromApply == viewModel.lastText
+                && !viewModel.checkboxChange
+            -> binding.applyFilterButton.visibility = View.GONE
+
+            else -> binding.applyFilterButton.visibility = View.VISIBLE
         }
     }
 
