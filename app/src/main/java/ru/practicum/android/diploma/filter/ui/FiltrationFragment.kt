@@ -68,7 +68,7 @@ class FiltrationFragment : Fragment() {
             afterTextChanged = { s ->
                 inputTextFromApply = s.toString()
                 checkFilterStateApply()
-                checkFilterStateApply()
+                checkFilterStateReset()
             }
         )
         viewModel.observeCheckBoxState().observe(viewLifecycleOwner) { checkBox ->
