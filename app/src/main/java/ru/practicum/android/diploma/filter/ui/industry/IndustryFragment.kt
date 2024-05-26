@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -24,31 +23,26 @@ import java.util.Locale
 
 class IndustryFragment : Fragment() {
     private var _binding: FragmentIndustryBinding? = null
-    private val binding: FragmentIndustryBinding
-        get() = _binding!!
+    private val binding: FragmentIndustryBinding get() = _binding!!
+
     private var inputTextFromSearch: String? = null
     private var industryAdapter: IndustryAdapter? = null
     private var listIndustries = emptyList<Industry>()
 
     private val viewModel by viewModel<IndustryViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, ): View {
         _binding = FragmentIndustryBinding.inflate(inflater, container, false)
-        binding.industryRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupToolbar()
-        binding.apply {
+
+        with(binding) {
             resetImageButton.setOnClickListener {
-                industryEditText.setText("")
+                textInputEditText.setText("")
                 activity?.window?.currentFocus?.let { view ->
                     val imm =
                         requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -56,23 +50,23 @@ class IndustryFragment : Fragment() {
                 }
             }
         }
+
         industryAdapter = IndustryAdapter { industry ->
             viewModel.saveParameterName(industry.name)
         }
+
         initApplyButton()
-        binding.industryRecyclerView.adapter = industryAdapter
+        binding.recyclerView.adapter = industryAdapter
         inputEditTextInit()
         viewModel.searchRequest()
-        viewModel.observeState().observe(viewLifecycleOwner) {
-            render(it)
-        }
+        viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
     }
 
     private fun initApplyButton() {
         viewModel.observeName().observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 val name = it
-                with(binding.industryFilterButton) {
+                with(binding.selectButton) {
                     isVisible = true
                     setOnClickListener {
                         findNavController().navigate(
@@ -82,7 +76,7 @@ class IndustryFragment : Fragment() {
                     }
                 }
             } else {
-                binding.industryFilterButton.isVisible = false
+                binding.selectButton.isVisible = false
             }
         }
     }
@@ -97,33 +91,33 @@ class IndustryFragment : Fragment() {
 
     private fun showLoading() {
         with(binding) {
-            centerProgressBar.isVisible = true
+            progressBar.isVisible = true
             placeholderContainer.isVisible = false
-            industryRecyclerView.isVisible = false
+            recyclerView.isVisible = false
         }
     }
 
     private fun showError(errorMessage: String) {
         with(binding) {
-            centerProgressBar.isVisible = false
+            progressBar.isVisible = false
             placeholderContainer.isVisible = true
-            industryRecyclerView.isVisible = false
-            placeholderTextView.isVisible = true
-            placeholderImageView.isVisible = true
-            placeholderTextView.text = errorMessage
+            recyclerView.isVisible = false
+            placeholderMessage.isVisible = true
+            placeholderImage.isVisible = true
+            placeholderMessage.text = errorMessage
             if (errorMessage == requireContext().getString(R.string.no_internet)) {
-                placeholderImageView.setImageResource(R.drawable.placeholder_no_internet_connection)
+                placeholderImage.setImageResource(R.drawable.placeholder_no_internet_connection)
             } else {
-                placeholderImageView.setImageResource(R.drawable.placeholder_server_error_search)
+                placeholderImage.setImageResource(R.drawable.placeholder_server_error_search)
             }
         }
     }
 
     private fun showContent(industries: ArrayList<Industry>) {
         with(binding) {
-            centerProgressBar.isVisible = false
+            progressBar.isVisible = false
             placeholderContainer.isVisible = false
-            industryRecyclerView.isVisible = true
+            recyclerView.isVisible = true
         }
         with(mutableListOf<Industry>()) {
             addAll(industries)
@@ -133,7 +127,7 @@ class IndustryFragment : Fragment() {
     }
 
     private fun inputEditTextInit() {
-        binding.industryEditText.addTextChangedListener(
+        binding.textInputEditText.addTextChangedListener(
             beforeTextChanged = { s, start, count, after -> },
             onTextChanged = { s, start, before, count ->
                 binding.resetImageButton.visibility = clearButtonVisibility(s)
@@ -146,13 +140,13 @@ class IndustryFragment : Fragment() {
                 inputTextFromSearch = s.toString()
             }
         )
-        binding.industryEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE && binding.industryEditText.text.isNotEmpty()) {
+        binding.textInputEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && binding.textInputEditText.text.toString().isNotEmpty()) {
                 inputTextFromSearch?.let {
                 }
                 true
             }
-            binding.centerProgressBar.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
             false
         }
     }
@@ -180,20 +174,8 @@ class IndustryFragment : Fragment() {
         }
     }
 
-    private fun setupToolbar() {
-        (activity as? AppCompatActivity)?.setSupportActionBar(binding.industryToolbar)
-        (activity as? AppCompatActivity)?.supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.icon_back)
-            title = getString(R.string.industry_selection)
-        }
-        binding.industryToolbar.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-    }
-
     override fun onDestroyView() {
-        binding.industryRecyclerView.adapter = null
+        binding.recyclerView.adapter = null
         industryAdapter = null
         _binding = null
         super.onDestroyView()
