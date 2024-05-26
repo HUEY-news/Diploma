@@ -20,6 +20,48 @@ class SearchAreasRepositoryImpl(private val client: NetworkClient) : SearchAreas
         }
     }
 
+    override suspend fun searchRegion(countryName: String): Flow<Resource<List<Area>>> = flow {
+        val responses = client.doRequestAreas()
+        if (responses.data != null) {
+            responses.data.forEach { response ->
+                if (response.name.equals(countryName)) {
+                    emit(handleSuccessResponseRegion(response))
+                }
+            }
+        } else {
+            responses.message?.let { handleErrorResponseRegion(it) }?.let { emit(it) }
+        }
+    }
+
+    override suspend fun searchAllRegions(): Flow<Resource<List<Area>>> = flow {
+        val responses = client.doRequestAreas()
+        if (responses.data != null) {
+            emit(handleSuccessResponseAllRegion(responses.data))
+        }
+    }
+
+    private fun handleSuccessResponseAllRegion(responseList: List<SearchAreasResponse>): Resource<List<Area>> {
+        val areaList = mutableListOf<Area>()
+        responseList.forEach { response ->
+            if (response.areas != null) {
+                areaList.addAll(response.areas.map { createAreaFromResponse(it) })
+            }
+        }
+        return Resource.Success(areaList)
+    }
+
+    private fun handleSuccessResponseRegion(response: SearchAreasResponse): Resource<List<Area>> {
+        var areaList = emptyList<Area>()
+        if (response.areas != null) {
+            areaList = response.areas.map { createAreaFromResponse(it) }
+        }
+        return Resource.Success(areaList)
+    }
+
+    private fun handleErrorResponseRegion(message: String): Resource<List<Area>> {
+        return Resource.Error(message)
+    }
+
     private fun handleErrorResponse(message: String): Resource<List<Country>> {
         return Resource.Error(message)
     }
