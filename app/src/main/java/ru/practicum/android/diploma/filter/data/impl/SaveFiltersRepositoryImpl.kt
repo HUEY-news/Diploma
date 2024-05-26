@@ -24,10 +24,4 @@ class SaveFiltersRepositoryImpl(
             .putString(Constants.FILTRATION_KEY, json)
             .apply()
     }
-
-    override fun cleanFilters() {
-        sharedPrefs.edit()
-            .clear()
-            .apply()
-    }
 }

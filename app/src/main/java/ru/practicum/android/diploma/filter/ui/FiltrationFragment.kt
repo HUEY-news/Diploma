@@ -15,7 +15,6 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 import ru.practicum.android.diploma.filter.domain.model.FiltersSave
 import ru.practicum.android.diploma.filter.presentation.FiltrationViewModel
-import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 
 class FiltrationFragment : Fragment() {
     private var _binding: FragmentFiltrationBinding? = null

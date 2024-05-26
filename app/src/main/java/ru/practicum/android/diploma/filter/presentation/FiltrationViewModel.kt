@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.practicum.android.diploma.filter.domain.api.SaveFiltersInteractor
 import ru.practicum.android.diploma.filter.domain.model.FiltersSave
-import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 
 class FiltrationViewModel(private val saveFiltersInteractor: SaveFiltersInteractor) : ViewModel() {
     var lastText: String = ""

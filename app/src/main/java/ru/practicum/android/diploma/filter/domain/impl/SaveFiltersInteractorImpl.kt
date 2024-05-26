@@ -14,8 +14,4 @@ class SaveFiltersInteractorImpl(
     override fun saveFilters(filters: FiltersSave) {
         saveFiltersRepository.saveFilters(filters)
     }
-
-    override fun cleanFilters() {
-        saveFiltersRepository.cleanFilters()
-    }
 }
