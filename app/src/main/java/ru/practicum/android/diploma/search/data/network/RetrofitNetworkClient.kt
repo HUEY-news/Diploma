@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.search.data.network
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.practicum.android.diploma.filter.data.dto.SearchAreasResponse
 import ru.practicum.android.diploma.filter.data.model.IndustryDto
 import ru.practicum.android.diploma.search.data.dto.Response
 import ru.practicum.android.diploma.search.data.dto.SearchRequest
@@ -86,6 +87,30 @@ class RetrofitNetworkClient(
                         }
                         Resource.Success(industriesList)
 
+                    } catch (exception: IOException) {
+                        Log.e("TEST", "$exception")
+                        Resource.Error(resourceProvider.getErrorServer())
+                    }
+                }
+            }
+        }
+    }
+
+    override suspend fun doRequestAreas(): Resource<List<SearchAreasResponse>> {
+        return when {
+            !checkConnection.isInternetAvailable() -> {
+                Resource.Error(resourceProvider.getErrorInternetConnection())
+            }
+
+            else -> {
+                withContext(Dispatchers.IO) {
+                    try {
+                        val response = service.searchAreas().body()
+                        val industriesList = mutableListOf<SearchAreasResponse>()
+                        if (!response.isNullOrEmpty()) {
+                            response.forEach { searchAreasResponse -> industriesList.add(searchAreasResponse) }
+                        }
+                        Resource.Success(industriesList)
                     } catch (exception: IOException) {
                         Log.e("TEST", "$exception")
                         Resource.Error(resourceProvider.getErrorServer())

@@ -6,7 +6,6 @@ import ru.practicum.android.diploma.filter.data.model.IndustryDto
 import ru.practicum.android.diploma.filter.domain.api.SearchIndustriesRepository
 import ru.practicum.android.diploma.filter.domain.model.Industry
 import ru.practicum.android.diploma.search.data.network.NetworkClient
-import ru.practicum.android.diploma.sharing.data.ResourceProvider
 import ru.practicum.android.diploma.util.Resource
 
 class SearchIndustriesRepositoryImpl(
