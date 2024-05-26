@@ -31,7 +31,7 @@ class IndustryFragment : Fragment() {
 
     private val viewModel by viewModel<IndustryViewModel>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?, ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentIndustryBinding.inflate(inflater, container, false)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         return binding.root
