@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -13,6 +14,7 @@ import ru.practicum.android.diploma.databinding.FragmentFiltrationCountryBinding
 import ru.practicum.android.diploma.filter.domain.model.Country
 import ru.practicum.android.diploma.filter.presentation.country.CountryViewModel
 import ru.practicum.android.diploma.filter.presentation.country.model.CountryState
+import ru.practicum.android.diploma.filter.ui.PlaceOfWorkFragment
 
 class CountryFragment : Fragment() {
     private var _binding: FragmentFiltrationCountryBinding? = null
@@ -35,10 +37,10 @@ class CountryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        countryAdapter = CountryAdapter { area ->
-            //TODO navController with area.id to FilterFragment
+        countryAdapterInit()
+        binding.buttonBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
         }
-        binding.recyclerView.adapter = countryAdapter
         viewModel.searchRequest()
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
@@ -87,6 +89,19 @@ class CountryFragment : Fragment() {
             addAll(countries)
             countryAdapter?.setItems(countries)
         }
+    }
+
+    private fun countryAdapterInit() {
+        countryAdapter = null
+        countryAdapter = CountryAdapter { country ->
+            if (country.name != null) {
+                findNavController().navigate(
+                    R.id.action_countryFragment_to_placeOfWorkFragment,
+                    PlaceOfWorkFragment.createArgsCountryName(country.name)
+                )
+            }
+        }
+        binding.recyclerView.adapter = countryAdapter
     }
 
     override fun onDestroyView() {

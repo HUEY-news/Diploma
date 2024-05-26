@@ -16,6 +16,7 @@ class CountryViewModel(
     private val stateLiveData = MutableLiveData<CountryState>()
     fun observeState(): LiveData<CountryState> = stateLiveData
     fun searchRequest() {
+        CountryState.Loading
         viewModelScope.launch {
             StateLoadVacancy.Loading
             searchAreasInteractor

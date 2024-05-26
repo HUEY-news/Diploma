@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.R
@@ -24,12 +25,18 @@ class PlaceOfWorkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (arguments != null) {
+            val countryName = arguments?.getString(ARGS_COUNTRY_NAME)
+            binding.filtrationRegionUnselected.isVisible = false
+            binding.filtrationCountySelected.isVisible = true
+            binding.filtrationCountryName.text = countryName
+        }
         binding.apply {
-            filtrationCountySelected.isClickable = true
-            filtrationCountySelected.setOnClickListener {
+            buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
+            filtrationCountryUnselected.setOnClickListener {
                 findNavController().navigate(R.id.action_placeOfWorkFragment_to_countryFragment)
             }
-            filtrationRegionSelected.setOnClickListener {
+            filtrationRegionUnselected.setOnClickListener {
                 findNavController().navigate(R.id.action_placeOfWorkFragment_to_regionFragment)
             }
         }
@@ -43,10 +50,9 @@ class PlaceOfWorkFragment : Fragment() {
     companion object {
         private const val ARGS_COUNTRY_NAME = "country_name"
         private const val ARGS_REGION_NAME = "region_name"
-        fun createArgs(name: String): Bundle =
+        fun createArgsCountryName(name: String): Bundle =
             bundleOf(
                 ARGS_COUNTRY_NAME to name,
-                ARGS_REGION_NAME to name,
             )
     }
 }
