@@ -8,4 +8,5 @@
     <color name="light_gray">#E6E8EB</color>
     <color name="background_gray">#1A1B2280</color>
     <color name="overlayColor">#99000000</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>
