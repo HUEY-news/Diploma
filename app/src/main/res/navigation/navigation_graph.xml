@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/regionFragment"
-        android:name="ru.practicum.android.diploma.filter.ui.RegionFragment"
+        android:name="ru.practicum.android.diploma.filter.ui.region.RegionFragment"
         android:label="fragment_region"
         tools:layout="@layout/fragment_filtration_region" >
         <action
