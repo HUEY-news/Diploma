@@ -19,7 +19,7 @@
     <string name="region">Регион</string>
     <string name="select_country">Выбор страны</string>
     <string name="select_region">Выбор региона</string>
-    <string name="enter_region">Введите региона</string>
+    <string name="enter_region">Введите регион</string>
     <string name="there_is_no_such_region">Такого региона нет</string>
     <string name="failed_to_get_list">Не удалось получить\nсписок </string>
     <string name="choose">Выбрать</string>

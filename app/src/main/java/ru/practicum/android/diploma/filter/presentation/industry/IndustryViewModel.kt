@@ -11,8 +11,9 @@ import ru.practicum.android.diploma.filter.domain.model.Industry
 import ru.practicum.android.diploma.filter.presentation.industry.model.IndustriesState
 
 class IndustryViewModel(
-    private val searchIndustriesInteractor: SearchIndustriesInteractor,
+    private val searchIndustriesInteractor: SearchIndustriesInteractor
 ) : ViewModel() {
+
     private val stateLiveData = MutableLiveData<IndustriesState>()
     private val stateLiveDataNameParameter = MutableLiveData<String>()
     fun observeName(): LiveData<String> = stateLiveDataNameParameter

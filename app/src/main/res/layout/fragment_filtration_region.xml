@@ -56,6 +56,9 @@
             android:textColorHint="?attr/gray_white"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
+            app:cursorColor="@color/blue"
+            app:hintTextColor="@color/blue"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -73,7 +76,6 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:paddingVertical="@dimen/dimens_size_20"
-                android:textCursorDrawable="@drawable/shape_search_field_cursor"
                 app:colorControlActivated="@color/blue" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -119,7 +121,7 @@
             tools:visibility="visible" />
 
         <ProgressBar
-            android:id="@+id/progress_bar_country"
+            android:id="@+id/progress_bar"
             android:layout_width="@dimen/dimens_size_36"
             android:layout_height="@dimen/dimens_size_36"
             android:layout_gravity="center"
