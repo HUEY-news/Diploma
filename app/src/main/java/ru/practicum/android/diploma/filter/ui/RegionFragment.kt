@@ -14,6 +14,6 @@ class RegionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_region, container, false)
+        return inflater.inflate(R.layout.fragment_filtration_region, container, false)
     }
 }
