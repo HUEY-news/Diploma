@@ -1,18 +1,22 @@
 package ru.practicum.android.diploma.di
 
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import ru.practicum.android.diploma.convertor.DbConverter
 import ru.practicum.android.diploma.details.data.impl.SearchDetailsRepositoryImpl
 import ru.practicum.android.diploma.details.domain.api.SearchDetailsRepository
 import ru.practicum.android.diploma.favorite.data.impl.FavoriteVacancyRepositoryImpl
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteVacancyRepository
+import ru.practicum.android.diploma.filter.data.impl.SaveFiltersRepositoryImpl
 import ru.practicum.android.diploma.filter.data.impl.SearchIndustriesRepositoryImpl
+import ru.practicum.android.diploma.filter.domain.api.SaveFiltersRepository
 import ru.practicum.android.diploma.filter.domain.api.SearchIndustriesRepository
 import ru.practicum.android.diploma.search.data.impl.SearchRepositoryImpl
 import ru.practicum.android.diploma.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.sharing.data.ExternalNavigator
 import ru.practicum.android.diploma.sharing.data.ResourceProvider
+import ru.practicum.android.diploma.util.Constants
 
 val repositoryModule = module {
     single<SearchRepository> { SearchRepositoryImpl(resourceProvider = get(), client = get()) }
@@ -22,4 +26,5 @@ val repositoryModule = module {
     single<ExternalNavigator> { ExternalNavigator(context = androidContext()) }
     single<ResourceProvider> { ResourceProvider(context = androidContext()) }
     single<SearchIndustriesRepository> { SearchIndustriesRepositoryImpl(client = get()) }
+    single<SaveFiltersRepository> { SaveFiltersRepositoryImpl(get(named(Constants.FILTRATION_PREFERENCES)), get()) }
 }

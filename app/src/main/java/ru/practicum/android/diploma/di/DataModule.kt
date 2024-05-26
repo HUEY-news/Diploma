@@ -44,9 +44,9 @@ val dataModule = module {
             .create(SearchApiService::class.java)
     }
 
-    factory<SharedPreferences>(named(Constants.FILTRATION_PREFERENCES_INDUSTRY)) {
+    factory<SharedPreferences>(named(Constants.FILTRATION_PREFERENCES)) {
         androidContext()
-            .getSharedPreferences(Constants.FILTRATION_PREFERENCES_INDUSTRY, Context.MODE_PRIVATE)
+            .getSharedPreferences(Constants.FILTRATION_PREFERENCES, Context.MODE_PRIVATE)
     }
 
     single {

@@ -5,7 +5,9 @@ import ru.practicum.android.diploma.details.domain.api.SearchDetailsInteractor
 import ru.practicum.android.diploma.details.domain.impl.SearchDetailsInteractorImpl
 import ru.practicum.android.diploma.favorite.domain.api.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.favorite.domain.impl.FavoriteVacancyInteractorImpl
+import ru.practicum.android.diploma.filter.domain.api.SaveFiltersInteractor
 import ru.practicum.android.diploma.filter.domain.api.SearchIndustriesInteractor
+import ru.practicum.android.diploma.filter.domain.impl.SaveFiltersInteractorImpl
 import ru.practicum.android.diploma.filter.domain.impl.SearchIndustriesInteractorImpl
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.impl.SearchInteractorImpl
@@ -21,4 +23,5 @@ val interactorModule = module {
     single<ResourceInteractor> { ResourceInteractorImpl(resourceProvider = get()) }
     single<SharingInteractor> { SharingInteractorImpl(externalNavigator = get()) }
     factory<SearchIndustriesInteractor> { SearchIndustriesInteractorImpl(repository = get()) }
+    single<SaveFiltersInteractor> { SaveFiltersInteractorImpl(get()) }
 }
