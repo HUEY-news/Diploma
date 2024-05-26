@@ -29,7 +29,8 @@ class CountryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFiltrationCountryBinding.inflate(inflater, container, false)
-        binding.countryRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.countryRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         return binding.root
     }
 

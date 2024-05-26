@@ -27,7 +27,7 @@ class PlaceOfWorkFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
             val countryName = arguments?.getString(ARGS_COUNTRY_NAME)
-            binding.filtrationRegionUnselected.isVisible = false
+            binding.filtrationCountryUnselected.isVisible = false
             binding.filtrationCountySelected.isVisible = true
             binding.filtrationCountryName.text = countryName
         }
