@@ -25,12 +25,6 @@ class PlaceOfWorkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (arguments != null) {
-            val countryName = arguments?.getString(ARGS_COUNTRY_NAME)
-            binding.filtrationCountryUnselected.isVisible = false
-            binding.filtrationCountySelected.isVisible = true
-            binding.filtrationCountryName.text = countryName
-        }
         binding.apply {
             buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
             filtrationCountryUnselected.setOnClickListener {
@@ -38,6 +32,30 @@ class PlaceOfWorkFragment : Fragment() {
             }
             filtrationRegionUnselected.setOnClickListener {
                 findNavController().navigate(R.id.action_placeOfWorkFragment_to_regionFragment)
+            }
+        }
+        if (arguments != null) {
+            val countryName = arguments?.getString(ARGS_COUNTRY_NAME)
+            if (countryName != null) {
+                binding.apply {
+                    filtrationCountryUnselected.isVisible = false
+                    filtrationCountySelected.isVisible = true
+                    filtrationCountryName.text = countryName
+                    filtrationCountySelected.setOnClickListener {
+                        findNavController().navigate(R.id.action_placeOfWorkFragment_to_countryFragment)
+                    }
+                }
+            }
+            val regionName = arguments?.getString(ARGS_REGION_NAME)
+            if (regionName != null) {
+                binding.apply {
+                    filtrationRegionUnselected.isVisible = false
+                    filtrationRegionSelected.isVisible = true
+                    filtrationRegionName.text = regionName
+                    filtrationRegionSelected.setOnClickListener {
+                        findNavController().navigate(R.id.action_placeOfWorkFragment_to_regionFragment)
+                    }
+                }
             }
         }
     }
@@ -53,6 +71,11 @@ class PlaceOfWorkFragment : Fragment() {
         fun createArgsCountryName(name: String): Bundle =
             bundleOf(
                 ARGS_COUNTRY_NAME to name,
+            )
+
+        fun createArgsRegionName(name: String): Bundle =
+            bundleOf(
+                ARGS_REGION_NAME to name,
             )
     }
 }

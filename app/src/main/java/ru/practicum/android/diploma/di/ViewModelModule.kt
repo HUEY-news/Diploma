@@ -17,7 +17,7 @@ val viewModelModule = module {
     viewModel { CountryViewModel(searchAreasInteractor = get()) }
     viewModel { FiltrationViewModel() }
     viewModel { PlaceOfWorkViewModel() }
-    viewModel { RegionViewModel() }
+    viewModel { RegionViewModel(searchAreasInteractor = get()) }
     viewModel { IndustryViewModel(searchIndustriesInteractor = get()) }
     viewModel { SearchViewModel(resourceInteractor = get(), searchInteractor = get()) }
 }

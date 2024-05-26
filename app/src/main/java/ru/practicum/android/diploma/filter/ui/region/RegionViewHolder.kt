@@ -1,10 +1,10 @@
-package ru.practicum.android.diploma.filter.ui.area
+package ru.practicum.android.diploma.filter.ui.region
 
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.ItemCountryBinding
-import ru.practicum.android.diploma.filter.domain.model.Country
+import ru.practicum.android.diploma.filter.domain.model.Area
 
-class AreaViewHolder(
+class RegionViewHolder(
     private val binding: ItemCountryBinding,
     onItemClick: (position: Int) -> Unit,
 ) :
@@ -15,7 +15,7 @@ class AreaViewHolder(
         }
     }
 
-    fun bind(model: Country) {
+    fun bind(model: Area) {
         binding.filterCountryItem.text = model.name
     }
 }
