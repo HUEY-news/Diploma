@@ -7,4 +7,5 @@ data class SearchAreasResponse(
     @SerializedName("areas") val areas: List<AreaDto?>?,
     @SerializedName("id") val id: String?,
     @SerializedName("name") val name: String?,
+    @SerializedName("parent_id") val parentId: String?,
 )

@@ -29,7 +29,8 @@ class SearchAreasRepositoryImpl(private val client: NetworkClient) : SearchAreas
             Country(
                 name = country.name,
                 id = country.id,
-                areas = country.areas?.map { createAreaFromResponse(it) }
+                areas = country.areas?.map { createAreaFromResponse(it) },
+                parentId = country.parentId
             )
         }
         return Resource.Success(countryList)
@@ -38,7 +39,8 @@ class SearchAreasRepositoryImpl(private val client: NetworkClient) : SearchAreas
     private fun createAreaFromResponse(area: AreaDto?): Area {
         return Area(
             id = area?.id,
-            name = area?.name
+            name = area?.name,
+            parentId = area?.parentId
         )
     }
 }
