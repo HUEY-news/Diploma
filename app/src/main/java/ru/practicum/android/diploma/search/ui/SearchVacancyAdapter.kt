@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.databinding.ItemVacancyBinding
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 
 class SearchVacancyAdapter(
-    private val itemClickListener: ItemClickListener,
+    private val itemClickListener: ItemClickListener
 ) : ListAdapter<SimpleVacancy, RecyclerView.ViewHolder>(VacancyDiffCallBack()) {
 
     private var vacancyList: MutableList<SimpleVacancy> = mutableListOf()

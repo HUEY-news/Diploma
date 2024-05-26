@@ -50,12 +50,10 @@
         android:layout_marginTop="@dimen/dimens_size_16">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/country_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            tools:listitem="@layout/item_country"
-            tools:visibility="visible" />
+            tools:listitem="@layout/item_country" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -71,7 +69,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <ImageView
                 android:id="@+id/placeholder_image"
