@@ -53,17 +53,12 @@
         android:label="fragment_place_of_work"
         tools:layout="@layout/fragment_place_of_work" >
         <action
-            android:id="@+id/action_placeOfWorkFragment_to_countryFragment"
-            app:destination="@id/countryFragment" />
-        <action
             android:id="@+id/action_placeOfWorkFragment_to_regionFragment"
             app:destination="@id/regionFragment" />
+        <action
+            android:id="@+id/action_placeOfWorkFragment_to_countryFragment"
+            app:destination="@id/countryFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/countryFragment"
-        android:name="ru.practicum.android.diploma.filter.ui.CountryFragment"
-        android:label="fragment_country"
-        tools:layout="@layout/fragment_country" />
     <fragment
         android:id="@+id/regionFragment"
         android:name="ru.practicum.android.diploma.filter.ui.RegionFragment"
@@ -78,4 +73,9 @@
             android:id="@+id/action_industryFragment_to_filtrationFragment"
             app:destination="@id/filtrationFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/countryFragment"
+        android:name="ru.practicum.android.diploma.filter.ui.CountryFragment"
+        android:label="fragment_filtration_country"
+        tools:layout="@layout/fragment_filtration_country" />
 </navigation>

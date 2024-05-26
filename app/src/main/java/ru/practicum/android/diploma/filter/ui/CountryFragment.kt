@@ -13,6 +13,6 @@ class CountryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_country, container, false)
+        return inflater.inflate(R.layout.fragment_filtration_country, container, false)
     }
 }
