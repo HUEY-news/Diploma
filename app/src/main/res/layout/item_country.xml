@@ -5,17 +5,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true">
 
     <TextView
         android:id="@+id/filter_country_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
         android:fontFamily="@font/ys_text_regular"
-        android:paddingVertical="@dimen/dimens_size_20"
         android:paddingHorizontal="@dimen/dimens_size_16"
+        android:paddingVertical="@dimen/dimens_size_20"
         android:textColor="?attr/black_white"
         android:textSize="@dimen/dimens_size_16"
         app:drawableEndCompat="@drawable/icon_arrow_forward"

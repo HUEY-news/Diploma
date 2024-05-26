@@ -18,8 +18,7 @@ import ru.practicum.android.diploma.filter.ui.PlaceOfWorkFragment
 
 class CountryFragment : Fragment() {
     private var _binding: FragmentFiltrationCountryBinding? = null
-    private val binding: FragmentFiltrationCountryBinding
-        get() = _binding!!
+    private val binding: FragmentFiltrationCountryBinding get() = _binding!!
 
     private var countryAdapter: CountryAdapter? = null
 
@@ -28,23 +27,18 @@ class CountryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFiltrationCountryBinding.inflate(inflater, container, false)
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.countryRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         countryAdapterInit()
-        binding.buttonBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
+        binding.buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
         viewModel.searchRequest()
-        viewModel.observeState().observe(viewLifecycleOwner) {
-            render(it)
-        }
+        viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
     }
 
     private fun render(state: CountryState) {
@@ -59,7 +53,7 @@ class CountryFragment : Fragment() {
         with(binding) {
             progressBar.isVisible = true
             placeholderContainer.isVisible = false
-            recyclerView.isVisible = false
+            countryRecyclerView.isVisible = false
         }
     }
 
@@ -67,7 +61,7 @@ class CountryFragment : Fragment() {
         with(binding) {
             progressBar.isVisible = false
             placeholderContainer.isVisible = true
-            recyclerView.isVisible = false
+            countryRecyclerView.isVisible = false
             placeholderMessage.isVisible = true
             placeholderImage.isVisible = true
             placeholderMessage.text = errorMessage
@@ -83,7 +77,7 @@ class CountryFragment : Fragment() {
         with(binding) {
             progressBar.isVisible = false
             placeholderContainer.isVisible = false
-            recyclerView.isVisible = true
+            countryRecyclerView.isVisible = true
         }
         with(mutableListOf<Country>()) {
             addAll(countries)
@@ -101,11 +95,11 @@ class CountryFragment : Fragment() {
                 )
             }
         }
-        binding.recyclerView.adapter = countryAdapter
+        binding.countryRecyclerView.adapter = countryAdapter
     }
 
     override fun onDestroyView() {
-        binding.recyclerView.adapter = null
+        binding.countryRecyclerView.adapter = null
         countryAdapter = null
         _binding = null
         super.onDestroyView()

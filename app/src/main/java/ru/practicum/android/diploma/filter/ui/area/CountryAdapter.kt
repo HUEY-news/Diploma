@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.ItemCountryBinding
 import ru.practicum.android.diploma.filter.domain.model.Country
 
-class CountryAdapter(private val itemClickListener: ItemClickListener) :
-    ListAdapter<Country, RecyclerView.ViewHolder>(IndustryDiffCallBack()) {
+class CountryAdapter(
+    private val itemClickListener: ItemClickListener
+) : ListAdapter<Country, RecyclerView.ViewHolder>(CountryDiffCallBack()) {
+
     private var areas: MutableList<Country> = mutableListOf()
+
     fun setItems(items: List<Country>) {
         areas.clear()
         areas = items.toMutableList()
@@ -40,7 +43,7 @@ class CountryAdapter(private val itemClickListener: ItemClickListener) :
         fun onItemClick(country: Country)
     }
 
-    class IndustryDiffCallBack : DiffUtil.ItemCallback<Country>() {
+    class CountryDiffCallBack : DiffUtil.ItemCallback<Country>() {
         override fun areItemsTheSame(oldItem: Country, newItem: Country): Boolean {
             return oldItem == newItem
         }
