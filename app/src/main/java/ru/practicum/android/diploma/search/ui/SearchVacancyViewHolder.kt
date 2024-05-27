@@ -42,12 +42,8 @@ class SearchVacancyViewHolder(
         val locale = Locale("ru")
         val numberFormat = NumberFormat.getInstance(locale)
 
-        val currencySymbol = salary?.currency?.let {
-            try {
-                Currency.valueOf(it).symbol
-            } catch (e: IllegalArgumentException) {
-                it
-            }
+        val currencySymbol = salary?.currency?.let { currencyCode ->
+            Currency.fromCode(currencyCode)?.symbol ?: currencyCode
         } ?: ""
 
         return when {
