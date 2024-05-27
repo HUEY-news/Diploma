@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.details.presentation.model.StateLoadVacancy
 import ru.practicum.android.diploma.filter.domain.api.SearchAreasInteractor
 import ru.practicum.android.diploma.filter.domain.model.Area
 import ru.practicum.android.diploma.filter.presentation.region.model.RegionState
@@ -14,9 +13,8 @@ class RegionViewModel(private val searchAreasInteractor: SearchAreasInteractor) 
     private val stateLiveData = MutableLiveData<RegionState>()
     fun observeState(): LiveData<RegionState> = stateLiveData
     fun searchRequest() {
-        RegionState.Loading
+        renderState(RegionState.Loading)
         viewModelScope.launch {
-            StateLoadVacancy.Loading
             searchAreasInteractor
                 .searchAllRegions()
                 .collect { pair ->

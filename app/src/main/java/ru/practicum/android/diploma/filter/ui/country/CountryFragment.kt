@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter.ui.area
+package ru.practicum.android.diploma.filter.ui.country
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,7 @@ import ru.practicum.android.diploma.databinding.FragmentFiltrationCountryBinding
 import ru.practicum.android.diploma.filter.domain.model.Country
 import ru.practicum.android.diploma.filter.presentation.country.CountryViewModel
 import ru.practicum.android.diploma.filter.presentation.country.model.CountryState
-import ru.practicum.android.diploma.filter.ui.PlaceOfWorkFragment
+import ru.practicum.android.diploma.filter.ui.workplace.PlaceOfWorkFragment
 
 class CountryFragment : Fragment() {
     private var _binding: FragmentFiltrationCountryBinding? = null

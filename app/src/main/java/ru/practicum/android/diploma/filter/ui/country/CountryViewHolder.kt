@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter.ui.area
+package ru.practicum.android.diploma.filter.ui.country
 
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.ItemCountryBinding

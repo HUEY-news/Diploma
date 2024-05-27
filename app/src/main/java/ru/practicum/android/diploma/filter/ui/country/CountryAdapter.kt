@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter.ui.area
+package ru.practicum.android.diploma.filter.ui.country
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

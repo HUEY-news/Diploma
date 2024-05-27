@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/white_black"
-    tools:context=".filter.ui.PlaceOfWorkFragment">
+    tools:context=".filter.ui.workplace.PlaceOfWorkFragment">
 
     <LinearLayout
         android:id="@+id/header_container"
