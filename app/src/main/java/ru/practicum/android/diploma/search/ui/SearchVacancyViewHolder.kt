@@ -43,7 +43,8 @@ class SearchVacancyViewHolder(
         val numberFormat = NumberFormat.getInstance(locale)
 
         val currencySymbol = salary?.currency?.let { currencyCode ->
-            Currency.fromCode(currencyCode)?.symbol ?: currencyCode
+            val currency = Currency.fromCode(currencyCode)
+            currency?.symbol ?: currencyCode
         } ?: ""
 
         return when {
