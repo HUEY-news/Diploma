@@ -11,7 +11,8 @@ interface AreaState {
     ) : AreaState
 
     data class FullArea(
-        val country: String, val region: String,
+        val country: String,
+        val region: String,
     ) : AreaState
 
 }
