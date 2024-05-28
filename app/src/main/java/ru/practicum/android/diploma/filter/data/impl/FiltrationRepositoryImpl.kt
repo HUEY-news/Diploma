@@ -14,11 +14,11 @@ class FiltrationRepositoryImpl(
         val filter = storage.getFilter()
 
         return if (filter.isEmpty() || filter =="null") { null }
-        else if (check(gson.fromJson(filter, Filter::class.java))) { null }
+        else if (checkFilter(gson.fromJson(filter, Filter::class.java))) { null }
         else gson.fromJson(filter, Filter::class.java)
     }
 
-    private fun check(filter: Filter): Boolean =
+    private fun checkFilter(filter: Filter): Boolean =
         with(filter) {
             !isOnlyWithSalary &&
                 countryName == null &&
