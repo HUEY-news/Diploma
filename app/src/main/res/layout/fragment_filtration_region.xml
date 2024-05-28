@@ -119,7 +119,7 @@
             tools:visibility="visible" />
 
         <ProgressBar
-            android:id="@+id/progress_bar_country"
+            android:id="@+id/country_progress_bar"
             android:layout_width="@dimen/dimens_size_36"
             android:layout_height="@dimen/dimens_size_36"
             android:layout_gravity="center"

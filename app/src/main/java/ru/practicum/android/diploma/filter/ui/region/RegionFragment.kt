@@ -68,7 +68,7 @@ class RegionFragment : Fragment() {
 
     private fun showLoading() {
         with(binding) {
-            progressBarCountry.isVisible = true
+            countryProgressBar.isVisible = true
             placeholderContainer.isVisible = false
             recyclerView.isVisible = false
         }
@@ -76,7 +76,7 @@ class RegionFragment : Fragment() {
 
     private fun showError(errorMessage: String) {
         with(binding) {
-            progressBarCountry.isVisible = false
+            countryProgressBar.isVisible = false
             placeholderContainer.isVisible = true
             recyclerView.isVisible = false
             placeholderMessage.isVisible = true
@@ -92,7 +92,7 @@ class RegionFragment : Fragment() {
 
     private fun showContent(regions: ArrayList<Area>) {
         with(binding) {
-            progressBarCountry.isVisible = false
+            countryProgressBar.isVisible = false
             placeholderContainer.isVisible = false
             recyclerView.isVisible = true
         }
@@ -121,7 +121,7 @@ class RegionFragment : Fragment() {
                 containsMethod(inputTextFromSearch)
                 true
             }
-            binding.progressBarCountry.visibility = View.GONE
+            binding.countryProgressBar.visibility = View.GONE
             false
         }
     }
