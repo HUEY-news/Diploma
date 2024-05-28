@@ -1,22 +1,22 @@
 package ru.practicum.android.diploma.di
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.room.Room
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.favorite.data.db.AppDatabase
+import ru.practicum.android.diploma.filter.data.api.FiltrationStorage
+import ru.practicum.android.diploma.filter.data.impl.FiltrationStorageImpl
 import ru.practicum.android.diploma.search.data.network.NetworkClient
 import ru.practicum.android.diploma.search.data.network.RetrofitNetworkClient
 import ru.practicum.android.diploma.search.data.network.SearchApiService
 import ru.practicum.android.diploma.util.CheckConnection
-import ru.practicum.android.diploma.util.Constants
+import ru.practicum.android.diploma.util.Constants.PREFERENCES
 
 val dataModule = module {
 
@@ -44,10 +44,8 @@ val dataModule = module {
             .create(SearchApiService::class.java)
     }
 
-    factory<SharedPreferences>(named(Constants.FILTRATION_PREFERENCES_INDUSTRY)) {
-        androidContext()
-            .getSharedPreferences(Constants.FILTRATION_PREFERENCES_INDUSTRY, Context.MODE_PRIVATE)
-    }
+    single { androidContext().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE) }
+    single<FiltrationStorage> { FiltrationStorageImpl(prefs = get()) }
 
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
