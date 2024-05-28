@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -183,10 +182,7 @@ class SearchFragment : Fragment() {
                 binding.vacancyMessageTextView.text = getString(R.string.there_are_no_such_vacancies)
             }
 
-            is VacanciesState.Error -> {
-                showErrorConnection(state.errorMessage)
-                Toast.makeText(requireContext(), state.errorMessage, Toast.LENGTH_LONG).show()
-            }
+            is VacanciesState.Error -> showErrorConnection(state.errorMessage)
             is VacanciesState.Loading -> showLoading()
             is VacanciesState.BottomLoading -> showBottomLoading()
         }
