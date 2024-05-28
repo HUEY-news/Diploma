@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import ru.practicum.android.diploma.filter.data.api.FiltrationStorage
 import ru.practicum.android.diploma.filter.domain.api.FiltrationRepository
 import ru.practicum.android.diploma.filter.domain.model.Filter
+import ru.practicum.android.diploma.filter.domain.model.Industry
 
 class FiltrationRepositoryImpl(
     private val storage: FiltrationStorage,
@@ -33,4 +34,17 @@ class FiltrationRepositoryImpl(
         }
 
     override fun clearFilter() { storage.clearFilter() }
+
+    override fun updateIndustry(industry: Industry) {
+        val filter = getFilter()
+        val updatedFilter = filter?.copy(industryId = industry.id, industryName = industry.name)
+            ?: Filter(industryId = industry.id, industryName = industry.name)
+        storage.updateFilter(Gson().toJson(updatedFilter))
+    }
+
+    override fun clearIndustry() {
+        val filter = getFilter()
+        val clearedFilter = filter?.copy(industryName = null, industryId = null)
+        storage.updateFilter(Gson().toJson(clearedFilter))
+    }
 }
