@@ -8,4 +8,5 @@ class FiltrationInteractorImpl(
     private val repository: FiltrationRepository
 ) : FiltrationInteractor {
     override fun getFilter(): Filter? = repository.getFilter()
+    override fun clearFilter() { repository.clearFilter() }
 }

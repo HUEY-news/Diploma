@@ -31,4 +31,6 @@ class FiltrationRepositoryImpl(
                 industryId == null &&
                 expectedSalary == null
         }
+
+    override fun clearFilter() { storage.clearFilter() }
 }
