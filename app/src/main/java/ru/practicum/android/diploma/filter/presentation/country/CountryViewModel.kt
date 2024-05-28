@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.details.presentation.model.StateLoadVacancy
 import ru.practicum.android.diploma.filter.domain.api.SearchAreasInteractor
 import ru.practicum.android.diploma.filter.domain.model.Country
 import ru.practicum.android.diploma.filter.presentation.country.model.CountryState
@@ -16,9 +15,8 @@ class CountryViewModel(
     private val stateLiveData = MutableLiveData<CountryState>()
     fun observeState(): LiveData<CountryState> = stateLiveData
     fun searchRequest() {
-        CountryState.Loading
+        renderState(CountryState.Loading)
         viewModelScope.launch {
-            StateLoadVacancy.Loading
             searchAreasInteractor
                 .searchAreas()
                 .collect { pair ->

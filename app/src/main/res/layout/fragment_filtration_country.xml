@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:background="?attr/white_black"
     android:orientation="vertical"
-    tools:context=".filter.ui.area.CountryFragment">
+    tools:context=".filter.ui.country.CountryFragment">
 
     <LinearLayout
         android:id="@+id/header_container"
