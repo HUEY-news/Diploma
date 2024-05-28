@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.practicum.android.diploma.filter.domain.api.FiltrationInteractor
 import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
-import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 
 class FiltrationViewModel(
     private val filtrationInteractor: FiltrationInteractor
