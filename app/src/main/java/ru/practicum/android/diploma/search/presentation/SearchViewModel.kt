@@ -40,11 +40,13 @@ class SearchViewModel(
 
     private val trackSearchDebounce =
         debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
-            searchRequest(changedText)
+            run { SearchViewModel
+                renderState(VacanciesState.Loading)
+                searchRequest(changedText)
+            }
         }
 
     fun searchDebounce(changedText: String) {
-        renderState(VacanciesState.Loading)
         lastText = changedText
         trackSearchDebounce(changedText)
     }

@@ -32,8 +32,9 @@ class SearchVacancyViewHolder(
 
         Glide.with(itemView)
             .load(model.employer.logoUrls)
+            .centerCrop()
             .placeholder(R.drawable.icon_android_placeholder)
-            .transform(CenterCrop(), RoundedCorners(dpToPx(RADIUS_IN_DP)))
+            .transform(RoundedCorners(dpToPx(RADIUS_IN_DP)))
             .into(binding.vacancyCover)
     }
 
