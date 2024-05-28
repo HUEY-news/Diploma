@@ -12,7 +12,7 @@ class FiltrationRepositoryImpl(
 
     override fun getFilter(): Filter? {
         val filter = storage.getFilter()
-        return if (filter.isEmpty() || filter == "null") {
+        return if (filter.isNullOrEmpty()) {
             null
         } else if (checkFilter(gson.fromJson(filter, Filter::class.java))) {
             null
