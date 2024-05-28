@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -182,7 +183,10 @@ class SearchFragment : Fragment() {
                 binding.vacancyMessageTextView.text = getString(R.string.there_are_no_such_vacancies)
             }
 
-            is VacanciesState.Error -> showErrorConnection(state.errorMessage)
+            is VacanciesState.Error -> {
+                showErrorConnection(state.errorMessage)
+                Toast.makeText(requireContext(), state.errorMessage, Toast.LENGTH_LONG).show()
+            }
             is VacanciesState.Loading -> showLoading()
             is VacanciesState.BottomLoading -> showBottomLoading()
         }
@@ -229,11 +233,13 @@ class SearchFragment : Fragment() {
             placeholderTextView.isVisible = true
             placeholderTextView.text = errorMessage
             vacancyMessageTextView.isVisible = false
-            if (errorMessage == requireContext().getString(R.string.no_internet)) {
-                placeholderImageView.setImageResource(R.drawable.placeholder_no_internet_connection)
-            } else {
-                placeholderImageView.setImageResource(R.drawable.placeholder_server_error_search)
-            }
+            placeholderImageView.setImageResource(
+                if (errorMessage == getString(R.string.no_internet)) {
+                    R.drawable.placeholder_no_internet_connection
+                } else {
+                    R.drawable.placeholder_server_error_search
+                }
+            )
         }
     }
 
