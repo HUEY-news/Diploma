@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.filter.domain.api.FiltrationInteractor
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
@@ -17,6 +18,7 @@ import ru.practicum.android.diploma.util.debounce
 class SearchViewModel(
     private val resourceInteractor: ResourceInteractor,
     private val searchInteractor: SearchInteractor,
+    private val filtrationInteractor: FiltrationInteractor
 ) :
     ViewModel() {
     var lastText: String = ""
