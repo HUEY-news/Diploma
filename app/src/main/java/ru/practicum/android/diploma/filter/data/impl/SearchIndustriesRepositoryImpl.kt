@@ -28,7 +28,10 @@ class SearchIndustriesRepositoryImpl(
 
     private fun handleSuccessResponse(response: List<IndustryDto>): Resource.Success<List<Industry>> {
         val industryList = response.map { industry ->
-            Industry(name = industry.name)
+            Industry(
+                id = industry.id,
+                name = industry.name
+            )
         }
         return Resource.Success(industryList)
     }

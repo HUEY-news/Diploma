@@ -26,13 +26,4 @@ class SearchAreasInteractorImpl(private val repository: SearchAreasRepository) :
             }
         }
     }
-
-    override suspend fun searchAllRegions(): Flow<Pair<List<Area>?, String?>> {
-        return repository.searchAllRegions().map {
-            when (it) {
-                is Resource.Success -> Pair(it.data, null)
-                is Resource.Error -> Pair(null, it.message)
-            }
-        }
-    }
 }

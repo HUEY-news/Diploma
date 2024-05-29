@@ -8,5 +8,4 @@ import ru.practicum.android.diploma.util.Resource
 interface SearchAreasRepository {
     suspend fun searchAreas(): Flow<Resource<List<Country>>>
     suspend fun searchRegion(countryName: String): Flow<Resource<List<Area>>>
-    suspend fun searchAllRegions(): Flow<Resource<List<Area>>>
 }

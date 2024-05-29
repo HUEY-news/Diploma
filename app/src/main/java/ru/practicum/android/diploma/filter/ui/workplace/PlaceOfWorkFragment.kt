@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.filter.ui.workplace
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +18,6 @@ class PlaceOfWorkFragment : Fragment() {
     private var _binding: FragmentFiltrationWorkplaceBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<PlaceOfWorkViewModel>()
-    private var savedArgumentCountry: String? = null
-    private var savedArgumentRegion: String? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,46 +29,22 @@ class PlaceOfWorkFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setDefaultScreenState()
         if (arguments != null) {
-            var countryName = arguments?.getString(ARGS_COUNTRY_NAME)
-            if (countryName == null) {
-                countryName = savedArgumentCountry
-                Log.d("WorkPlace", countryName.toString())
+            val countryName = arguments?.getString(ARGS_COUNTRY_NAME)
+            if (countryName != null) {
+                viewModel.setArgumentCountry(countryName)
             }
-            var regionName = arguments?.getString(ARGS_REGION_NAME)
-            if (regionName == null) {
-                regionName = savedArgumentRegion
-                Log.d("WorkPlace", countryName.toString())
-            }
-            if (countryName != null && regionName != null) {
-                viewModel.setState(state = AreaState.FullArea(country = countryName, region = regionName))
-            } else if (countryName != null) {
-                viewModel.setState(state = AreaState.CountryName(country = countryName))
-            } else if (regionName != null) {
-                viewModel.setState(state = AreaState.RegionName(region = regionName))
-            }
+        }
+        viewModel.updateInfoFromShared()
+        binding.resetCountryButton.setOnClickListener {
+            viewModel.cleanCountryData()
+        }
+        binding.resetRegionButton.setOnClickListener {
+            viewModel.cleanRegionData()
         }
         viewModel.observeState().observe(viewLifecycleOwner) { state ->
             render(state)
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        savedArgumentCountry = savedInstanceState?.getString(ARGS_COUNTRY_NAME)
-        savedArgumentRegion = savedInstanceState?.getString(ARGS_REGION_NAME)
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        if (arguments != null) {
-            if (arguments?.getString(ARGS_COUNTRY_NAME) != null) {
-                outState.putString(ARGS_COUNTRY_NAME, arguments?.getString(ARGS_COUNTRY_NAME))
-            } else if (arguments?.getString(ARGS_REGION_NAME) != null) {
-                outState.putString(ARGS_REGION_NAME, arguments?.getString(ARGS_COUNTRY_NAME))
-            }
-        }
-        super.onSaveInstanceState(outState)
     }
 
     private fun render(state: AreaState) {
@@ -85,12 +58,14 @@ class PlaceOfWorkFragment : Fragment() {
 
     private fun setFullAreaScreenState(countryName: String, regionName: String) {
         binding.apply {
+            resetRegionButton.isVisible = true
             filtrationRegionUnselected.isVisible = false
             filtrationRegionSelected.isVisible = true
             filtrationRegionName.text = regionName
             filtrationRegionSelected.setOnClickListener {
                 findNavController().navigate(R.id.action_placeOfWorkFragment_to_regionFragment)
             }
+            resetCountryButton.isVisible = true
             filtrationCountryUnselected.isVisible = false
             filtrationCountySelected.isVisible = true
             filtrationCountryName.text = countryName
@@ -101,7 +76,9 @@ class PlaceOfWorkFragment : Fragment() {
     }
 
     private fun setRegionNameScreenState(regionName: String) {
+        setDefaultScreenState()
         binding.apply {
+            resetRegionButton.isVisible = true
             filtrationRegionUnselected.isVisible = false
             filtrationRegionSelected.isVisible = true
             filtrationRegionName.text = regionName
@@ -111,8 +88,10 @@ class PlaceOfWorkFragment : Fragment() {
         }
     }
 
-    private fun setCountryNameScreenState(countryName: String) {
+    private fun setCountryNameScreenState(countryName: String?) {
+        setDefaultScreenState()
         binding.apply {
+            resetCountryButton.isVisible = true
             filtrationCountryUnselected.isVisible = false
             filtrationCountySelected.isVisible = true
             filtrationCountryName.text = countryName
@@ -124,6 +103,12 @@ class PlaceOfWorkFragment : Fragment() {
 
     private fun setDefaultScreenState() {
         with(binding) {
+            resetRegionButton.isVisible = false
+            resetCountryButton.isVisible = false
+            filtrationCountryUnselected.isVisible = true
+            filtrationCountySelected.isVisible = false
+            filtrationRegionUnselected.isVisible = true
+            filtrationRegionSelected.isVisible = false
             buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
             filtrationCountryUnselected.setOnClickListener {
                 findNavController().navigate(R.id.action_placeOfWorkFragment_to_countryFragment)
@@ -141,15 +126,9 @@ class PlaceOfWorkFragment : Fragment() {
 
     companion object {
         private const val ARGS_COUNTRY_NAME = "country_name"
-        private const val ARGS_REGION_NAME = "region_name"
-        fun createArgsCountryName(name: String): Bundle =
+        fun createArgs(countryName: String?): Bundle =
             bundleOf(
-                ARGS_COUNTRY_NAME to name,
-            )
-
-        fun createArgsRegionName(name: String): Bundle =
-            bundleOf(
-                ARGS_REGION_NAME to name,
+                ARGS_COUNTRY_NAME to countryName,
             )
     }
 }

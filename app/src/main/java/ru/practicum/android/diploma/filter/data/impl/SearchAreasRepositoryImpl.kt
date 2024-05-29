@@ -33,23 +33,6 @@ class SearchAreasRepositoryImpl(private val client: NetworkClient) : SearchAreas
         }
     }
 
-    override suspend fun searchAllRegions(): Flow<Resource<List<Area>>> = flow {
-        val responses = client.doRequestAreas()
-        if (responses.data != null) {
-            emit(handleSuccessResponseAllRegion(responses.data))
-        }
-    }
-
-    private fun handleSuccessResponseAllRegion(responseList: List<SearchAreasResponse>): Resource<List<Area>> {
-        val areaList = mutableListOf<Area>()
-        responseList.forEach { response ->
-            if (response.areas != null) {
-                areaList.addAll(response.areas.map { createAreaFromResponse(it) })
-            }
-        }
-        return Resource.Success(areaList)
-    }
-
     private fun handleSuccessResponseRegion(response: SearchAreasResponse): Resource<List<Area>> {
         var areaList = emptyList<Area>()
         if (response.areas != null) {

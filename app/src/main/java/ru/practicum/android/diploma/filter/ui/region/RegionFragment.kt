@@ -153,9 +153,11 @@ class RegionFragment : Fragment() {
         regionAdapter = null
         regionAdapter = RegionAdapter { region ->
             if (region.name != null) {
+                viewModel.setCountryFilter(region)
+                viewModel.setParentId(region.parentId)
                 findNavController().navigate(
                     R.id.action_regionFragment_to_placeOfWorkFragment,
-                    PlaceOfWorkFragment.createArgsRegionName(region.name)
+                    PlaceOfWorkFragment.createArgs(viewModel.getRegionCountry())
                 )
             }
         }

@@ -14,10 +14,10 @@ import ru.practicum.android.diploma.search.presentation.SearchViewModel
 val viewModelModule = module {
     viewModel { VacancyDetailsViewModel(get(), get(), get(), favoriteInteractor = get()) }
     viewModel { FavoritesViewModel(favoriteInteractor = get()) }
-    viewModel { CountryViewModel(searchAreasInteractor = get()) }
+    viewModel { CountryViewModel(searchAreasInteractor = get(), get()) }
     viewModel { FiltrationViewModel(filtrationInteractor = get()) }
-    viewModel { PlaceOfWorkViewModel() }
-    viewModel { RegionViewModel(searchAreasInteractor = get()) }
+    viewModel { PlaceOfWorkViewModel(get()) }
+    viewModel { RegionViewModel(searchAreasInteractor = get(), get()) }
     viewModel { IndustryViewModel(searchIndustriesInteractor = get()) }
     viewModel { SearchViewModel(resourceInteractor = get(), searchInteractor = get(), filtrationInteractor = get()) }
 }
