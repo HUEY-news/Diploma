@@ -25,7 +25,7 @@ class SearchViewModel(
     private var currentPage = 0
     private var maxPages = 0
     var totalVacanciesCount: Int = 0
-
+    var flagSuccessfulDownload: Boolean = false
     private val options: HashMap<String, String> = HashMap()
 
     private fun setOption() {
@@ -42,11 +42,14 @@ class SearchViewModel(
 
     private val trackSearchDebounce =
         debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
-            searchRequest(changedText)
+            run {
+                SearchViewModel
+                renderState(VacanciesState.Loading)
+                searchRequest(changedText)
+            }
         }
 
     fun searchDebounce(changedText: String) {
-        renderState(VacanciesState.Loading)
         lastText = changedText
         trackSearchDebounce(changedText)
     }
@@ -68,16 +71,13 @@ class SearchViewModel(
                     .collect { pair ->
                         val vacancies = ArrayList<SimpleVacancy>()
                         if (pair.first != null) {
+                            setContent(vacancies)
                             vacancies.addAll(pair.first!!)
                             updateTotalVacanciesCount(vacancies)
-                            renderState(
-                                VacanciesState.Content(
-                                    vacancies = vacancies,
-                                )
-                            )
                         }
                         when {
                             pair.second != null -> {
+                                flagSuccessfulDownload = false
                                 renderState(
                                     VacanciesState.Error(
                                         errorMessage = pair.second!!
@@ -86,17 +86,26 @@ class SearchViewModel(
                             }
 
                             vacancies.isEmpty() -> {
+                                flagSuccessfulDownload = false
                                 renderState(
                                     VacanciesState.Empty(
                                         message = resourceInteractor.getErrorEmptyListVacancy()
                                     ),
                                 )
                             }
-
                         }
                     }
             }
         }
+    }
+
+    private fun setContent(vacancies: ArrayList<SimpleVacancy>) {
+        flagSuccessfulDownload = true
+        renderState(
+            VacanciesState.Content(
+                vacancies = vacancies,
+            )
+        )
     }
 
     private fun renderState(state: VacanciesState) {

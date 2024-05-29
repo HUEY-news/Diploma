@@ -38,7 +38,6 @@ class SearchFragment : Fragment() {
     private val binding: FragmentSearchBinding
         get() = _binding!!
     private var inputTextFromSearch: String? = null
-    private var flagSuccessfulDownload: Boolean = false
     private var searchAdapter: SearchVacancyAdapter? = null
 
     private val viewModel by viewModel<SearchViewModel>()
@@ -125,6 +124,7 @@ class SearchFragment : Fragment() {
                 if (s != null) {
                     if (s.isNotEmpty() && viewModel.lastText != s.toString()) {
                         inputTextFromSearch = s.toString()
+                        binding.vacancyMessageTextView.isVisible = false
                         searchAdapterReset()
                         viewModel.searchDebounce(inputTextFromSearch!!)
                     } else {
@@ -139,7 +139,7 @@ class SearchFragment : Fragment() {
         )
         binding.searchFieldEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && binding.searchFieldEditText.text.isNotEmpty()) {
-                if (!flagSuccessfulDownload) {
+                if (!viewModel.flagSuccessfulDownload) {
                     inputTextFromSearch?.let {
                         searchAdapterReset()
                         viewModel.downloadData(it)
@@ -229,11 +229,13 @@ class SearchFragment : Fragment() {
             placeholderTextView.isVisible = true
             placeholderTextView.text = errorMessage
             vacancyMessageTextView.isVisible = false
-            if (errorMessage == requireContext().getString(R.string.no_internet)) {
-                placeholderImageView.setImageResource(R.drawable.placeholder_no_internet_connection)
-            } else {
-                placeholderImageView.setImageResource(R.drawable.placeholder_server_error_search)
-            }
+            placeholderImageView.setImageResource(
+                if (errorMessage == getString(R.string.no_internet)) {
+                    R.drawable.placeholder_no_internet_connection
+                } else {
+                    R.drawable.placeholder_server_error_search
+                }
+            )
         }
     }
 

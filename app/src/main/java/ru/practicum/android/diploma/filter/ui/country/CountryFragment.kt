@@ -14,7 +14,6 @@ import ru.practicum.android.diploma.databinding.FragmentFiltrationCountryBinding
 import ru.practicum.android.diploma.filter.domain.model.Country
 import ru.practicum.android.diploma.filter.presentation.country.CountryViewModel
 import ru.practicum.android.diploma.filter.presentation.country.model.CountryState
-import ru.practicum.android.diploma.filter.ui.workplace.PlaceOfWorkFragment
 
 class CountryFragment : Fragment() {
     private var _binding: FragmentFiltrationCountryBinding? = null
@@ -90,9 +89,9 @@ class CountryFragment : Fragment() {
         countryAdapter = null
         countryAdapter = CountryAdapter { country ->
             if (country.name != null) {
+                viewModel.setCountryFilter(country)
                 findNavController().navigate(
                     R.id.action_countryFragment_to_placeOfWorkFragment,
-                    PlaceOfWorkFragment.createArgsCountryName(country.name)
                 )
             }
         }
