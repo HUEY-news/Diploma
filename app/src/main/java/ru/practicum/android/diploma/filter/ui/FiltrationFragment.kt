@@ -14,7 +14,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 import ru.practicum.android.diploma.filter.presentation.FiltrationViewModel
-import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
+import ru.practicum.android.diploma.filter.presentation.workplace.model.AreaState
+
 
 class FiltrationFragment : Fragment() {
     private var _binding: FragmentFiltrationBinding? = null
@@ -33,42 +34,67 @@ class FiltrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.updateWorkplaceFromShared()
+        viewModel.observeWorkplaceState().observe(viewLifecycleOwner) {
+            renderWorkplaceState(it)
+        }
         if (arguments != null) {
             val industry = arguments?.getString(ARGS_INDUSTRY_NAME)
             binding.filtrationIndustryTextView.text = industry
         }
-
         setOnClickListeners()
         setOnTextChangedListener()
 
-        viewModel.observeCheckBoxState().observe(viewLifecycleOwner) { checkBox ->
-            checkFilterStateApply()
-            checkFilterStateReset()
-            when (checkBox) {
-                true -> {
-                    binding.filtrationPayCheckbox.setImageDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            R.drawable.icon_checkbox_on,
-                            null
-                        )
-                    )
-                }
+//        viewModel.observeCheckBoxState().observe(viewLifecycleOwner) { checkBox ->
+//            checkFilterStateApply()
+//            checkFilterStateReset()
+//            when (checkBox) {
+//                true -> {
+//                    binding.filtrationPayCheckbox.setImageDrawable(
+//                        ResourcesCompat.getDrawable(
+//                            resources,
+//                            R.drawable.icon_checkbox_on,
+//                            null
+//                        )
+//                    )
+//                }
+//
+//                false -> {
+//                    binding.filtrationPayCheckbox.setImageDrawable(
+//                        ResourcesCompat.getDrawable(
+//                            resources,
+//                            R.drawable.icon_checkbox_off,
+//                            null
+//                        )
+//                    )
+//                }
+//            }
+//        }
+//        viewModel.observeFiltersState().observe(viewLifecycleOwner) { state ->
+//            render(state)
+//        }
+    }
 
-                false -> {
-                    binding.filtrationPayCheckbox.setImageDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            R.drawable.icon_checkbox_off,
-                            null
-                        )
-                    )
-                }
-            }
+    private fun renderWorkplaceState(state: AreaState) {
+        when (state) {
+            is AreaState.Empty -> setDefaultWorkplaceState()
+            is AreaState.CountryName -> setCountryNameWorkplaceState(state.country)
+            is AreaState.RegionName -> setDefaultWorkplaceState()
+            is AreaState.FullArea -> setFullAreaWorkplaceState(state.country, state.region)
         }
-        viewModel.observeFiltersState().observe(viewLifecycleOwner) { state ->
-            render(state)
-        }
+    }
+
+    private fun setFullAreaWorkplaceState(country: String, region: String) {
+        val stringCountryRegion = "$country, $region"
+        binding.filtrationWorkPlaceTextView.text = stringCountryRegion
+    }
+
+    private fun setCountryNameWorkplaceState(country: String?) {
+        binding.filtrationWorkPlaceTextView.text = country
+    }
+
+    private fun setDefaultWorkplaceState() {
+        binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
     }
 
     private fun setOnClickListeners() {
@@ -84,7 +110,7 @@ class FiltrationFragment : Fragment() {
             }
             resetFilterButton.setOnClickListener {
                 binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
-                binding.filtrationIndustryTextView.text == getString(R.string.industry)
+                binding.filtrationIndustryTextView.text = getString(R.string.industry)
                 binding.filtrationPayCheckbox.setImageDrawable(
                     ResourcesCompat.getDrawable(
                         resources,
@@ -104,9 +130,12 @@ class FiltrationFragment : Fragment() {
             beforeTextChanged = { s, start, count, after -> },
             onTextChanged = { s, start, before, count -> },
             afterTextChanged = { s ->
-                inputTextFromApply = s.toString()
-                checkFilterStateApply()
-                checkFilterStateReset()
+                if (!s.isNullOrEmpty()) {
+                    inputTextFromApply = s.toString()
+                    viewModel.setSalary(inputTextFromApply!!)
+                } else {
+                    viewModel.setSalaryIsEmpty()
+                }
             }
         )
     }
@@ -117,22 +146,23 @@ class FiltrationFragment : Fragment() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.icon_back)
         }
+        binding.filtrationVacancyToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
         binding.filtrationVacancyToolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }
     }
 
-    private fun render(state: FiltrationState) {
-        when (state) {
-            is FiltrationState.NoFilters -> showEmptyFilters()
-            is FiltrationState.FiltersContent -> showFiltersContent(
-                state.workPlace,
-                state.industry,
-                state.salary,
-                state.checkbox
-            )
-        }
-    }
+//    private fun render(state: FiltrationState) {
+//        when (state) {
+//            is FiltrationState.NoFilters -> showEmptyFilters()
+//            is FiltrationState.FiltersContent -> showFiltersContent(
+//                state.workPlace,
+//                state.industry,
+//                state.salary,
+//                state.checkbox
+//            )
+//        }
+//    }
 
     private fun showEmptyFilters() {
         binding.applyFilterButton.visibility = View.GONE

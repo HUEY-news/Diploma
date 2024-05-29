@@ -106,6 +106,7 @@ class RegionViewModel(
         countryList.forEach { country ->
             if (country.id.equals(parentId)) {
                 stringRegionCountry = country.name!!
+                filtrationInteractor.updateCountry(country = country)
             }
         }
         return stringRegionCountry
