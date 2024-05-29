@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.search.ui
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.practicum.android.diploma.Currency
 import ru.practicum.android.diploma.R
@@ -33,7 +32,8 @@ class SearchVacancyViewHolder(
         Glide.with(itemView)
             .load(model.employer.logoUrls)
             .placeholder(R.drawable.icon_android_placeholder)
-            .transform(CenterCrop(), RoundedCorners(dpToPx(RADIUS_IN_DP)))
+            .centerCrop()
+            .transform(RoundedCorners(dpToPx(RADIUS_IN_DP)))
             .into(binding.vacancyCover)
     }
 
@@ -55,16 +55,19 @@ class SearchVacancyViewHolder(
                 numberFormat.format(salary.to),
                 currencySymbol
             )
+
             salary.from != null -> itemView.context.getString(
                 R.string.salary_from,
                 numberFormat.format(salary.from),
                 currencySymbol
             )
+
             salary.to != null -> itemView.context.getString(
                 R.string.salary_to,
                 numberFormat.format(salary.to),
                 currencySymbol
             )
+
             else -> itemView.context.getString(R.string.salary_not_specified)
         }
     }

@@ -72,7 +72,9 @@ class RegionViewModel(
     }
 
     private fun bindStateAllRegions(pair: Pair<List<Country>?, String?>) {
-        createContent(pair.first)
+        if (pair.first != null) {
+            createContent(pair.first!!)
+        }
         when {
             pair.second != null -> {
                 renderState(
@@ -84,23 +86,19 @@ class RegionViewModel(
         }
     }
 
-    private fun createContent(first: List<Country>?) {
+    private fun createContent(first: List<Country>) {
+        countryList.addAll(first)
         val regions = ArrayList<Area>()
-        if (first != null) {
-            countryList.addAll(first)
-            countryList.forEach { country ->
-                country.areas?.forEach { area ->
-                    if (area != null) {
-                        regions.add(area)
-                    }
-                }
+        countryList.forEach { country ->
+            country.areas?.forEach { area ->
+                area?.let { regions.add(it) }
             }
-            renderState(
-                RegionState.Content(
-                    regions = regions
-                )
-            )
         }
+        renderState(
+            RegionState.Content(
+                regions = regions
+            )
+        )
     }
 
     fun getRegionCountry(): String {
