@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/dimens_size_16"
+    android:paddingVertical="@dimen/dimens_size_9">
+
+    <ImageView
+        android:id="@+id/vacancy_cover"
+        android:layout_width="@dimen/dimens_size_48"
+        android:layout_height="@dimen/dimens_size_48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_android_placeholder" />
+
+    <TextView
+        android:id="@+id/job_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimens_size_12"
+        android:fontFamily="@font/ys_text_medium"
+        android:textColor="?attr/black_white"
+        android:textFontWeight="500"
+        android:textSize="@dimen/text_size_22"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vacancy_cover"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Vacancy Name а ну ка перенеси мне строку вот спасибо" />
+
+    <TextView
+        android:id="@+id/employer"
+        style="@style/ItemVacancyDetailsStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vacancy_cover"
+        app:layout_constraintTop_toBottomOf="@id/job_title"
+        tools:text="самая лучшая компания" />
+
+    <TextView
+        android:id="@+id/salary"
+        style="@style/ItemVacancyDetailsStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vacancy_cover"
+        app:layout_constraintTop_toBottomOf="@id/employer"
+        tools:text="зп в которой много нулей" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

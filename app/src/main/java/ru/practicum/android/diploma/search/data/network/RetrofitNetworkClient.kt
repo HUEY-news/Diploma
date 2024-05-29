@@ -1,51 +1,66 @@
 package ru.practicum.android.diploma.search.data.network
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.practicum.android.diploma.search.data.dto.Response
 import ru.practicum.android.diploma.search.data.dto.SearchRequest
+import ru.practicum.android.diploma.util.CheckConnection
+import ru.practicum.android.diploma.util.Constants
 import java.io.IOException
 
 class RetrofitNetworkClient(
     private val context: Context,
-    private val service: SearchApiService
+    private val service: SearchApiService,
+    private val checkConnection: CheckConnection,
 ) : NetworkClient {
 
-    override suspend fun doRequest(dto: Any): Response {
-        return if (!isConnected()) {
-            Response().apply { resultCode = ERROR_1 }
-        } else if (dto !is SearchRequest) {
-            Response().apply { resultCode = ERROR_400 }
-        } else {
-            withContext(Dispatchers.IO) {
-                try {
-                    val response = service.searchVacancy(dto.expression)
-                    response.apply { resultCode = ERROR_200 }
-                } catch (exception: IOException) {
-                    Log.e("TEST", "$exception")
-                    Response().apply { resultCode = ERROR_500 }
+    override suspend fun doRequest(dto: Any, options: HashMap<String, String>): Response {
+        return when {
+            !checkConnection.isInternetAvailable() -> {
+                Response().apply { resultCode = Constants.CONNECTION_ERROR }
+            }
+
+            dto !is SearchRequest -> {
+                Response().apply { resultCode = Constants.NOT_FOUND }
+            }
+
+            else -> {
+                withContext(Dispatchers.IO) {
+                    try {
+                        val response = service.searchVacancy(dto.expression, options)
+                        response.apply { resultCode = Constants.SUCCESS }
+                    } catch (exception: IOException) {
+                        Log.e("TEST", "$exception")
+                        Response().apply { resultCode = Constants.SERVER_ERROR }
+                    }
                 }
             }
         }
     }
 
-    private fun isConnected(): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        return capabilities != null &&
-            (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET))
-    }
+    override suspend fun doRequestDetails(dto: Any): Response {
+        return when {
+            !checkConnection.isInternetAvailable() -> {
+                Response().apply { resultCode = Constants.CONNECTION_ERROR }
+            }
 
-    companion object {
-        const val ERROR_1 = -1
-        const val ERROR_200 = 200
-        const val ERROR_400 = 400
-        const val ERROR_500 = 500
+            dto !is SearchRequest -> {
+                Response().apply { resultCode = Constants.NOT_FOUND }
+            }
+
+            else -> {
+                withContext(Dispatchers.IO) {
+                    try {
+                        val response = service.searchVacancyDetails(dto.expression)
+                        response.apply { resultCode = Constants.SUCCESS }
+                    } catch (exception: IOException) {
+                        Log.e("TEST", "$exception")
+                        Response().apply { resultCode = Constants.SERVER_ERROR }
+                    }
+                }
+            }
+        }
     }
 }
