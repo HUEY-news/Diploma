@@ -38,15 +38,9 @@ class FiltrationFragment : Fragment() {
             binding.filtrationIndustryTextView.text = industry
         }
         binding.apply {
-            filtrationWorkPlace.setOnClickListener {
-                findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
-            }
-            filtrationIndustry.setOnClickListener {
-                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
-            }
-            filtrationPayCheckbox.setOnClickListener {
-                viewModel.checkboxClick()
-            }
+            filtrationWorkPlace.setOnClickListener { findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment) }
+            filtrationIndustry.setOnClickListener { findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment) }
+            filtrationPayCheckbox.setOnClickListener { viewModel.checkboxClick() }
             resetFilterButton.setOnClickListener {
                 binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
                 binding.filtrationIndustryTextView.text == getString(R.string.industry)
@@ -75,29 +69,11 @@ class FiltrationFragment : Fragment() {
             checkFilterStateApply()
             checkFilterStateReset()
             when (checkBox) {
-                true -> {
-                    binding.filtrationPayCheckbox.setImageDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            R.drawable.icon_checkbox_on,
-                            null
-                        )
-                    )
-                }
-
-                false -> {
-                    binding.filtrationPayCheckbox.setImageDrawable(
-                        ResourcesCompat.getDrawable(
-                            resources,
-                            R.drawable.icon_checkbox_off,
-                            null
-                        )
-                    )
-                }
+                true -> { binding.filtrationPayCheckbox.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.icon_checkbox_on, null)) }
+                false -> { binding.filtrationPayCheckbox.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.icon_checkbox_off, null)) }
             }
         }
-        viewModel.observeFiltersState().observe(viewLifecycleOwner) { state ->
-            render(state)
+        viewModel.observeFiltersState().observe(viewLifecycleOwner) { render(it)
         }
     }
 
