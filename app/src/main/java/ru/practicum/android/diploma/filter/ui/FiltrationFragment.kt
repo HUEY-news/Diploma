@@ -25,7 +25,7 @@ class FiltrationFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentFiltrationBinding.inflate(inflater, container, false)
         setupToolbar()
         return binding.root
@@ -37,10 +37,51 @@ class FiltrationFragment : Fragment() {
             val industry = arguments?.getString(ARGS_INDUSTRY_NAME)
             binding.filtrationIndustryTextView.text = industry
         }
+
+        setOnClickListeners()
+        setOnTextChangedListener()
+
+        viewModel.observeCheckBoxState().observe(viewLifecycleOwner) { checkBox ->
+            checkFilterStateApply()
+            checkFilterStateReset()
+            when (checkBox) {
+                true -> {
+                    binding.filtrationPayCheckbox.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.icon_checkbox_on,
+                            null
+                        )
+                    )
+                }
+
+                false -> {
+                    binding.filtrationPayCheckbox.setImageDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.icon_checkbox_off,
+                            null
+                        )
+                    )
+                }
+            }
+        }
+        viewModel.observeFiltersState().observe(viewLifecycleOwner) { state ->
+            render(state)
+        }
+    }
+
+    private fun setOnClickListeners() {
         binding.apply {
-            filtrationWorkPlace.setOnClickListener { findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment) }
-            filtrationIndustry.setOnClickListener { findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment) }
-            filtrationPayCheckbox.setOnClickListener { viewModel.checkboxClick() }
+            filtrationWorkPlace.setOnClickListener {
+                findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
+            }
+            filtrationIndustry.setOnClickListener {
+                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
+            }
+            filtrationPayCheckbox.setOnClickListener {
+                viewModel.checkboxClick()
+            }
             resetFilterButton.setOnClickListener {
                 binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
                 binding.filtrationIndustryTextView.text == getString(R.string.industry)
@@ -56,6 +97,9 @@ class FiltrationFragment : Fragment() {
                 binding.applyFilterButton.visibility = View.GONE
             }
         }
+    }
+
+    private fun setOnTextChangedListener() {
         binding.salaryEditText.addTextChangedListener(
             beforeTextChanged = { s, start, count, after -> },
             onTextChanged = { s, start, before, count -> },
@@ -65,16 +109,6 @@ class FiltrationFragment : Fragment() {
                 checkFilterStateReset()
             }
         )
-        viewModel.observeCheckBoxState().observe(viewLifecycleOwner) { checkBox ->
-            checkFilterStateApply()
-            checkFilterStateReset()
-            when (checkBox) {
-                true -> { binding.filtrationPayCheckbox.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.icon_checkbox_on, null)) }
-                false -> { binding.filtrationPayCheckbox.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.icon_checkbox_off, null)) }
-            }
-        }
-        viewModel.observeFiltersState().observe(viewLifecycleOwner) { render(it)
-        }
     }
 
     private fun setupToolbar() {
