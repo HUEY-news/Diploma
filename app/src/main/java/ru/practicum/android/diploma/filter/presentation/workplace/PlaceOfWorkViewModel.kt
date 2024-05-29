@@ -14,7 +14,7 @@ class PlaceOfWorkViewModel(private val filtrationInteractor: FiltrationInteracto
     fun updateInfoFromShared() {
         val country = filtrationInteractor.getFilter()?.countryName
         val region = filtrationInteractor.getFilter()?.regionName
-        if ((country != null) && (region != null)) {
+        if (country != null && region != null) {
             stateLiveData.postValue(AreaState.FullArea(country, region))
         } else if (country != null) {
             if (!countryName.isNullOrEmpty()) {
