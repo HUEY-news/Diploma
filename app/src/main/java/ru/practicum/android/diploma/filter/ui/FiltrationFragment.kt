@@ -25,7 +25,7 @@ class FiltrationFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentFiltrationBinding.inflate(inflater, container, false)
         setupToolbar()
         return binding.root
@@ -37,40 +37,10 @@ class FiltrationFragment : Fragment() {
             val industry = arguments?.getString(ARGS_INDUSTRY_NAME)
             binding.filtrationIndustryTextView.text = industry
         }
-        binding.apply {
-            filtrationWorkPlace.setOnClickListener {
-                findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
-            }
-            filtrationIndustry.setOnClickListener {
-                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
-            }
-            filtrationPayCheckbox.setOnClickListener {
-                viewModel.checkboxClick()
-            }
-            resetFilterButton.setOnClickListener {
-                binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
-                binding.filtrationIndustryTextView.text == getString(R.string.industry)
-                binding.filtrationPayCheckbox.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        resources,
-                        R.drawable.icon_checkbox_off,
-                        null
-                    )
-                )
-                binding.salaryEditText.setText("")
-                binding.resetFilterButton.visibility = View.GONE
-                binding.applyFilterButton.visibility = View.GONE
-            }
-        }
-        binding.salaryEditText.addTextChangedListener(
-            beforeTextChanged = { s, start, count, after -> },
-            onTextChanged = { s, start, before, count -> },
-            afterTextChanged = { s ->
-                inputTextFromApply = s.toString()
-                checkFilterStateApply()
-                checkFilterStateReset()
-            }
-        )
+
+        setOnClickListeners()
+        setOnTextChangedListener()
+
         viewModel.observeCheckBoxState().observe(viewLifecycleOwner) { checkBox ->
             checkFilterStateApply()
             checkFilterStateReset()
@@ -99,6 +69,46 @@ class FiltrationFragment : Fragment() {
         viewModel.observeFiltersState().observe(viewLifecycleOwner) { state ->
             render(state)
         }
+    }
+
+    private fun setOnClickListeners() {
+        binding.apply {
+            filtrationWorkPlace.setOnClickListener {
+                findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
+            }
+            filtrationIndustry.setOnClickListener {
+                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
+            }
+            filtrationPayCheckbox.setOnClickListener {
+                viewModel.checkboxClick()
+            }
+            resetFilterButton.setOnClickListener {
+                binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
+                binding.filtrationIndustryTextView.text == getString(R.string.industry)
+                binding.filtrationPayCheckbox.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.icon_checkbox_off,
+                        null
+                    )
+                )
+                binding.salaryEditText.setText("")
+                binding.resetFilterButton.visibility = View.GONE
+                binding.applyFilterButton.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun setOnTextChangedListener() {
+        binding.salaryEditText.addTextChangedListener(
+            beforeTextChanged = { s, start, count, after -> },
+            onTextChanged = { s, start, before, count -> },
+            afterTextChanged = { s ->
+                inputTextFromApply = s.toString()
+                checkFilterStateApply()
+                checkFilterStateReset()
+            }
+        )
     }
 
     private fun setupToolbar() {
