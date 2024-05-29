@@ -16,7 +16,6 @@ import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 import ru.practicum.android.diploma.filter.presentation.FiltrationViewModel
 import ru.practicum.android.diploma.filter.presentation.workplace.model.AreaState
 
-
 class FiltrationFragment : Fragment() {
     private var _binding: FragmentFiltrationBinding? = null
     private val binding get() = _binding!!
@@ -44,35 +43,6 @@ class FiltrationFragment : Fragment() {
         }
         setOnClickListeners()
         setOnTextChangedListener()
-
-//        viewModel.observeCheckBoxState().observe(viewLifecycleOwner) { checkBox ->
-//            checkFilterStateApply()
-//            checkFilterStateReset()
-//            when (checkBox) {
-//                true -> {
-//                    binding.filtrationPayCheckbox.setImageDrawable(
-//                        ResourcesCompat.getDrawable(
-//                            resources,
-//                            R.drawable.icon_checkbox_on,
-//                            null
-//                        )
-//                    )
-//                }
-//
-//                false -> {
-//                    binding.filtrationPayCheckbox.setImageDrawable(
-//                        ResourcesCompat.getDrawable(
-//                            resources,
-//                            R.drawable.icon_checkbox_off,
-//                            null
-//                        )
-//                    )
-//                }
-//            }
-//        }
-//        viewModel.observeFiltersState().observe(viewLifecycleOwner) { state ->
-//            render(state)
-//        }
     }
 
     private fun renderWorkplaceState(state: AreaState) {
@@ -151,18 +121,6 @@ class FiltrationFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
     }
-
-//    private fun render(state: FiltrationState) {
-//        when (state) {
-//            is FiltrationState.NoFilters -> showEmptyFilters()
-//            is FiltrationState.FiltersContent -> showFiltersContent(
-//                state.workPlace,
-//                state.industry,
-//                state.salary,
-//                state.checkbox
-//            )
-//        }
-//    }
 
     private fun showEmptyFilters() {
         binding.applyFilterButton.visibility = View.GONE

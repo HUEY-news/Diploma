@@ -15,14 +15,9 @@ class FiltrationViewModel(
     var industry: String = "Отрасль"
     var checkbox = false
     var checkboxChange = false
-//    private val stateFiltersLiveData = MutableLiveData<FiltrationState>()
-//    private val stateCheckBoxLiveData = MutableLiveData<Boolean>()
-//    fun observeFiltersState(): LiveData<FiltrationState> = stateFiltersLiveData
-//    fun observeCheckBoxState(): LiveData<Boolean> = stateCheckBoxLiveData
 
     private val stateLiveDataFiltration = MutableLiveData<FiltrationState>()
     fun observeFiltrationState(): LiveData<FiltrationState> = stateLiveDataFiltration
-
 
     private val stateLiveDataWorkplace = MutableLiveData<AreaState>()
     fun observeWorkplaceState(): LiveData<AreaState> = stateLiveDataWorkplace
