@@ -32,7 +32,7 @@ class FavoritesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentFavoritesBinding.inflate(
             layoutInflater,
@@ -44,17 +44,28 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.favoritesToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
         adapter = SearchVacancyAdapter { vacancy -> onClickDebounce(vacancy) }
         binding.recyclerView.adapter = adapter
 
         viewModel.updateData()
         viewModel.observeScreenState().observe(viewLifecycleOwner) { state ->
             when (state) {
-                is FavoriteScreenState.Loading -> { showLoading() }
-                is FavoriteScreenState.Content -> { showContent(state.data) }
-                is FavoriteScreenState.Empty -> { showEmpty() }
-                is FavoriteScreenState.Error -> { showError() }
+                is FavoriteScreenState.Loading -> {
+                    showLoading()
+                }
+
+                is FavoriteScreenState.Content -> {
+                    showContent(state.data)
+                }
+
+                is FavoriteScreenState.Empty -> {
+                    showEmpty()
+                }
+
+                is FavoriteScreenState.Error -> {
+                    showError()
+                }
             }
         }
     }

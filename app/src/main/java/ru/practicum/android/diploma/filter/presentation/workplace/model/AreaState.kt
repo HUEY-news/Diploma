@@ -3,7 +3,7 @@ package ru.practicum.android.diploma.filter.presentation.workplace.model
 interface AreaState {
     object Empty : AreaState
     data class CountryName(
-        val country: String?,
+        val country: String,
     ) : AreaState
 
     data class RegionName(

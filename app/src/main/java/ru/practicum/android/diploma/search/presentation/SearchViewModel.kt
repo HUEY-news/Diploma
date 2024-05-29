@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
 import ru.practicum.android.diploma.sharing.domain.api.ResourceInteractor
+import ru.practicum.android.diploma.util.Constants.AREA
 import ru.practicum.android.diploma.util.Constants.PAGE
 import ru.practicum.android.diploma.util.Constants.PER_PAGE
 import ru.practicum.android.diploma.util.Constants.VACANCIES_PER_PAGE
@@ -18,7 +19,7 @@ import ru.practicum.android.diploma.util.debounce
 class SearchViewModel(
     private val resourceInteractor: ResourceInteractor,
     private val searchInteractor: SearchInteractor,
-    private val filtrationInteractor: FiltrationInteractor
+    private val filtrationInteractor: FiltrationInteractor,
 ) :
     ViewModel() {
     var lastText: String = ""
@@ -29,11 +30,20 @@ class SearchViewModel(
     private val options: HashMap<String, String> = HashMap()
 
     private fun setOption() {
+        val country = filtrationInteractor.getFilter()?.countryId
+        val region = filtrationInteractor.getFilter()?.regionId
         maxPages = totalVacanciesCount / VACANCIES_PER_PAGE + 1
         if (totalVacanciesCount > VACANCIES_PER_PAGE && currentPage < maxPages) {
             options[PAGE] = currentPage.toString()
             options[PER_PAGE] = VACANCIES_PER_PAGE.toString()
         }
+        if (country != null) {
+            options[AREA] = country
+        }
+        if (region != null) {
+            options[AREA] = region
+        }
+
     }
 
     private val stateLiveData = MutableLiveData<VacanciesState>()

@@ -49,6 +49,7 @@ class IndustryFragment : Fragment() {
                     imm?.hideSoftInputFromWindow(view.windowToken, 0)
                 }
             }
+            buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
         }
 
         industryAdapter = IndustryAdapter { industry ->
