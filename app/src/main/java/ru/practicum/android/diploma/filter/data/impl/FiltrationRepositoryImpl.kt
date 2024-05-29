@@ -15,7 +15,7 @@ class FiltrationRepositoryImpl(
 
     override fun getFilter(): Filter? {
         val filter = storage.getFilter()
-        return if (filter.isNullOrEmpty()) {
+        return if (filter.isEmpty() || filter =="null") {
             null
         } else if (checkFilter(gson.fromJson(filter, Filter::class.java))) {
             null
@@ -43,38 +43,38 @@ class FiltrationRepositoryImpl(
         val filter = getFilter()
         val updatedFilter = filter?.copy(industryId = industry.id, industryName = industry.name)
             ?: Filter(industryId = industry.id, industryName = industry.name)
-        storage.updateFilter(Gson().toJson(updatedFilter))
+        storage.updateFilter(gson.toJson(updatedFilter))
     }
 
     override fun clearIndustry() {
         val filter = getFilter()
         val clearedFilter = filter?.copy(industryName = null, industryId = null)
-        storage.updateFilter(Gson().toJson(clearedFilter))
+        storage.updateFilter(gson.toJson(clearedFilter))
     }
 
     override fun updateCountry(country: Country) {
         val filter = getFilter()
         val updatedFilter = filter?.copy(countryId = country.id, countryName = country.name)
             ?: Filter(countryId = country.id, countryName = country.name)
-        storage.updateFilter(Gson().toJson(updatedFilter))
+        storage.updateFilter(gson.toJson(updatedFilter))
     }
 
     override fun clearCountry() {
         val filter = getFilter()
         val clearedFilter = filter?.copy(countryName = null, countryId = null)
-        storage.updateFilter(Gson().toJson(clearedFilter))
+        storage.updateFilter(gson.toJson(clearedFilter))
     }
 
     override fun updateArea(area: Area) {
         val filter = getFilter()
         val updatedFilter = filter?.copy(regionId = area.id, regionName = area.name)
             ?: Filter(regionId = area.id, regionName = area.name)
-        storage.updateFilter(Gson().toJson(updatedFilter))
+        storage.updateFilter(gson.toJson(updatedFilter))
     }
 
     override fun clearArea() {
         val filter = getFilter()
         val clearedFilter = filter?.copy(regionName = null, regionId = null)
-        storage.updateFilter(Gson().toJson(clearedFilter))
+        storage.updateFilter(gson.toJson(clearedFilter))
     }
 }
