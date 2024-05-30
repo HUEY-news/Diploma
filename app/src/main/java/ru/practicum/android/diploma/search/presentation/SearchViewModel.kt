@@ -11,8 +11,11 @@ import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
 import ru.practicum.android.diploma.sharing.domain.api.ResourceInteractor
 import ru.practicum.android.diploma.util.Constants.AREA
+import ru.practicum.android.diploma.util.Constants.INDUSTRY
+import ru.practicum.android.diploma.util.Constants.ONLY_WITH_SALARY
 import ru.practicum.android.diploma.util.Constants.PAGE
 import ru.practicum.android.diploma.util.Constants.PER_PAGE
+import ru.practicum.android.diploma.util.Constants.SALARY
 import ru.practicum.android.diploma.util.Constants.VACANCIES_PER_PAGE
 import ru.practicum.android.diploma.util.debounce
 
@@ -32,6 +35,9 @@ class SearchViewModel(
     private fun setOption() {
         val country = filtrationInteractor.getFilter()?.countryId
         val region = filtrationInteractor.getFilter()?.regionId
+        val industry = filtrationInteractor.getFilter()?.industryId
+        val salary = filtrationInteractor.getFilter()?.expectedSalary
+        val onlyWithSalary = filtrationInteractor.getFilter()?.isOnlyWithSalary
         maxPages = totalVacanciesCount / VACANCIES_PER_PAGE + 1
         if (totalVacanciesCount > VACANCIES_PER_PAGE && currentPage < maxPages) {
             options[PAGE] = currentPage.toString()
@@ -43,7 +49,15 @@ class SearchViewModel(
         if (region != null) {
             options[AREA] = region
         }
-
+        if (industry != null) {
+            options[INDUSTRY] = industry
+        }
+        if (salary != null) {
+            options[SALARY] = salary.toString()
+        }
+        if (onlyWithSalary != null && onlyWithSalary != false) {
+            options[ONLY_WITH_SALARY] = onlyWithSalary.toString()
+        }
     }
 
     private val stateLiveData = MutableLiveData<VacanciesState>()
@@ -73,6 +87,7 @@ class SearchViewModel(
     }
 
     private fun searchRequest(newSearchText: String) {
+        lastText = newSearchText
         if (newSearchText.isNotEmpty()) {
             viewModelScope.launch {
                 setOption()
