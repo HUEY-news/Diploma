@@ -35,10 +35,6 @@ class FiltrationRepositoryImpl(
                 expectedSalary == null
         }
 
-    override fun clearFilter() {
-        storage.clearFilter()
-    }
-
     override fun updateIndustry(industry: Industry) {
         val filter = getFilter()
         val updatedFilter = filter?.copy(industryId = industry.id, industryName = industry.name)
