@@ -11,6 +11,8 @@ import ru.practicum.android.diploma.filter.domain.model.Industry
 class IndustryAdapter(private val itemClickListener: ItemClickListener) :
     ListAdapter<Industry, RecyclerView.ViewHolder>(IndustryDiffCallBack()) {
     private var industries: MutableList<Industry> = mutableListOf()
+    private var selectedPosition = RecyclerView.NO_POSITION
+
     fun setItems(items: List<Industry>) {
         industries.clear()
         industries = items.toMutableList()
@@ -18,19 +20,32 @@ class IndustryAdapter(private val itemClickListener: ItemClickListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val layoutInspector = LayoutInflater.from(parent.context)
-        return IndustyViewHolder(ItemIndustryBinding.inflate(layoutInspector, parent, false)) { position: Int ->
-            if (position != RecyclerView.NO_POSITION) {
-                industries.getOrNull(position)?.let { industry ->
-                    itemClickListener.onItemClick(industry)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return IndustyViewHolder(ItemIndustryBinding.inflate(layoutInflater, parent, false),
+            { position: Int ->
+                if (position != RecyclerView.NO_POSITION) {
+                    industries.getOrNull(position)?.let { industry ->
+                        itemClickListener.onItemClick(industry)
+                    }
+                }
+            },
+            { position: Int ->
+                if (position != RecyclerView.NO_POSITION) {
+                    val previousPosition = selectedPosition
+                    selectedPosition = position
+                    notifyItemChanged(previousPosition)
+                    notifyItemChanged(selectedPosition)
+                    industries.getOrNull(position)?.let { industry ->
+                        itemClickListener.onItemClick(industry)
+                    }
                 }
             }
-        }
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         industries.getOrNull(position)?.let { industry ->
-            (holder as IndustyViewHolder).bind(industry)
+            (holder as IndustyViewHolder).bind(industry, position == selectedPosition)
         }
     }
 

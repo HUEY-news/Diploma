@@ -44,8 +44,7 @@ class IndustryFragment : Fragment() {
             resetImageButton.setOnClickListener {
                 textInputEditText.setText("")
                 activity?.window?.currentFocus?.let { view ->
-                    val imm =
-                        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                    val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                     imm?.hideSoftInputFromWindow(view.windowToken, 0)
                 }
             }
@@ -56,11 +55,12 @@ class IndustryFragment : Fragment() {
             viewModel.saveParameterName(industry.name)
         }
 
-        initApplyButton()
         binding.recyclerView.adapter = industryAdapter
         inputEditTextInit()
         viewModel.searchRequest()
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
+
+        initApplyButton()
     }
 
     private fun initApplyButton() {
@@ -120,11 +120,8 @@ class IndustryFragment : Fragment() {
             placeholderContainer.isVisible = false
             recyclerView.isVisible = true
         }
-        with(mutableListOf<Industry>()) {
-            addAll(industries)
-            industryAdapter?.setItems(industries)
-            listIndustries = industries
-        }
+        industryAdapter?.setItems(industries)
+        listIndustries = industries
     }
 
     private fun inputEditTextInit() {
