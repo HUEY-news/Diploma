@@ -18,7 +18,7 @@ import ru.practicum.android.diploma.databinding.FragmentIndustryBinding
 import ru.practicum.android.diploma.filter.domain.model.Industry
 import ru.practicum.android.diploma.filter.presentation.industry.IndustryViewModel
 import ru.practicum.android.diploma.filter.presentation.industry.model.IndustriesState
-import ru.practicum.android.diploma.filter.ui.FiltrationFragment
+import ru.practicum.android.diploma.filter.presentation.industry.model.IndustryState
 import java.util.Locale
 
 class IndustryFragment : Fragment() {
@@ -49,36 +49,34 @@ class IndustryFragment : Fragment() {
                 }
             }
             buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
+            selectButton.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_industryFragment_to_filtrationFragment,
+                )
+            }
         }
 
         industryAdapter = IndustryAdapter { industry ->
-            viewModel.saveParameterName(industry.name)
+            viewModel.saveIndustryFromAdapter(industry)
         }
 
         binding.recyclerView.adapter = industryAdapter
         inputEditTextInit()
         viewModel.searchRequest()
+        viewModel.observeStateIndustry().observe(viewLifecycleOwner) {
+            renderIndustry(it)
+        }
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
-
-        initApplyButton()
     }
 
-    private fun initApplyButton() {
-        viewModel.observeName().observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                val name = it
-                with(binding.selectButton) {
-                    isVisible = true
-                    setOnClickListener {
-                        findNavController().navigate(
-                            R.id.action_industryFragment_to_filtrationFragment,
-                            FiltrationFragment.createArgs(name)
-                        )
-                    }
-                }
-            } else {
-                binding.selectButton.isVisible = false
+    private fun renderIndustry(state: IndustryState) {
+        when (state) {
+            is IndustryState.ContentIndustry -> {
+                binding.selectButton.isVisible = true
+                viewModel.saveIndustry(state.industry)
             }
+
+            is IndustryState.Empty -> binding.selectButton.isVisible = false
         }
     }
 
@@ -159,7 +157,7 @@ class IndustryFragment : Fragment() {
                 }
             }
             industryAdapter?.setItems(listIndustries.filter { industry ->
-                industry.name.contains(inputTextFromSearch)
+                industry.name.lowercase().contains(inputTextFromSearch)
             })
         }
     }

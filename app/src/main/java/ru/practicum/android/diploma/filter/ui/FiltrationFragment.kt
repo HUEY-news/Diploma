@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -19,7 +18,6 @@ import ru.practicum.android.diploma.filter.presentation.model.AreaState
 import ru.practicum.android.diploma.filter.presentation.model.CheckBoxState
 import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 import ru.practicum.android.diploma.filter.presentation.model.IndustryState
-import ru.practicum.android.diploma.filter.presentation.model.SalaryState
 
 class FiltrationFragment : Fragment() {
     private var _binding: FragmentFiltrationBinding? = null
@@ -40,12 +38,12 @@ class FiltrationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         setOnTextChangedListener()
+        if (viewModel.salary != null) {
+            binding.salaryEditText.setText(viewModel.salary.toString(), TextView.BufferType.EDITABLE)
+        }
         viewModel.updateFilterParametersFromShared()
         viewModel.observeAreaState().observe(viewLifecycleOwner) {
             renderArea(it)
-        }
-        viewModel.observeSalaryState().observe(viewLifecycleOwner) {
-            renderSalary(it)
         }
         viewModel.observeIndustryState().observe(viewLifecycleOwner) {
             renderIndustry(it)
@@ -68,13 +66,6 @@ class FiltrationFragment : Fragment() {
         when (state) {
             is IndustryState.FilterIndustryState -> showIndustry(state.industryName)
             is IndustryState.EmptyFilterIndustry -> setDefaultIndustry()
-        }
-    }
-
-    private fun renderSalary(state: SalaryState) {
-        when (state) {
-            is SalaryState.FilterSalaryState -> showSalary(state.salary)
-            is SalaryState.EmptyFilterSalary -> setDefaultSalary()
         }
     }
 
@@ -109,15 +100,6 @@ class FiltrationFragment : Fragment() {
         binding.filtrationIndustryTextView.text = getString(R.string.industry)
     }
 
-    private fun showSalary(salary: String) {
-        binding.salaryEditText.setText(salary, TextView.BufferType.EDITABLE)
-        showFiltersMenu()
-    }
-
-    private fun setDefaultSalary() {
-        binding.salaryEditText.text?.clear()
-    }
-
     private fun setCheckBox(check: Boolean) {
         if (check) {
             binding.filtrationPayCheckbox.isChecked = true
@@ -126,8 +108,10 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun showEmptyFilters() {
-        binding.applyFilterButton.isVisible = false
-        binding.resetFilterButton.isVisible = false
+        if (viewModel.salary == null) {
+            binding.applyFilterButton.isVisible = false
+            binding.resetFilterButton.isVisible = false
+        }
     }
 
     private fun showFiltersMenu() {
@@ -163,6 +147,7 @@ class FiltrationFragment : Fragment() {
                 if (!s.isNullOrEmpty()) {
                     inputTextFromApply = s.toString()
                     viewModel.setSalary(inputTextFromApply!!)
+                    showFiltersMenu()
                 } else {
                     viewModel.setSalaryIsEmpty()
                 }
@@ -180,13 +165,5 @@ class FiltrationFragment : Fragment() {
         binding.filtrationVacancyToolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }
-    }
-
-    companion object {
-        private const val ARGS_INDUSTRY_NAME = "industry_name"
-        fun createArgs(industryName: String): Bundle =
-            bundleOf(
-                ARGS_INDUSTRY_NAME to industryName,
-            )
     }
 }

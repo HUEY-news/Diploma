@@ -35,7 +35,7 @@ class SearchViewModel(
     private fun setOption() {
         val country = filtrationInteractor.getFilter()?.countryId
         val region = filtrationInteractor.getFilter()?.regionId
-        val industry = filtrationInteractor.getFilter()?.industryName
+        val industry = filtrationInteractor.getFilter()?.industryId
         val salary = filtrationInteractor.getFilter()?.expectedSalary
         val onlyWithSalary = filtrationInteractor.getFilter()?.isOnlyWithSalary
         maxPages = totalVacanciesCount / VACANCIES_PER_PAGE + 1
@@ -87,6 +87,7 @@ class SearchViewModel(
     }
 
     private fun searchRequest(newSearchText: String) {
+        lastText = newSearchText
         if (newSearchText.isNotEmpty()) {
             viewModelScope.launch {
                 setOption()
