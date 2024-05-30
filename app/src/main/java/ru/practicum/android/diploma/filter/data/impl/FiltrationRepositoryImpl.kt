@@ -66,12 +66,6 @@ class FiltrationRepositoryImpl(
         storage.updateFilter(gson.toJson(updatedFilter))
     }
 
-    override fun clearCheckBox() {
-        val filter = getFilter()
-        val clearedFilter = filter?.copy(isOnlyWithSalary = false)
-        storage.updateFilter(gson.toJson(clearedFilter))
-    }
-
     override fun updateCountry(country: Country) {
         val filter = getFilter()
         val updatedFilter = filter?.copy(countryId = country.id, countryName = country.name)
