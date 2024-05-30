@@ -21,7 +21,8 @@ class IndustryAdapter(private val itemClickListener: ItemClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return IndustyViewHolder(ItemIndustryBinding.inflate(layoutInflater, parent, false),
+        return IndustyViewHolder(
+            ItemIndustryBinding.inflate(layoutInflater, parent, false),
             { position: Int ->
                 if (position != RecyclerView.NO_POSITION) {
                     industries.getOrNull(position)?.let { industry ->
