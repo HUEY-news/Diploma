@@ -166,4 +166,12 @@ class FiltrationFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
     }
+
+    companion object {
+        private const val ARGS_INDUSTRY_NAME = "industry_name"
+        fun createArgs(industryName: String): Bundle =
+            bundleOf(
+                ARGS_INDUSTRY_NAME to industryName,
+            )
+    }
 }
