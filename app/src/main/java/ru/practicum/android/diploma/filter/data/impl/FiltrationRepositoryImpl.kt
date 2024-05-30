@@ -26,7 +26,7 @@ class FiltrationRepositoryImpl(
 
     private fun checkFilter(filter: Filter): Boolean =
         with(filter) {
-            isOnlyWithSalary==null &&
+            isOnlyWithSalary == null &&
                 countryName == null &&
                 regionName == null &&
                 regionId == null &&
