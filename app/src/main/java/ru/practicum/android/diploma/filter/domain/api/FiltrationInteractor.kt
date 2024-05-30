@@ -12,7 +12,6 @@ interface FiltrationInteractor {
     fun updateSalary(salary: String)
     fun clearSalary()
     fun updateCheckBox(isChecked: Boolean)
-    fun clearCheckBox()
     fun updateCountry(country: Country)
     fun clearCountry()
     fun updateArea(area: Area)
