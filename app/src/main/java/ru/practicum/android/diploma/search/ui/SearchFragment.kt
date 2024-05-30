@@ -271,6 +271,7 @@ class SearchFragment : Fragment() {
             setDisplayHomeAsUpEnabled(false)
             title = getString(R.string.search_vacancies)
         }
+        binding.searchToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
     }
 
     private fun clickDebounce(): Boolean {

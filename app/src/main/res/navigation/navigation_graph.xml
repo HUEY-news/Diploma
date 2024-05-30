@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_placeOfWorkFragment_to_countryFragment"
             app:destination="@id/countryFragment" />
+        <action
+            android:id="@+id/action_placeOfWorkFragment_to_filtrationFragment"
+            app:destination="@id/filtrationFragment" />
     </fragment>
     <fragment
         android:id="@+id/countryFragment"

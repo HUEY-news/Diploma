@@ -35,12 +35,16 @@ class PlaceOfWorkFragment : Fragment() {
                 viewModel.setArgumentCountry(countryName)
             }
         }
+        binding.buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
         viewModel.updateInfoFromShared()
         binding.resetCountryButton.setOnClickListener {
             viewModel.cleanCountryData()
         }
         binding.resetRegionButton.setOnClickListener {
             viewModel.cleanRegionData()
+        }
+        binding.selectButton.setOnClickListener {
+            findNavController().navigate(R.id.action_placeOfWorkFragment_to_filtrationFragment)
         }
         viewModel.observeState().observe(viewLifecycleOwner) { state ->
             render(state)
@@ -58,6 +62,7 @@ class PlaceOfWorkFragment : Fragment() {
 
     private fun setFullAreaScreenState(countryName: String, regionName: String) {
         binding.apply {
+            selectButton.isVisible = true
             resetRegionButton.isVisible = true
             filtrationRegionUnselected.isVisible = false
             filtrationRegionSelected.isVisible = true
@@ -78,6 +83,7 @@ class PlaceOfWorkFragment : Fragment() {
     private fun setRegionNameScreenState(regionName: String) {
         setDefaultScreenState()
         binding.apply {
+            selectButton.isVisible = true
             resetRegionButton.isVisible = true
             filtrationRegionUnselected.isVisible = false
             filtrationRegionSelected.isVisible = true
@@ -88,9 +94,10 @@ class PlaceOfWorkFragment : Fragment() {
         }
     }
 
-    private fun setCountryNameScreenState(countryName: String?) {
+    private fun setCountryNameScreenState(countryName: String) {
         setDefaultScreenState()
         binding.apply {
+            selectButton.isVisible = true
             resetCountryButton.isVisible = true
             filtrationCountryUnselected.isVisible = false
             filtrationCountySelected.isVisible = true
@@ -103,13 +110,13 @@ class PlaceOfWorkFragment : Fragment() {
 
     private fun setDefaultScreenState() {
         with(binding) {
+            selectButton.isVisible = false
             resetRegionButton.isVisible = false
             resetCountryButton.isVisible = false
             filtrationCountryUnselected.isVisible = true
             filtrationCountySelected.isVisible = false
             filtrationRegionUnselected.isVisible = true
             filtrationRegionSelected.isVisible = false
-            buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
             filtrationCountryUnselected.setOnClickListener {
                 findNavController().navigate(R.id.action_placeOfWorkFragment_to_countryFragment)
             }
