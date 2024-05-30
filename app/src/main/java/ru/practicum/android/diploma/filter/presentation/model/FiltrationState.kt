@@ -1,21 +1,32 @@
 package ru.practicum.android.diploma.filter.presentation.model
 
 sealed interface FiltrationState {
-
     object EmptyFilters : FiltrationState
+}
 
-    object EmptyFilterIndustry : FiltrationState
-    data class FilterIndustryState(
-        val industryName: String,
-    ) : FiltrationState
+sealed interface AreaState {
+    object EmptyWorkplace : AreaState
+    data class WorkPlaceState(
+        val area: String,
+    ) : AreaState
+}
 
-    object EmptyFilterSalary : FiltrationState
+sealed interface SalaryState {
+    object EmptyFilterSalary : SalaryState
     data class FilterSalaryState(
         val salary: String,
-    ) : FiltrationState
+    ) : SalaryState
+}
 
-    object EmptyFilterCheckBox : FiltrationState
-    data class CheckBoxState(
+sealed interface IndustryState {
+    object EmptyFilterIndustry : IndustryState
+    data class FilterIndustryState(
+        val industryName: String,
+    ) : IndustryState
+}
+
+sealed interface CheckBoxState {
+    data class IsCheck(
         val isCheck: Boolean,
-    ) : FiltrationState
+    ) : CheckBoxState
 }

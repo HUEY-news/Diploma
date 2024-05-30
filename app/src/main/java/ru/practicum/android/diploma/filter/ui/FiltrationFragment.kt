@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -14,7 +15,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFiltrationBinding
 import ru.practicum.android.diploma.filter.presentation.FiltrationViewModel
-import ru.practicum.android.diploma.filter.presentation.workplace.model.AreaState
+import ru.practicum.android.diploma.filter.presentation.model.AreaState
+import ru.practicum.android.diploma.filter.presentation.model.CheckBoxState
+import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
+import ru.practicum.android.diploma.filter.presentation.model.IndustryState
+import ru.practicum.android.diploma.filter.presentation.model.SalaryState
 
 class FiltrationFragment : Fragment() {
     private var _binding: FragmentFiltrationBinding? = null
@@ -33,38 +38,101 @@ class FiltrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.updateWorkplaceFromShared()
-        viewModel.observeWorkplaceState().observe(viewLifecycleOwner) {
-            renderWorkplaceState(it)
-        }
-        if (arguments != null) {
-            val industry = arguments?.getString(ARGS_INDUSTRY_NAME)
-            binding.filtrationIndustryTextView.text = industry
-        }
         setOnClickListeners()
         setOnTextChangedListener()
-    }
-
-    private fun renderWorkplaceState(state: AreaState) {
-        when (state) {
-            is AreaState.Empty -> setDefaultWorkplaceState()
-            is AreaState.CountryName -> setCountryNameWorkplaceState(state.country)
-            is AreaState.RegionName -> setDefaultWorkplaceState()
-            is AreaState.FullArea -> setFullAreaWorkplaceState(state.country, state.region)
+        viewModel.updateFilterParametersFromShared()
+        viewModel.observeAreaState().observe(viewLifecycleOwner) {
+            renderArea(it)
+        }
+        viewModel.observeSalaryState().observe(viewLifecycleOwner) {
+            renderSalary(it)
+        }
+        viewModel.observeIndustryState().observe(viewLifecycleOwner) {
+            renderIndustry(it)
+        }
+        viewModel.observeCheckboxState().observe(viewLifecycleOwner) {
+            renderCheckBox(it)
+        }
+        viewModel.observeFiltrationState().observe(viewLifecycleOwner) {
+            render(it)
         }
     }
 
-    private fun setFullAreaWorkplaceState(country: String, region: String) {
-        val stringCountryRegion = "$country, $region"
-        binding.filtrationWorkPlaceTextView.text = stringCountryRegion
+    private fun renderCheckBox(checkBoxState: CheckBoxState) {
+        when (checkBoxState) {
+            is CheckBoxState.IsCheck -> setCheckBox(checkBoxState.isCheck)
+        }
     }
 
-    private fun setCountryNameWorkplaceState(country: String?) {
-        binding.filtrationWorkPlaceTextView.text = country
+    private fun renderIndustry(state: IndustryState) {
+        when (state) {
+            is IndustryState.FilterIndustryState -> showIndustry(state.industryName)
+            is IndustryState.EmptyFilterIndustry -> setDefaultIndustry()
+        }
     }
 
-    private fun setDefaultWorkplaceState() {
+    private fun renderSalary(state: SalaryState) {
+        when (state) {
+            is SalaryState.FilterSalaryState -> showSalary(state.salary)
+            is SalaryState.EmptyFilterSalary -> setDefaultSalary()
+        }
+    }
+
+    private fun renderArea(state: AreaState) {
+        when (state) {
+            is AreaState.WorkPlaceState -> showWorkPlace(state.area)
+            is AreaState.EmptyWorkplace -> setDefaultWorkplace()
+        }
+    }
+
+    private fun render(state: FiltrationState) {
+        when (state) {
+            is FiltrationState.EmptyFilters -> showEmptyFilters()
+        }
+    }
+
+    private fun showWorkPlace(workPlace: String) {
+        binding.filtrationWorkPlaceTextView.text = workPlace
+        showFiltersMenu()
+    }
+
+    private fun setDefaultWorkplace() {
         binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
+    }
+
+    private fun showIndustry(industryName: String) {
+        binding.filtrationIndustryTextView.text = industryName
+        showFiltersMenu()
+    }
+
+    private fun setDefaultIndustry() {
+        binding.filtrationIndustryTextView.text = getString(R.string.industry)
+    }
+
+    private fun showSalary(salary: String) {
+        binding.salaryEditText.setText(salary, TextView.BufferType.EDITABLE)
+        showFiltersMenu()
+    }
+
+    private fun setDefaultSalary() {
+        binding.salaryEditText.text?.clear()
+    }
+
+    private fun setCheckBox(check: Boolean) {
+        if (check) {
+            binding.filtrationPayCheckbox.isChecked = true
+            showFiltersMenu()
+        }
+    }
+
+    private fun showEmptyFilters() {
+        binding.applyFilterButton.isVisible = false
+        binding.resetFilterButton.isVisible = false
+    }
+
+    private fun showFiltersMenu() {
+        binding.applyFilterButton.isVisible = true
+        binding.resetFilterButton.isVisible = true
     }
 
     private fun setOnClickListeners() {
@@ -76,21 +144,13 @@ class FiltrationFragment : Fragment() {
                 findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
             }
             filtrationPayCheckbox.setOnClickListener {
-                viewModel.checkboxClick()
+                viewModel.setCheckboxOnlyWithSalary(filtrationPayCheckbox.isChecked)
             }
             resetFilterButton.setOnClickListener {
-                binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
-                binding.filtrationIndustryTextView.text = getString(R.string.industry)
-                binding.filtrationPayCheckbox.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        resources,
-                        R.drawable.icon_checkbox_off,
-                        null
-                    )
-                )
-                binding.salaryEditText.setText("")
-                binding.resetFilterButton.visibility = View.GONE
-                binding.applyFilterButton.visibility = View.GONE
+                viewModel.clearAllFilters()
+            }
+            applyFilterButton.setOnClickListener {
+                findNavController().navigate(R.id.action_filtrationFragment_to_searchFragment)
             }
         }
     }
@@ -119,42 +179,6 @@ class FiltrationFragment : Fragment() {
         binding.filtrationVacancyToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
         binding.filtrationVacancyToolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
-        }
-    }
-
-    private fun showEmptyFilters() {
-        binding.applyFilterButton.visibility = View.GONE
-        binding.resetFilterButton.visibility = View.GONE
-    }
-
-    private fun showFiltersContent(workPlace: String, industry: String, salary: String, checkBox: Boolean) {
-        binding.resetFilterButton.visibility = View.VISIBLE
-        binding.filtrationWorkPlaceTextView.text = workPlace
-        binding.filtrationIndustryTextView.text = industry
-        binding.salaryEditText.setText(salary)
-    }
-
-    private fun checkFilterStateReset() {
-        when {
-            binding.filtrationWorkPlaceTextView.text == getString(R.string.place_of_work)
-                && binding.filtrationIndustryTextView.text == getString(R.string.industry)
-                && !viewModel.checkbox
-                && inputTextFromApply == viewModel.lastText
-            -> binding.resetFilterButton.visibility = View.GONE
-
-            else -> binding.resetFilterButton.visibility = View.VISIBLE
-        }
-    }
-
-    private fun checkFilterStateApply() {
-        when {
-            binding.filtrationWorkPlaceTextView.text == viewModel.workPlace
-                && binding.filtrationIndustryTextView.text == viewModel.industry
-                && inputTextFromApply == viewModel.lastText
-                && !viewModel.checkboxChange
-            -> binding.applyFilterButton.visibility = View.GONE
-
-            else -> binding.applyFilterButton.visibility = View.VISIBLE
         }
     }
 

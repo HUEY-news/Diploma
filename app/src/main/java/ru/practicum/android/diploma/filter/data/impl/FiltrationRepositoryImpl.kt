@@ -10,7 +10,7 @@ import ru.practicum.android.diploma.filter.domain.model.Industry
 
 class FiltrationRepositoryImpl(
     private val storage: FiltrationStorage,
-    private val gson: Gson
+    private val gson: Gson,
 ) : FiltrationRepository {
 
     override fun getFilter(): Filter? {
@@ -26,7 +26,7 @@ class FiltrationRepositoryImpl(
 
     private fun checkFilter(filter: Filter): Boolean =
         with(filter) {
-            !isOnlyWithSalary &&
+            isOnlyWithSalary==null &&
                 countryName == null &&
                 regionName == null &&
                 regionId == null &&
@@ -49,6 +49,30 @@ class FiltrationRepositoryImpl(
     override fun clearIndustry() {
         val filter = getFilter()
         val clearedFilter = filter?.copy(industryName = null, industryId = null)
+        storage.updateFilter(gson.toJson(clearedFilter))
+    }
+
+    override fun updateSalary(salary: String) {
+        val filter = getFilter()
+        val updatedFilter = filter?.copy(expectedSalary = salary.toLong())
+        storage.updateFilter(gson.toJson(updatedFilter))
+    }
+
+    override fun clearSalary() {
+        val filter = getFilter()
+        val clearedFilter = filter?.copy(expectedSalary = null)
+        storage.updateFilter(gson.toJson(clearedFilter))
+    }
+
+    override fun updateCheckBox(isChecked: Boolean) {
+        val filter = getFilter()
+        val updatedFilter = filter?.copy(isOnlyWithSalary = isChecked)
+        storage.updateFilter(gson.toJson(updatedFilter))
+    }
+
+    override fun clearCheckBox() {
+        val filter = getFilter()
+        val clearedFilter = filter?.copy(isOnlyWithSalary = false)
         storage.updateFilter(gson.toJson(clearedFilter))
     }
 
