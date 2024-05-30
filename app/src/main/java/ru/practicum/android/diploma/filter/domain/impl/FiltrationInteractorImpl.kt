@@ -33,10 +33,6 @@ class FiltrationInteractorImpl(
         repository.updateCheckBox(isChecked)
     }
 
-    override fun clearCheckBox() {
-        repository.clearCheckBox()
-    }
-
     override fun updateCountry(country: Country) {
         repository.updateCountry(country)
     }
