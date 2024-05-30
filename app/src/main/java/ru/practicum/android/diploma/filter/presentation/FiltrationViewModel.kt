@@ -19,6 +19,10 @@ class FiltrationViewModel(
     private val stateLiveDataIndustry = MutableLiveData<IndustryState>()
     private val stateLiveDataCheckBox = MutableLiveData<CheckBoxState>()
     private val stateLiveDataChange = MutableLiveData<Boolean>()
+    val salary by lazy(LazyThreadSafetyMode.NONE) {
+        filtrationInteractor.getFilter()?.expectedSalary
+    }
+
     fun observeChangedState(): LiveData<Boolean> = stateLiveDataChange
     fun observeFiltrationState(): LiveData<FiltrationState> = stateLiveDataFiltration
     fun observeAreaState(): LiveData<AreaState> = stateLiveDataArea
@@ -42,7 +46,6 @@ class FiltrationViewModel(
 
     fun updateFilterParametersFromShared() {
         val industry = filtrationInteractor.getFilter()?.industryName
-        val salary = filtrationInteractor.getFilter()?.expectedSalary
         val onlyWithSalary = filtrationInteractor.getFilter()?.isOnlyWithSalary
         val country = filtrationInteractor.getFilter()?.countryName
         val region = filtrationInteractor.getFilter()?.regionName
