@@ -62,13 +62,13 @@
         android:layout_marginHorizontal="@dimen/dimens_size_16"
         android:layout_marginTop="@dimen/dimens_size_24"
         android:background="@drawable/shape_filtration_background"
+        android:hint="@string/expected_salary"
         android:textColorHint="?attr/gray_white"
         app:endIconDrawable="@drawable/icon_close"
-        app:endIconTint="@color/black"
-        android:hint="@string/expected_salary"
         app:endIconMode="clear_text"
-        app:hintTextColor="@color/blue"
+        app:endIconTint="@color/black"
         app:expandedHintEnabled="false"
+        app:hintTextColor="@color/blue"
         app:layout_constraintBottom_toTopOf="@+id/filtration_pay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,8 +79,8 @@
             style="@style/TextEditorOutLinedStyle"
             android:hint="@string/enter_amount"
             android:inputType="numberDecimal"
-            app:hintTextColor="?attr/gray_white"
-            app:boxStrokeColor="@color/blue" />
+            app:boxStrokeColor="@color/blue"
+            app:hintTextColor="?attr/gray_white" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,10 +115,9 @@
             android:text="@string/dont_show_without_salary"
             android:textColor="?attr/black_white" />
 
-        <ImageView
+        <CheckBox
             android:id="@+id/filtration_pay_checkbox"
-            style="@style/ForwardArrow"
-            android:src="@drawable/icon_checkbox_off" />
+            style="@style/ForwardArrow" />
     </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -126,7 +125,6 @@
         style="@style/ButtonFilterStyle"
         android:background="@drawable/shape_button_filter_background"
         android:text="@string/apply"
-        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/reset_filter_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -138,7 +136,6 @@
         android:background="@color/transparent"
         android:text="@string/reset"
         android:textColor="@color/red"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/apply_filter_button"
         app:layout_constraintStart_toStartOf="@+id/apply_filter_button" />

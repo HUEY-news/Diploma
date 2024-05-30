@@ -109,8 +109,9 @@
     <style name="ForwardArrow">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginEnd">@dimen/dimens_size_16</item>
+        <item name="android:layout_marginEnd">@dimen/dimens_size_4</item>
         <item name="android:layout_gravity">center|end</item>
+        <item name="android:buttonTint">@color/blue</item>
     </style>
 
     <style name="MyOutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
