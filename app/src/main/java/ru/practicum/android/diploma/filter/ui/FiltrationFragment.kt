@@ -122,42 +122,6 @@ class FiltrationFragment : Fragment() {
         }
     }
 
-    private fun showEmptyFilters() {
-        binding.applyFilterButton.visibility = View.GONE
-        binding.resetFilterButton.visibility = View.GONE
-    }
-
-    private fun showFiltersContent(workPlace: String, industry: String, salary: String, checkBox: Boolean) {
-        binding.resetFilterButton.visibility = View.VISIBLE
-        binding.filtrationWorkPlaceTextView.text = workPlace
-        binding.filtrationIndustryTextView.text = industry
-        binding.salaryEditText.setText(salary)
-    }
-
-    private fun checkFilterStateReset() {
-        when {
-            binding.filtrationWorkPlaceTextView.text == getString(R.string.place_of_work)
-                && binding.filtrationIndustryTextView.text == getString(R.string.industry)
-                && !viewModel.checkbox
-                && inputTextFromApply == viewModel.lastText
-            -> binding.resetFilterButton.visibility = View.GONE
-
-            else -> binding.resetFilterButton.visibility = View.VISIBLE
-        }
-    }
-
-    private fun checkFilterStateApply() {
-        when {
-            binding.filtrationWorkPlaceTextView.text == viewModel.workPlace
-                && binding.filtrationIndustryTextView.text == viewModel.industry
-                && inputTextFromApply == viewModel.lastText
-                && !viewModel.checkboxChange
-            -> binding.applyFilterButton.visibility = View.GONE
-
-            else -> binding.applyFilterButton.visibility = View.VISIBLE
-        }
-    }
-
     companion object {
         private const val ARGS_INDUSTRY_NAME = "industry_name"
         fun createArgs(industryName: String): Bundle =
