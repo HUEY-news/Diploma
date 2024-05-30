@@ -96,10 +96,8 @@ class RegionFragment : Fragment() {
             placeholderContainer.isVisible = false
             recyclerView.isVisible = true
         }
-        with(mutableListOf<Area>()) {
-            addAll(regions)
-            regionAdapter?.setItems(regions)
-        }
+        regionAdapter?.setItems(regions)
+        listRegion = regions
     }
 
     private fun inputEditTextInit() {
@@ -136,7 +134,7 @@ class RegionFragment : Fragment() {
                 }
             }
             regionAdapter?.setItems(listRegion.filter { region ->
-                region.name!!.contains(inputTextFromSearch)
+                region.name!!.lowercase().contains(inputTextFromSearch)
             })
         }
     }

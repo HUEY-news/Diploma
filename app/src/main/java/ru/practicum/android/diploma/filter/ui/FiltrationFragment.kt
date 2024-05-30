@@ -83,21 +83,33 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun showWorkPlace(workPlace: String) {
+        binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_close)
+        binding.filtrationWorkPlaceImageView.setOnClickListener {
+            viewModel.clearWorkplace()
+        }
         binding.filtrationWorkPlaceTextView.text = workPlace
         showFiltersMenu()
     }
 
     private fun setDefaultWorkplace() {
         binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
+        binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_arrow_forward)
+        binding.filtrationWorkPlaceImageView.setOnClickListener(null)
     }
 
     private fun showIndustry(industryName: String) {
+        binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_close)
+        binding.filtrationIndustryImageView.setOnClickListener {
+            viewModel.setIndustryIsEmpty()
+        }
         binding.filtrationIndustryTextView.text = industryName
         showFiltersMenu()
     }
 
     private fun setDefaultIndustry() {
         binding.filtrationIndustryTextView.text = getString(R.string.industry)
+        binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_arrow_forward)
+        binding.filtrationIndustryImageView.setOnClickListener(null)
     }
 
     private fun setCheckBox(check: Boolean) {
@@ -132,6 +144,10 @@ class FiltrationFragment : Fragment() {
             }
             resetFilterButton.setOnClickListener {
                 viewModel.clearAllFilters()
+                viewModel.setSalaryIsEmpty()
+                binding.salaryEditText.setText("")
+                binding.applyFilterButton.isVisible = false
+                binding.resetFilterButton.isVisible = false
             }
             applyFilterButton.setOnClickListener {
                 findNavController().navigate(R.id.action_filtrationFragment_to_searchFragment)

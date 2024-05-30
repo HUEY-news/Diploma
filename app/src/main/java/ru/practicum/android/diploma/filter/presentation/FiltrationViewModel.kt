@@ -79,17 +79,18 @@ class FiltrationViewModel(
         return salary == null && onlyWithSalary == null || onlyWithSalary == false
     }
 
-    private fun clearWorkplace() {
-        stateLiveDataArea.postValue(AreaState.EmptyWorkplace)
+    fun clearWorkplace() {
         filtrationInteractor.clearCountry()
         filtrationInteractor.clearArea()
+        stateLiveDataArea.postValue(AreaState.EmptyWorkplace)
     }
 
-    fun setIndustry(industry: String) {
+    private fun setIndustry(industry: String) {
         stateLiveDataIndustry.postValue(IndustryState.FilterIndustryState(industry))
     }
 
     fun setIndustryIsEmpty() {
+        filtrationInteractor.clearIndustry()
         stateLiveDataIndustry.postValue(IndustryState.EmptyFilterIndustry)
     }
 
