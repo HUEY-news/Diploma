@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -181,5 +182,13 @@ class FiltrationFragment : Fragment() {
         binding.filtrationVacancyToolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
         }
+    }
+
+    companion object {
+        private const val ARGS_INDUSTRY_NAME = "industry_name"
+        fun createArgs(industryName: String): Bundle =
+            bundleOf(
+                ARGS_INDUSTRY_NAME to industryName,
+            )
     }
 }
