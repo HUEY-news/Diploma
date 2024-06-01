@@ -11,4 +11,8 @@ class ResourceInteractorImpl(private val resourceProvider: ResourceProvider) : R
     override fun getErrorEmptyListVacancy(): String {
         return resourceProvider.getErrorEmptyListVacancy()
     }
+
+    override fun checkInternetConnection(): Boolean {
+        return resourceProvider.checkInternetConnection()
+    }
 }

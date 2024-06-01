@@ -24,7 +24,7 @@ val repositoryModule = module {
     single<FavoriteVacancyRepository> { FavoriteVacancyRepositoryImpl(appDatabase = get(), dbConverter = get()) }
     factory { DbConverter() }
     single<ExternalNavigator> { ExternalNavigator(context = androidContext()) }
-    single<ResourceProvider> { ResourceProvider(context = androidContext()) }
+    single<ResourceProvider> { ResourceProvider(context = androidContext(), checkConnection = get()) }
     single<SearchIndustriesRepository> { SearchIndustriesRepositoryImpl(client = get()) }
     single<SearchAreasRepository> { SearchAreasRepositoryImpl(client = get()) }
     single<FiltrationRepository> { FiltrationRepositoryImpl(storage = get(), gson = get()) }
