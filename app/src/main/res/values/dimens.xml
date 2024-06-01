@@ -6,6 +6,7 @@
     <dimen name="text_size_12">12sp</dimen>
     <dimen name="dimens_size_1">1dp</dimen>
     <dimen name="dimens_size_4">4dp</dimen>
+    <dimen name="dimens_size_6">6dp</dimen>
     <dimen name="dimens_size_8">8dp</dimen>
     <dimen name="dimens_size_9">9dp</dimen>
     <dimen name="dimens_size_12">12dp</dimen>
@@ -18,8 +19,7 @@
     <dimen name="dimens_size_36">36dp</dimen>
     <dimen name="dimens_size_48">48dp</dimen>
     <dimen name="dimens_size_56">56dp</dimen>
+    <dimen name="dimens_size_60">60dp</dimen>
     <dimen name="dimens_size_64">64dp</dimen>
     <dimen name="dimens_size_76">76dp</dimen>
-
-
 </resources>

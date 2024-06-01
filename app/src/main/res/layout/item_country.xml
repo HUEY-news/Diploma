@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/filter_country_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ys_text_regular"
+        android:paddingHorizontal="@dimen/dimens_size_16"
+        android:paddingVertical="@dimen/dimens_size_20"
+        android:textColor="?attr/black_white"
+        android:textSize="@dimen/dimens_size_16"
+        app:drawableEndCompat="@drawable/icon_arrow_forward"
+        tools:text="Владивосток" />
+</FrameLayout>

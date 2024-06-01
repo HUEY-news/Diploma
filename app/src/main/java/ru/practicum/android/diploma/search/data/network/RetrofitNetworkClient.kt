@@ -1,19 +1,22 @@
 package ru.practicum.android.diploma.search.data.network
 
-import android.content.Context
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.practicum.android.diploma.filter.data.dto.SearchAreasResponse
+import ru.practicum.android.diploma.filter.data.model.IndustryDto
 import ru.practicum.android.diploma.search.data.dto.Response
 import ru.practicum.android.diploma.search.data.dto.SearchRequest
+import ru.practicum.android.diploma.sharing.data.ResourceProvider
 import ru.practicum.android.diploma.util.CheckConnection
 import ru.practicum.android.diploma.util.Constants
+import ru.practicum.android.diploma.util.Resource
 import java.io.IOException
 
 class RetrofitNetworkClient(
-    private val context: Context,
     private val service: SearchApiService,
     private val checkConnection: CheckConnection,
+    private val resourceProvider: ResourceProvider,
 ) : NetworkClient {
 
     override suspend fun doRequest(dto: Any, options: HashMap<String, String>): Response {
@@ -58,6 +61,59 @@ class RetrofitNetworkClient(
                     } catch (exception: IOException) {
                         Log.e("TEST", "$exception")
                         Response().apply { resultCode = Constants.SERVER_ERROR }
+                    }
+                }
+            }
+        }
+    }
+
+    override suspend fun doRequestIndustries(): Resource<List<IndustryDto>> {
+        return when {
+            !checkConnection.isInternetAvailable() -> {
+                Resource.Error(resourceProvider.getErrorInternetConnection())
+            }
+
+            else -> {
+                withContext(Dispatchers.IO) {
+                    try {
+                        val response = service.searchIndustries().body()
+                        val industriesList = mutableListOf<IndustryDto>()
+                        if (!response.isNullOrEmpty()) {
+                            response.forEach { searchIndustriesResponse ->
+                                searchIndustriesResponse.results.forEach { industryDto ->
+                                    industriesList.add(industryDto)
+                                }
+                            }
+                        }
+                        Resource.Success(industriesList)
+
+                    } catch (exception: IOException) {
+                        Log.e("TEST", "$exception")
+                        Resource.Error(resourceProvider.getErrorServer())
+                    }
+                }
+            }
+        }
+    }
+
+    override suspend fun doRequestAreas(): Resource<List<SearchAreasResponse>> {
+        return when {
+            !checkConnection.isInternetAvailable() -> {
+                Resource.Error(resourceProvider.getErrorInternetConnection())
+            }
+
+            else -> {
+                withContext(Dispatchers.IO) {
+                    try {
+                        val response = service.searchAreas().body()
+                        val industriesList = mutableListOf<SearchAreasResponse>()
+                        if (!response.isNullOrEmpty()) {
+                            response.forEach { searchAreasResponse -> industriesList.add(searchAreasResponse) }
+                        }
+                        Resource.Success(industriesList)
+                    } catch (exception: IOException) {
+                        Log.e("TEST", "$exception")
+                        Resource.Error(resourceProvider.getErrorServer())
                     }
                 }
             }

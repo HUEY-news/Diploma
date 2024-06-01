@@ -5,32 +5,58 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.filter.domain.api.FiltrationInteractor
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
 import ru.practicum.android.diploma.sharing.domain.api.ResourceInteractor
+import ru.practicum.android.diploma.util.Constants.AREA
+import ru.practicum.android.diploma.util.Constants.INDUSTRY
+import ru.practicum.android.diploma.util.Constants.ONLY_WITH_SALARY
 import ru.practicum.android.diploma.util.Constants.PAGE
 import ru.practicum.android.diploma.util.Constants.PER_PAGE
+import ru.practicum.android.diploma.util.Constants.SALARY
 import ru.practicum.android.diploma.util.Constants.VACANCIES_PER_PAGE
 import ru.practicum.android.diploma.util.debounce
 
 class SearchViewModel(
     private val resourceInteractor: ResourceInteractor,
     private val searchInteractor: SearchInteractor,
+    private val filtrationInteractor: FiltrationInteractor,
 ) :
     ViewModel() {
     var lastText: String = ""
     private var currentPage = 0
     private var maxPages = 0
     var totalVacanciesCount: Int = 0
-
+    var flagSuccessfulDownload: Boolean = false
     private val options: HashMap<String, String> = HashMap()
 
     private fun setOption() {
+        val country = filtrationInteractor.getFilter()?.countryId
+        val region = filtrationInteractor.getFilter()?.regionId
+        val industry = filtrationInteractor.getFilter()?.industryId
+        val salary = filtrationInteractor.getFilter()?.expectedSalary
+        val onlyWithSalary = filtrationInteractor.getFilter()?.isOnlyWithSalary
         maxPages = totalVacanciesCount / VACANCIES_PER_PAGE + 1
         if (totalVacanciesCount > VACANCIES_PER_PAGE && currentPage < maxPages) {
             options[PAGE] = currentPage.toString()
             options[PER_PAGE] = VACANCIES_PER_PAGE.toString()
+        }
+        if (country != null) {
+            options[AREA] = country
+        }
+        if (region != null) {
+            options[AREA] = region
+        }
+        if (industry != null) {
+            options[INDUSTRY] = industry
+        }
+        if (salary != null) {
+            options[SALARY] = salary.toString()
+        }
+        if (onlyWithSalary != null && onlyWithSalary != false) {
+            options[ONLY_WITH_SALARY] = onlyWithSalary.toString()
         }
     }
 
@@ -40,11 +66,14 @@ class SearchViewModel(
 
     private val trackSearchDebounce =
         debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
-            searchRequest(changedText)
+            run {
+                SearchViewModel
+                renderState(VacanciesState.Loading)
+                searchRequest(changedText)
+            }
         }
 
     fun searchDebounce(changedText: String) {
-        renderState(VacanciesState.Loading)
         lastText = changedText
         trackSearchDebounce(changedText)
     }
@@ -58,6 +87,7 @@ class SearchViewModel(
     }
 
     private fun searchRequest(newSearchText: String) {
+        lastText = newSearchText
         if (newSearchText.isNotEmpty()) {
             viewModelScope.launch {
                 setOption()
@@ -66,16 +96,13 @@ class SearchViewModel(
                     .collect { pair ->
                         val vacancies = ArrayList<SimpleVacancy>()
                         if (pair.first != null) {
+                            setContent(vacancies)
                             vacancies.addAll(pair.first!!)
                             updateTotalVacanciesCount(vacancies)
-                            renderState(
-                                VacanciesState.Content(
-                                    vacancies = vacancies,
-                                )
-                            )
                         }
                         when {
                             pair.second != null -> {
+                                flagSuccessfulDownload = false
                                 renderState(
                                     VacanciesState.Error(
                                         errorMessage = pair.second!!
@@ -84,17 +111,26 @@ class SearchViewModel(
                             }
 
                             vacancies.isEmpty() -> {
+                                flagSuccessfulDownload = false
                                 renderState(
                                     VacanciesState.Empty(
                                         message = resourceInteractor.getErrorEmptyListVacancy()
                                     ),
                                 )
                             }
-
                         }
                     }
             }
         }
+    }
+
+    private fun setContent(vacancies: ArrayList<SimpleVacancy>) {
+        flagSuccessfulDownload = true
+        renderState(
+            VacanciesState.Content(
+                vacancies = vacancies,
+            )
+        )
     }
 
     private fun renderState(state: VacanciesState) {

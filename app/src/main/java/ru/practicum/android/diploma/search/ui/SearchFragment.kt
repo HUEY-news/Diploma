@@ -4,13 +4,20 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +38,6 @@ class SearchFragment : Fragment() {
     private val binding: FragmentSearchBinding
         get() = _binding!!
     private var inputTextFromSearch: String? = null
-    private var flagSuccessfulDownload: Boolean = false
     private var searchAdapter: SearchVacancyAdapter? = null
 
     private val viewModel by viewModel<SearchViewModel>()
@@ -51,8 +57,9 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         scrollListener()
         searchAdapterReset()
+        setupToolbar()
+
         binding.apply {
-            searchToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
             resetImageButton.setOnClickListener {
                 searchFieldEditText.setText("")
                 activity?.window?.currentFocus?.let { view ->
@@ -67,6 +74,26 @@ class SearchFragment : Fragment() {
         viewModel.observeState().observe(viewLifecycleOwner) {
             render(it)
         }
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.search_toolbar_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_filter -> {
+                        findNavController().navigate(
+                            R.id.action_searchFragment_to_filtrationFragment
+                        )
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun scrollListener() {
@@ -97,6 +124,7 @@ class SearchFragment : Fragment() {
                 if (s != null) {
                     if (s.isNotEmpty() && viewModel.lastText != s.toString()) {
                         inputTextFromSearch = s.toString()
+                        binding.vacancyMessageTextView.isVisible = false
                         searchAdapterReset()
                         viewModel.searchDebounce(inputTextFromSearch!!)
                     } else {
@@ -111,7 +139,7 @@ class SearchFragment : Fragment() {
         )
         binding.searchFieldEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && binding.searchFieldEditText.text.isNotEmpty()) {
-                if (!flagSuccessfulDownload) {
+                if (!viewModel.flagSuccessfulDownload) {
                     inputTextFromSearch?.let {
                         searchAdapterReset()
                         viewModel.downloadData(it)
@@ -201,11 +229,13 @@ class SearchFragment : Fragment() {
             placeholderTextView.isVisible = true
             placeholderTextView.text = errorMessage
             vacancyMessageTextView.isVisible = false
-            if (errorMessage == requireContext().getString(R.string.no_internet)) {
-                placeholderImageView.setImageResource(R.drawable.placeholder_no_internet_connection)
-            } else {
-                placeholderImageView.setImageResource(R.drawable.placeholder_server_error_search)
-            }
+            placeholderImageView.setImageResource(
+                if (errorMessage == getString(R.string.no_internet)) {
+                    R.drawable.placeholder_no_internet_connection
+                } else {
+                    R.drawable.placeholder_server_error_search
+                }
+            )
         }
     }
 
@@ -233,6 +263,15 @@ class SearchFragment : Fragment() {
             placeholderContainer.isVisible = false
             searchRecyclerView.isVisible = true
         }
+    }
+
+    private fun setupToolbar() {
+        (activity as? AppCompatActivity)?.setSupportActionBar(binding.searchToolbar)
+        (activity as? AppCompatActivity)?.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(false)
+            title = getString(R.string.search_vacancies)
+        }
+        binding.searchToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
     }
 
     private fun clickDebounce(): Boolean {

@@ -1,13 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/white_black"
     tools:context=".filter.ui.FiltrationFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/filtration_vacancy_toolbar"
+        style="@style/ToolbarAppStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/filtering_settings" />
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/filtration_work_place"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_size_60"
+        android:layout_marginTop="@dimen/dimens_size_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtration_vacancy_toolbar">
+
+        <TextView
+            android:id="@+id/filtration_work_place_text_view"
+            style="@style/FiltrationVacancyTextStyleRegular"
+            android:layout_gravity="center|start"
+            android:layout_marginStart="@dimen/dimens_size_16"
+            android:text="@string/place_of_work" />
+
+        <ImageView
+            android:id="@+id/filtration_work_place_image_view"
+            style="@style/ForwardArrow"
+            android:src="@drawable/icon_arrow_forward" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/filtration_industry"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_size_60"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtration_work_place">
+
+        <TextView
+            android:id="@+id/filtration_industry_text_view"
+            style="@style/FiltrationVacancyTextStyleRegular"
+            android:layout_gravity="center|start"
+            android:layout_marginStart="@dimen/dimens_size_16"
+            android:text="@string/industry" />
+
+        <ImageView
+            android:id="@+id/filtration_industry_image_view"
+            style="@style/ForwardArrow"
+            android:src="@drawable/icon_arrow_forward" />
+    </FrameLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/salary_desctiption_field"
+        style="@style/MyOutlinedBox"
+        android:layout_marginHorizontal="@dimen/dimens_size_16"
+        android:layout_marginTop="@dimen/dimens_size_24"
+        android:background="@drawable/shape_filtration_background"
+        android:hint="@string/expected_salary"
+        android:textColorHint="?attr/gray_white"
+        app:endIconDrawable="@drawable/icon_close"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        app:expandedHintEnabled="false"
+        app:hintTextColor="@color/blue"
+        app:layout_constraintBottom_toTopOf="@+id/filtration_pay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtration_industry">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/salary_edit_text"
+            style="@style/TextEditorOutLinedStyle"
+            android:hint="@string/enter_amount"
+            android:inputType="numberDecimal"
+            app:boxStrokeColor="@color/blue"
+            app:hintTextColor="?attr/gray_white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/reset_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimens_size_12"
+        android:background="?attr/lightgray_gray"
+        android:src="@drawable/icon_close"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/salary_desctiption_field"
+        app:layout_constraintEnd_toEndOf="@id/salary_desctiption_field"
+        app:layout_constraintTop_toTopOf="@id/salary_desctiption_field"
+        app:tint="@color/black"
+        tools:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/filtration_pay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_size_60"
+        android:layout_marginTop="@dimen/dimens_size_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/salary_desctiption_field">
+
+        <TextView
+            style="@style/FiltrationVacancyTextStyleRegular"
+            android:layout_gravity="center|start"
+            android:layout_marginStart="@dimen/dimens_size_16"
+            android:text="@string/dont_show_without_salary"
+            android:textColor="?attr/black_white" />
+
+        <CheckBox
+            android:id="@+id/filtration_pay_checkbox"
+            style="@style/ForwardArrow"
+            android:buttonTint="@color/blue" />
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/apply_filter_button"
+        style="@style/ButtonFilterStyle"
+        android:background="@drawable/shape_button_filter_background"
+        android:text="@string/apply"
+        app:layout_constraintBottom_toTopOf="@+id/reset_filter_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/reset_filter_button"
+        style="@style/ButtonFilterStyle"
+        android:layout_marginBottom="@dimen/dimens_size_24"
+        android:background="@color/transparent"
+        android:text="@string/reset"
+        android:textColor="@color/red"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/apply_filter_button"
+        app:layout_constraintStart_toStartOf="@+id/apply_filter_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
