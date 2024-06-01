@@ -61,11 +61,12 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/salary_desctiption_field"
         style="@style/MyOutlinedBox"
-        android:layout_marginHorizontal="@dimen/dimens_size_16"
         android:layout_marginTop="@dimen/dimens_size_24"
         android:background="@drawable/shape_filtration_background"
         android:hint="@string/expected_salary"
+        android:paddingTop="@dimen/dimens_size_8"
         android:textColorHint="?attr/gray_white"
+        app:boxBackgroundMode="none"
         app:endIconDrawable="@drawable/icon_close"
         app:endIconMode="clear_text"
         app:endIconTint="@color/black"
@@ -79,8 +80,12 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/salary_edit_text"
             style="@style/TextEditorOutLinedStyle"
+            android:gravity="bottom"
             android:hint="@string/enter_amount"
             android:inputType="number"
+            android:maxLength="18"
+            android:paddingHorizontal="@dimen/dimens_size_16"
+            android:paddingVertical="@dimen/dimens_size_8"
             app:boxStrokeColor="@color/blue"
             app:hintTextColor="?attr/gray_white" />
 
@@ -114,7 +119,7 @@
             style="@style/FiltrationVacancyTextStyleRegular"
             android:layout_gravity="center|start"
             android:layout_marginStart="@dimen/dimens_size_16"
-            android:text="@string/dont_show_without_salary"
+            android:text="@string/do_not_show_without_salary"
             android:textColor="?attr/black_white" />
 
         <CheckBox
