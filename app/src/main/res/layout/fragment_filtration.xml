@@ -80,7 +80,7 @@
             android:id="@+id/salary_edit_text"
             style="@style/TextEditorOutLinedStyle"
             android:hint="@string/enter_amount"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             app:boxStrokeColor="@color/blue"
             app:hintTextColor="?attr/gray_white" />
 
