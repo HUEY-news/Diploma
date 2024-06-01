@@ -137,6 +137,7 @@ class SearchFragment : Fragment() {
                 inputTextFromSearch = s.toString()
             }
         )
+
         binding.searchFieldEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && binding.searchFieldEditText.text.isNotEmpty()) {
                 if (!viewModel.flagSuccessfulDownload) {
@@ -145,7 +146,6 @@ class SearchFragment : Fragment() {
                         viewModel.downloadData(it)
                     }
                 }
-                true
             }
             binding.centerProgressBar.visibility = View.GONE
             false
