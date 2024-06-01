@@ -114,7 +114,7 @@
             style="@style/FiltrationVacancyTextStyleRegular"
             android:layout_gravity="center|start"
             android:layout_marginStart="@dimen/dimens_size_16"
-            android:text="@string/dont_show_without_salary"
+            android:text="@string/do_not_show_without_salary"
             android:textColor="?attr/black_white" />
 
         <CheckBox
