@@ -219,7 +219,7 @@ class SearchFragment : Fragment() {
             bottomProgressBar.isVisible = true
             placeholderContainer.isVisible = false
             searchRecyclerView.isVisible = true
-            vacancyMessageTextView.isVisible = false
+            vacancyMessageTextView.isVisible = true
         }
     }
 
