@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -106,8 +107,7 @@ class SearchFragment : Fragment() {
                     val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
                     val totalItemCount = layoutManager.itemCount
                     val isLoadingNeeded = lastVisibleItemPosition + 1 == totalItemCount
-                    if (isLoadingNeeded && (lastVisibleItemPosition < viewModel.totalVacanciesCount
-                            && viewModel.totalVacanciesCount > VACANCIES_PER_PAGE)
+                    if (isLoadingNeeded && viewModel.totalVacanciesCount > VACANCIES_PER_PAGE && dy > 0
                     ) {
                         viewModel.uploadData()
                     }
@@ -182,6 +182,10 @@ class SearchFragment : Fragment() {
                 binding.vacancyMessageTextView.text = getString(R.string.there_are_no_such_vacancies)
             }
 
+            is VacanciesState.ErrorToast -> {
+                Toast.makeText(requireContext(), state.errorMessage, Toast.LENGTH_SHORT).show()
+            }
+
             is VacanciesState.Error -> showErrorConnection(state.errorMessage)
             is VacanciesState.Loading -> showLoading()
             is VacanciesState.BottomLoading -> showBottomLoading()
@@ -214,8 +218,8 @@ class SearchFragment : Fragment() {
             centerProgressBar.isVisible = false
             bottomProgressBar.isVisible = true
             placeholderContainer.isVisible = false
-            searchRecyclerView.isVisible = false
-            vacancyMessageTextView.isVisible = false
+            searchRecyclerView.isVisible = true
+            vacancyMessageTextView.isVisible = true
         }
     }
 

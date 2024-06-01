@@ -31,6 +31,8 @@ class SearchViewModel(
     var totalVacanciesCount: Int = 0
     var flagSuccessfulDownload: Boolean = false
     private val options: HashMap<String, String> = HashMap()
+    private var flagDebounce = false
+    var isNextPageLoading = false
 
     private fun setOption() {
         val country = filtrationInteractor.getFilter()?.countryId
@@ -64,7 +66,7 @@ class SearchViewModel(
 
     fun observeState(): LiveData<VacanciesState> = stateLiveData
 
-    private val trackSearchDebounce =
+    private val vacancySearchDebounce =
         debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
             run {
                 SearchViewModel
@@ -74,8 +76,12 @@ class SearchViewModel(
         }
 
     fun searchDebounce(changedText: String) {
-        lastText = changedText
-        trackSearchDebounce(changedText)
+        if (lastText != changedText) {
+            currentPage = 0
+            lastText = changedText
+            flagDebounce = true
+            vacancySearchDebounce(changedText)
+        }
     }
 
     private fun updateTotalVacanciesCount(vacancies: List<SimpleVacancy>) {
@@ -120,6 +126,7 @@ class SearchViewModel(
                             }
                         }
                     }
+                isNextPageLoading = false
             }
         }
     }
@@ -138,14 +145,24 @@ class SearchViewModel(
     }
 
     fun uploadData() {
-        currentPage++
-        searchRequest(lastText)
-        renderState(VacanciesState.BottomLoading)
+        if (resourceInteractor.checkInternetConnection()) {
+            maxPages = totalVacanciesCount / VACANCIES_PER_PAGE + 1
+            if (currentPage < maxPages && !isNextPageLoading) {
+                isNextPageLoading = true
+                currentPage++
+                searchRequest(lastText)
+                renderState(VacanciesState.BottomLoading)
+            }
+        } else {
+            renderState(VacanciesState.ErrorToast(errorMessage = resourceInteractor.getErrorInternetConnection()))
+        }
     }
 
     fun downloadData(request: String) {
-        renderState(VacanciesState.Loading)
-        searchRequest(request)
+        if (!flagDebounce) {
+            renderState(VacanciesState.Loading)
+            searchRequest(request)
+        }
     }
 
     companion object {
