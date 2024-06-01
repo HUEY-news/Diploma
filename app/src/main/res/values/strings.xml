@@ -13,7 +13,7 @@
     <string name="industry">Отрасль</string>
     <string name="expected_salary">Ожидаемаяя зарплата</string>
     <string name="enter_amount">Введите сумму</string>
-    <string name="dont_show_without_salary">Не показвать без зарплаты</string>
+    <string name="do_not_show_without_salary">Не показывать без зарплаты</string>
     <string name="choosing_a_place_to_work">Выбор места работы</string>
     <string name="country">Cтрана</string>
     <string name="region">Регион</string>
