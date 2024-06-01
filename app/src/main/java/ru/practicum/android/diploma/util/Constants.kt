@@ -9,9 +9,8 @@ object Constants {
     const val PAGE = "page"
     const val PER_PAGE = "per_page"
     const val AREA = "area"
-    const val METRO = "metro"
     const val INDUSTRY = "industry"
-    const val SALARY = "salary_from"
+    const val SALARY = "salary"
     const val ONLY_WITH_SALARY = "only_with_salary"
     const val PREFERENCES = "filtration_preferences"
     const val VACANCIES_PER_PAGE = 20
