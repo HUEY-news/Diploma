@@ -142,10 +142,8 @@ class SearchFragment : Fragment() {
                 if (!viewModel.flagSuccessfulDownload) {
                     inputTextFromSearch?.let {
                         searchAdapterReset()
-                        viewModel.downloadData(it)
                     }
                 }
-                true
             }
             binding.centerProgressBar.visibility = View.GONE
             false
