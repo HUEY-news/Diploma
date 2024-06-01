@@ -137,11 +137,13 @@ class SearchFragment : Fragment() {
                 inputTextFromSearch = s.toString()
             }
         )
+
         binding.searchFieldEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE && binding.searchFieldEditText.text.isNotEmpty()) {
                 if (!viewModel.flagSuccessfulDownload) {
                     inputTextFromSearch?.let {
                         searchAdapterReset()
+                        viewModel.downloadData(it)
                     }
                 }
             }
