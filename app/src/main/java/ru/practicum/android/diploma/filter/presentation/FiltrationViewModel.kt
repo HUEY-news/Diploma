@@ -11,14 +11,16 @@ import ru.practicum.android.diploma.filter.presentation.model.IndustryState
 import ru.practicum.android.diploma.filter.presentation.model.SalaryState
 
 class FiltrationViewModel(
-    private val filtrationInteractor: FiltrationInteractor,
+    private val filtrationInteractor: FiltrationInteractor
 ) : ViewModel() {
+
     private val stateLiveDataFiltration = MutableLiveData<FiltrationState>()
     private val stateLiveDataArea = MutableLiveData<AreaState>()
     private val stateLiveDataSalary = MutableLiveData<SalaryState>()
     private val stateLiveDataIndustry = MutableLiveData<IndustryState>()
     private val stateLiveDataCheckBox = MutableLiveData<CheckBoxState>()
     private val stateLiveDataChange = MutableLiveData<Boolean>()
+
     val salary by lazy(LazyThreadSafetyMode.NONE) {
         filtrationInteractor.getFilter()?.expectedSalary
     }
@@ -26,11 +28,10 @@ class FiltrationViewModel(
     fun observeChangedState(): LiveData<Boolean> = stateLiveDataChange
     fun observeFiltrationState(): LiveData<FiltrationState> = stateLiveDataFiltration
     fun observeAreaState(): LiveData<AreaState> = stateLiveDataArea
-
     fun observeSalaryState(): LiveData<SalaryState> = stateLiveDataSalary
-
     fun observeIndustryState(): LiveData<IndustryState> = stateLiveDataIndustry
     fun observeCheckboxState(): LiveData<CheckBoxState> = stateLiveDataCheckBox
+
     private fun updateWorkplaceFromShared(country: String?, region: String?) {
         val stringCountryRegion: String
         if (country != null && region != null) {
@@ -45,20 +46,17 @@ class FiltrationViewModel(
     }
 
     fun updateFilterParametersFromShared() {
+
         val industry = filtrationInteractor.getFilter()?.industryName
         val onlyWithSalary = filtrationInteractor.getFilter()?.isOnlyWithSalary
         val country = filtrationInteractor.getFilter()?.countryName
         val region = filtrationInteractor.getFilter()?.regionName
+
         updateWorkplaceFromShared(country, region)
-        if (industry != null) {
-            setIndustry(industry)
-        }
-        if (salary != null) {
-            setSalary(salary.toString())
-        }
-        if (onlyWithSalary != null) {
-            setCheckboxOnlyWithSalary(onlyWithSalary)
-        }
+
+        if (industry != null) { setIndustry(industry) }
+        if (salary != null) { setSalary(salary.toString()) }
+        if (onlyWithSalary != null) { setCheckboxOnlyWithSalary(onlyWithSalary) }
         if (checkOnNull(country, region, industry, salary, onlyWithSalary)) {
             stateLiveDataFiltration.postValue(FiltrationState.EmptyFilters)
         }
