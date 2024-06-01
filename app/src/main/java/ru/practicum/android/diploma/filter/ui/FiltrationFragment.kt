@@ -146,6 +146,7 @@ class FiltrationFragment : Fragment() {
             resetFilterButton.setOnClickListener {
                 viewModel.clearAllFilters()
                 viewModel.setSalaryIsEmpty()
+                filtrationPayCheckbox.isChecked = false
                 binding.salaryEditText.setText("")
                 binding.applyFilterButton.isVisible = false
                 binding.resetFilterButton.isVisible = false
