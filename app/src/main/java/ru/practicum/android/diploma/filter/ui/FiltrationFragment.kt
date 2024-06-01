@@ -117,7 +117,7 @@ class FiltrationFragment : Fragment() {
         if (check) {
             binding.filtrationPayCheckbox.isChecked = true
             showFiltersMenu()
-        }
+        } else { showEmptyFilters() }
     }
 
     private fun showEmptyFilters() {
