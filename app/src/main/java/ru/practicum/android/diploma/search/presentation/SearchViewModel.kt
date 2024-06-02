@@ -76,7 +76,7 @@ class SearchViewModel(
         }
 
     fun searchDebounce(changedText: String) {
-        if (changedText.isEmpty()) {
+        if (changedText.trim().isEmpty()) {
             renderState(VacanciesState.Empty(message = resourceInteractor.getErrorEmptyListVacancy()))
             return
         }
@@ -97,7 +97,7 @@ class SearchViewModel(
     }
 
     private fun searchRequest(newSearchText: String) {
-        if (newSearchText.isEmpty()) {
+        if (newSearchText.trim().isEmpty()) {
             renderState(VacanciesState.Empty(message = resourceInteractor.getErrorEmptyListVacancy()))
             return
         }
