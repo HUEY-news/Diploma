@@ -184,13 +184,14 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun isAnyFilterActive() {
-        val isWorkPlaceDefault = binding.filtrationWorkPlaceTextView.text == "Место работы"
-        val isIndustryDefault = binding.filtrationIndustryTextView.text == "Отрасль"
-        val areWorkplaceAndIndustryDefault = (isWorkPlaceDefault && isIndustryDefault)
         val isSalaryEmpty = binding.salaryEditText.text.toString().isEmpty()
         val isPayCheckboxUnchecked = !binding.filtrationPayCheckbox.isChecked
+        val isWorkplaceAndIndustryDefault = (
+            binding.filtrationWorkPlaceTextView.text == "Место работы" &&
+            binding.filtrationIndustryTextView.text == "Отрасль"
+            )
 
-        if (areWorkplaceAndIndustryDefault && isSalaryEmpty && isPayCheckboxUnchecked) {
+        if (isWorkplaceAndIndustryDefault && isSalaryEmpty && isPayCheckboxUnchecked) {
             binding.applyFilterButton.isVisible = false
             binding.resetFilterButton.isVisible = false
         }
