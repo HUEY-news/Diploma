@@ -56,14 +56,12 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun renderCheckBox(checkBoxState: CheckBoxState) {
-        Log.d("TEST", "renderCheckBox()")
         when (checkBoxState) {
             is CheckBoxState.IsCheck -> setCheckBox(checkBoxState.isCheck)
         }
     }
 
     private fun renderIndustry(state: IndustryState) {
-        Log.d("TEST", "renderIndustry()")
         when (state) {
             is IndustryState.FilterIndustryState -> showIndustry(state.industryName)
             is IndustryState.EmptyFilterIndustry -> setDefaultIndustry()
@@ -71,7 +69,6 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun renderArea(state: AreaState) {
-        Log.d("TEST", "renderArea()")
         when (state) {
             is AreaState.WorkPlaceState -> showWorkPlace(state.area)
             is AreaState.EmptyWorkplace -> setDefaultWorkplace()
@@ -79,14 +76,12 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun render(state: FiltrationState) {
-        Log.d("TEST", "render()")
         when (state) {
             is FiltrationState.EmptyFilters -> showEmptyFilters()
         }
     }
 
     private fun showWorkPlace(workPlace: String) {
-        Log.d("TEST", "showWorkPlace()")
         binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_close)
         binding.filtrationWorkPlaceImageView.setOnClickListener { viewModel.clearWorkplace() }
         binding.filtrationWorkPlaceTextView.text = workPlace
@@ -94,7 +89,6 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun setDefaultWorkplace() {
-        Log.d("TEST", "setDefaultWorkplace()")
         binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
         binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_arrow_forward)
         binding.filtrationWorkPlaceImageView.setOnClickListener(null)
@@ -102,7 +96,6 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun showIndustry(industryName: String) {
-        Log.d("TEST", "showIndustry()")
         binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_close)
         binding.filtrationIndustryImageView.setOnClickListener { viewModel.setIndustryIsEmpty() }
         binding.filtrationIndustryTextView.text = industryName
@@ -110,7 +103,6 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun setDefaultIndustry() {
-        Log.d("TEST", "setDefaultIndustry()")
         binding.filtrationIndustryTextView.text = getString(R.string.industry)
         binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_arrow_forward)
         binding.filtrationIndustryImageView.setOnClickListener(null)
