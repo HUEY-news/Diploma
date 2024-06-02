@@ -139,7 +139,11 @@ class SearchFragment : Fragment() {
         )
 
         binding.searchFieldEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE && binding.searchFieldEditText.text.trim().isNotEmpty() && !viewModel.flagSuccessfulDownload) {
+            val isActionDone = actionId == EditorInfo.IME_ACTION_DONE
+            val isSearchTextNotEmpty = binding.searchFieldEditText.text.trim().isNotEmpty()
+            val isDownloadNotInProgress = !viewModel.flagSuccessfulDownload
+
+            if (isActionDone && isSearchTextNotEmpty && isDownloadNotInProgress) {
                 inputTextFromSearch?.let {
                     searchAdapterReset()
                     viewModel.downloadData(it)
