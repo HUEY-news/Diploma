@@ -46,7 +46,6 @@ class FiltrationViewModel(
     }
 
     fun updateFilterParametersFromShared() {
-
         val industry = filtrationInteractor.getFilter()?.industryName
         val onlyWithSalary = filtrationInteractor.getFilter()?.isOnlyWithSalary
         val country = filtrationInteractor.getFilter()?.countryName
@@ -54,9 +53,9 @@ class FiltrationViewModel(
 
         updateWorkplaceFromShared(country, region)
 
-        if (industry != null) { setIndustry(industry) }
-        if (salary != null) { setSalary(salary.toString()) }
-        if (onlyWithSalary != null) { setCheckboxOnlyWithSalary(onlyWithSalary) }
+        if (industry != null) setIndustry(industry)
+        if (salary != null) setSalary(salary.toString())
+        if (onlyWithSalary != null) setCheckboxOnlyWithSalary(onlyWithSalary)
         if (checkOnNull(country, region, industry, salary, onlyWithSalary)) {
             stateLiveDataFiltration.postValue(FiltrationState.EmptyFilters)
         }

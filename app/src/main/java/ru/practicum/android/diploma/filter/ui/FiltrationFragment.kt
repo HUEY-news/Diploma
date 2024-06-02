@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.filter.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -129,13 +128,22 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun setOnClickListeners() {
-        binding.apply {
-            filtrationWorkPlace.setOnClickListener { findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment) }
-            filtrationIndustry.setOnClickListener { findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment) }
-            filtrationPayCheckbox.setOnClickListener { viewModel.setCheckboxOnlyWithSalary(filtrationPayCheckbox.isChecked) }
-            resetImageButton.setOnClickListener { isAnyFilterActive() }
-            applyFilterButton.setOnClickListener { findNavController().navigate(R.id.action_filtrationFragment_to_searchFragment) }
+        with(binding) {
 
+            filtrationWorkPlace.setOnClickListener {
+                findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
+            }
+            filtrationIndustry.setOnClickListener {
+                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
+            }
+            filtrationPayCheckbox.setOnClickListener {
+                viewModel.setCheckboxOnlyWithSalary(filtrationPayCheckbox.isChecked)
+            }
+            applyFilterButton.setOnClickListener {
+                findNavController().navigate(R.id.action_filtrationFragment_to_searchFragment)
+            }
+
+            resetImageButton.setOnClickListener { isAnyFilterActive() }
             resetFilterButton.setOnClickListener {
                 viewModel.clearAllFilters()
                 viewModel.setSalaryIsEmpty()
