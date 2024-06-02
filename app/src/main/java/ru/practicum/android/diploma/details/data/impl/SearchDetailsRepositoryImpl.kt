@@ -50,6 +50,7 @@ class SearchDetailsRepositoryImpl(
             id = response.id,
             address = response.address?.city,
             alternateUrl = response.alternateUrl,
+            area = response.area?.name,
             contacts = createContactsFromResponse(response.contacts),
             description = response.description,
             employer = createEmployerFromResponse(response.employer),

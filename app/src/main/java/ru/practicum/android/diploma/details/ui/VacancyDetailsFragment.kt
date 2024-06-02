@@ -88,7 +88,7 @@ class VacancyDetailsFragment : Fragment() {
                 .transform(CenterCrop(), RoundedCorners(dpToPx(RADIUS_IN_DP)))
                 .into(employerLogo)
             employerNameTextView.text = vacancy.employer?.name
-            employerCityTextView.text = vacancy.address
+            employerCityTextView.text = vacancy.address ?: vacancy.area
             experienceTextView.text = vacancy.experience
             employmentAndScheduleTextView.text = vacancy.schedule
             if (vacancy.description != null) {
