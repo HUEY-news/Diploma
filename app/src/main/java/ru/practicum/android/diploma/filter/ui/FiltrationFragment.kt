@@ -129,7 +129,6 @@ class FiltrationFragment : Fragment() {
 
     private fun setOnClickListeners() {
         with(binding) {
-
             filtrationWorkPlace.setOnClickListener {
                 findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
             }
@@ -189,7 +188,7 @@ class FiltrationFragment : Fragment() {
             binding.filtrationWorkPlaceTextView.text == "Место работы" &&
             binding.filtrationIndustryTextView.text == "Отрасль" &&
             binding.salaryEditText.text.toString().isEmpty() &&
-            binding.filtrationPayCheckbox.isChecked == false
+            !binding.filtrationPayCheckbox.isChecked
         ) {
             binding.applyFilterButton.isVisible = false
             binding.resetFilterButton.isVisible = false
