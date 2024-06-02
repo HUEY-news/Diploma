@@ -102,8 +102,7 @@
         app:layout_constraintBottom_toBottomOf="@id/salary_desctiption_field"
         app:layout_constraintEnd_toEndOf="@id/salary_desctiption_field"
         app:layout_constraintTop_toTopOf="@id/salary_desctiption_field"
-        app:tint="@color/black"
-        tools:visibility="gone" />
+        app:tint="@color/black" />
 
     <FrameLayout
         android:id="@+id/filtration_pay"
