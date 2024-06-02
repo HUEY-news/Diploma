@@ -122,12 +122,12 @@ class SearchFragment : Fragment() {
             onTextChanged = { s, start, before, count ->
                 binding.resetImageButton.visibility = clearButtonVisibility(s)
                 if (s != null) {
-                    if (s.isNotEmpty() && viewModel.lastText != s.toString()) {
+                    if (s.trim().isNotEmpty() && viewModel.lastText != s.toString()) {
                         inputTextFromSearch = s.toString()
                         binding.vacancyMessageTextView.isVisible = false
                         searchAdapterReset()
                         viewModel.searchDebounce(inputTextFromSearch!!)
-                    } else {
+                    } else if (s.trim().isEmpty()) {
                         showPlaceholderSearch()
                         binding.vacancyMessageTextView.visibility = View.GONE
                     }
@@ -139,12 +139,14 @@ class SearchFragment : Fragment() {
         )
 
         binding.searchFieldEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE && binding.searchFieldEditText.text.isNotEmpty()) {
-                if (!viewModel.flagSuccessfulDownload) {
-                    inputTextFromSearch?.let {
-                        searchAdapterReset()
-                        viewModel.downloadData(it)
-                    }
+            val isActionDone = actionId == EditorInfo.IME_ACTION_DONE
+            val isSearchTextNotEmpty = binding.searchFieldEditText.text.trim().isNotEmpty()
+            val isDownloadNotInProgress = !viewModel.flagSuccessfulDownload
+
+            if (isActionDone && isSearchTextNotEmpty && isDownloadNotInProgress) {
+                inputTextFromSearch?.let {
+                    searchAdapterReset()
+                    viewModel.downloadData(it)
                 }
             }
             binding.centerProgressBar.visibility = View.GONE
