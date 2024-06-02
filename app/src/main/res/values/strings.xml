@@ -52,6 +52,7 @@
     <string name="phone">Телефон</string>
     <string name="comment">Комментарий</string>
     <string name="search_results_count">Найдено %1$d вакансий</string>
+    <string name="error_no_internet">Проверьте подключение к интернету</string>
 
     <plurals name="plurals_vacancy">
         <item quantity="zero">вакансий</item>
