@@ -21,5 +21,6 @@ data class FavoriteVacancyEntity(
     val professionalRoles: List<String?>?,
     val salary: Salary?,
     val schedule: String?,
-    val addingTime: Long = 0
+    val addingTime: Long = 0,
+    val area: String?
 )

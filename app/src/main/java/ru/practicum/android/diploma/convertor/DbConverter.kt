@@ -19,7 +19,8 @@ class DbConverter {
         professionalRoles = vacancy.professionalRoles,
         salary = vacancy.salary,
         schedule = vacancy.schedule,
-        addingTime = System.currentTimeMillis()
+        addingTime = System.currentTimeMillis(),
+        area = vacancy.area
     )
 
     fun map(entity: FavoriteVacancyEntity): Vacancy = Vacancy(
@@ -34,7 +35,8 @@ class DbConverter {
         name = entity.name,
         professionalRoles = entity.professionalRoles,
         salary = entity.salary,
-        schedule = entity.schedule
+        schedule = entity.schedule,
+        area = entity.area
     )
 
     fun mapFavoriteToSimple(vacancy: Vacancy): SimpleVacancy = SimpleVacancy(
