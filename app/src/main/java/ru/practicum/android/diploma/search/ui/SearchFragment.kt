@@ -185,7 +185,7 @@ class SearchFragment : Fragment() {
             }
 
             is VacanciesState.ErrorToast -> {
-                Toast.makeText(requireContext(), state.errorMessage, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.error_no_internet), Toast.LENGTH_SHORT).show()
             }
 
             is VacanciesState.Error -> showErrorConnection(state.errorMessage)
