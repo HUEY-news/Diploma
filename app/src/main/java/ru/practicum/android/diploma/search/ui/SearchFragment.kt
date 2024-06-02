@@ -127,7 +127,7 @@ class SearchFragment : Fragment() {
                         binding.vacancyMessageTextView.isVisible = false
                         searchAdapterReset()
                         viewModel.searchDebounce(inputTextFromSearch!!)
-                    } else {
+                    } else if (s.isEmpty()) {
                         showPlaceholderSearch()
                         binding.vacancyMessageTextView.visibility = View.GONE
                     }

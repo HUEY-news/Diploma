@@ -76,6 +76,10 @@ class SearchViewModel(
         }
 
     fun searchDebounce(changedText: String) {
+        if (changedText.isEmpty()) {
+            renderState(VacanciesState.Empty(message = resourceInteractor.getErrorEmptyListVacancy()))
+            return
+        }
         if (lastText != changedText) {
             currentPage = 0
             lastText = changedText
@@ -93,41 +97,42 @@ class SearchViewModel(
     }
 
     private fun searchRequest(newSearchText: String) {
+        if (newSearchText.isEmpty()) {
+            renderState(VacanciesState.Empty(message = resourceInteractor.getErrorEmptyListVacancy()))
+            return
+        }
         lastText = newSearchText
-        if (newSearchText.isNotEmpty()) {
-            viewModelScope.launch {
-                setOption()
-                searchInteractor
-                    .searchVacancy(newSearchText, options)
-                    .collect { pair ->
-                        val vacancies = ArrayList<SimpleVacancy>()
-                        if (pair.first != null) {
-                            setContent(vacancies)
-                            vacancies.addAll(pair.first!!)
-                            updateTotalVacanciesCount(vacancies)
+        viewModelScope.launch {
+            setOption()
+            searchInteractor
+                .searchVacancy(newSearchText, options)
+                .collect { pair ->
+                    val vacancies = ArrayList<SimpleVacancy>()
+                    if (pair.first != null) {
+                        setContent(vacancies)
+                        vacancies.addAll(pair.first!!)
+                        updateTotalVacanciesCount(vacancies)
+                    }
+                    when {
+                        pair.second != null -> {
+                            flagSuccessfulDownload = false
+                            renderState(
+                                VacanciesState.Error(
+                                    errorMessage = pair.second!!
+                                ),
+                            )
                         }
-                        when {
-                            pair.second != null -> {
-                                flagSuccessfulDownload = false
-                                renderState(
-                                    VacanciesState.Error(
-                                        errorMessage = pair.second!!
-                                    ),
-                                )
-                            }
-
-                            vacancies.isEmpty() -> {
-                                flagSuccessfulDownload = false
-                                renderState(
-                                    VacanciesState.Empty(
-                                        message = resourceInteractor.getErrorEmptyListVacancy()
-                                    ),
-                                )
-                            }
+                        vacancies.isEmpty() -> {
+                            flagSuccessfulDownload = false
+                            renderState(
+                                VacanciesState.Empty(
+                                    message = resourceInteractor.getErrorEmptyListVacancy()
+                                ),
+                            )
                         }
                     }
-                isNextPageLoading = false
-            }
+                }
+            isNextPageLoading = false
         }
     }
 
