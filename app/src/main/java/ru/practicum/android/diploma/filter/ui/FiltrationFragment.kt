@@ -158,6 +158,7 @@ class FiltrationFragment : Fragment() {
                     showFiltersMenu()
                 } else {
                     viewModel.setSalaryIsEmpty()
+                    isAnyFilterActive()
                 }
             }
         )
