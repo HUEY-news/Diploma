@@ -19,7 +19,6 @@ import ru.practicum.android.diploma.filter.presentation.model.AreaState
 import ru.practicum.android.diploma.filter.presentation.model.CheckBoxState
 import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 import ru.practicum.android.diploma.filter.presentation.model.IndustryState
-import ru.practicum.android.diploma.filter.ui.industry.IndustryFragment
 
 class FiltrationFragment : Fragment() {
 
@@ -148,11 +147,7 @@ class FiltrationFragment : Fragment() {
                 findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
             }
             filtrationIndustry.setOnClickListener {
-                val arguments = IndustryFragment.createBundle(viewModel.getIndustryFilterId())
-                findNavController().navigate(
-                    R.id.action_filtrationFragment_to_industryFragment,
-                    arguments
-                )
+                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
             }
             filtrationPayCheckbox.setOnClickListener {
                 viewModel.setCheckboxOnlyWithSalary(filtrationPayCheckbox.isChecked)
@@ -194,7 +189,11 @@ class FiltrationFragment : Fragment() {
                     binding.resetSalaryButton.isVisible = binding.salaryEditText.hasFocus()
                     inputTextFromApply = s.toString()
                     viewModel.setSalary(inputTextFromApply!!)
-                    viewModel.setChangedState()
+                    if (viewModel.salary != null) {
+                        if (viewModel.salary.toString() != inputTextFromApply) {
+                            viewModel.setChangedState()
+                        }
+                    }
                     showFiltersMenu()
                 } else {
                     binding.resetSalaryButton.isVisible = false
