@@ -19,6 +19,7 @@ import ru.practicum.android.diploma.filter.domain.model.Industry
 import ru.practicum.android.diploma.filter.presentation.industry.IndustryViewModel
 import ru.practicum.android.diploma.filter.presentation.industry.model.IndustriesState
 import ru.practicum.android.diploma.filter.presentation.industry.model.IndustryState
+import ru.practicum.android.diploma.filter.ui.FiltrationFragment
 import java.util.Locale
 
 class IndustryFragment : Fragment() {
@@ -53,6 +54,7 @@ class IndustryFragment : Fragment() {
             selectButton.setOnClickListener {
                 findNavController().navigate(
                     R.id.action_industryFragment_to_filtrationFragment,
+                    FiltrationFragment.createArgsFromIndustry(true)
                 )
             }
         }
