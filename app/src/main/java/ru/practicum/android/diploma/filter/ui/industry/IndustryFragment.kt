@@ -29,8 +29,14 @@ class IndustryFragment : Fragment() {
     private var inputTextFromSearch: String? = null
     private var industryAdapter: IndustryAdapter? = null
     private var listIndustries = emptyList<Industry>()
+    private var industryId: String? = null
 
     private val viewModel by viewModel<IndustryViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        industryId = arguments?.getString(INDUSTRY_ID)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentIndustryBinding.inflate(inflater, container, false)
@@ -121,8 +127,19 @@ class IndustryFragment : Fragment() {
             placeholderContainer.isVisible = false
             recyclerView.isVisible = true
         }
-        industryAdapter?.setItems(industries)
+
+        if (!industryId.isNullOrEmpty()) {
+            industries.forEachIndexed { index, industry ->
+                if (industry.id == industryId) {
+                    industryAdapter?.setPosition(index)
+                }
+            }
+        }
+
         listIndustries = industries
+        industryAdapter
+        industryAdapter?.setItems(listIndustries)
+
     }
 
     private fun inputEditTextInit() {
@@ -178,5 +195,13 @@ class IndustryFragment : Fragment() {
         industryAdapter = null
         _binding = null
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val INDUSTRY_ID = "INDUSTRY_ID"
+
+        fun createBundle(industryId: String?) = Bundle().apply {
+            putString(INDUSTRY_ID, industryId)
+        }
     }
 }

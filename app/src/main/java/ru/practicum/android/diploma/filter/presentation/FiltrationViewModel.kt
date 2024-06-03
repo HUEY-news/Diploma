@@ -116,4 +116,10 @@ class FiltrationViewModel(
     fun setChangedState() {
         stateLiveDataFiltration.postValue(FiltrationState.ChangedFilter)
     }
+
+    fun getIndustryFilterId(): String? {
+        val filter = filtrationInteractor.getFilter()
+        val industryId = filter?.industryId
+        return industryId
+    }
 }
