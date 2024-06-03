@@ -11,7 +11,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -21,7 +20,6 @@ import ru.practicum.android.diploma.details.domain.model.Phone
 import ru.practicum.android.diploma.details.domain.model.Vacancy
 import ru.practicum.android.diploma.details.presentation.VacancyDetailsViewModel
 import ru.practicum.android.diploma.details.presentation.model.StateLoadVacancy
-import ru.practicum.android.diploma.search.ui.SearchVacancyViewHolder
 import ru.practicum.android.diploma.util.dpToPx
 import ru.practicum.android.diploma.util.getSalary
 
