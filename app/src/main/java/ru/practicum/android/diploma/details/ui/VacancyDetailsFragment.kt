@@ -21,6 +21,7 @@ import ru.practicum.android.diploma.details.domain.model.Phone
 import ru.practicum.android.diploma.details.domain.model.Vacancy
 import ru.practicum.android.diploma.details.presentation.VacancyDetailsViewModel
 import ru.practicum.android.diploma.details.presentation.model.StateLoadVacancy
+import ru.practicum.android.diploma.search.ui.SearchVacancyViewHolder
 import ru.practicum.android.diploma.util.dpToPx
 import ru.practicum.android.diploma.util.getSalary
 
@@ -85,7 +86,8 @@ class VacancyDetailsFragment : Fragment() {
             Glide.with(employerLogo)
                 .load(vacancy.employer?.logoUrls)
                 .placeholder(R.drawable.icon_android_placeholder)
-                .transform(CenterCrop(), RoundedCorners(dpToPx(RADIUS_IN_DP)))
+                .centerCrop()
+                .transform(RoundedCorners(dpToPx(RADIUS_IN_DP)))
                 .into(employerLogo)
             employerNameTextView.text = vacancy.employer?.name
             employerCityTextView.text = vacancy.address ?: vacancy.area
