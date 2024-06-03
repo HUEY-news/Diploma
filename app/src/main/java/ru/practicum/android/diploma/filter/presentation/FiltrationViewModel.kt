@@ -19,16 +19,13 @@ class FiltrationViewModel(
     private val stateLiveDataSalary = MutableLiveData<SalaryState>()
     private val stateLiveDataIndustry = MutableLiveData<IndustryState>()
     private val stateLiveDataCheckBox = MutableLiveData<CheckBoxState>()
-    private val stateLiveDataChange = MutableLiveData<Boolean>()
 
     val salary by lazy(LazyThreadSafetyMode.NONE) {
         filtrationInteractor.getFilter()?.expectedSalary
     }
 
-    fun observeChangedState(): LiveData<Boolean> = stateLiveDataChange
     fun observeFiltrationState(): LiveData<FiltrationState> = stateLiveDataFiltration
     fun observeAreaState(): LiveData<AreaState> = stateLiveDataArea
-    fun observeSalaryState(): LiveData<SalaryState> = stateLiveDataSalary
     fun observeIndustryState(): LiveData<IndustryState> = stateLiveDataIndustry
     fun observeCheckboxState(): LiveData<CheckBoxState> = stateLiveDataCheckBox
 
@@ -55,7 +52,9 @@ class FiltrationViewModel(
 
         if (industry != null) setIndustry(industry)
         if (salary != null) setSalary(salary.toString())
-        if (onlyWithSalary != null) setCheckboxOnlyWithSalary(onlyWithSalary)
+        if (onlyWithSalary != null) {
+            stateLiveDataCheckBox.postValue(CheckBoxState.IsCheck(onlyWithSalary))
+        }
         if (checkOnNull(country, region, industry, salary, onlyWithSalary)) {
             stateLiveDataFiltration.postValue(FiltrationState.EmptyFilters)
         }
@@ -112,6 +111,10 @@ class FiltrationViewModel(
         setSalaryIsEmpty()
         setCheckboxOnlyWithSalary(false)
         stateLiveDataFiltration.postValue(FiltrationState.EmptyFilters)
+    }
+
+    fun setChangedState() {
+        stateLiveDataFiltration.postValue(FiltrationState.ChangedFilter)
     }
 
     fun getIndustryFilterId(): String? {

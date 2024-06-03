@@ -13,6 +13,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFiltrationWorkplaceBinding
 import ru.practicum.android.diploma.filter.presentation.workplace.PlaceOfWorkViewModel
 import ru.practicum.android.diploma.filter.presentation.workplace.model.AreaState
+import ru.practicum.android.diploma.filter.ui.FiltrationFragment
 
 class PlaceOfWorkFragment : Fragment() {
     private var _binding: FragmentFiltrationWorkplaceBinding? = null
@@ -44,7 +45,10 @@ class PlaceOfWorkFragment : Fragment() {
             viewModel.cleanRegionData()
         }
         binding.selectButton.setOnClickListener {
-            findNavController().navigate(R.id.action_placeOfWorkFragment_to_filtrationFragment)
+            findNavController().navigate(
+                R.id.action_placeOfWorkFragment_to_filtrationFragment,
+                FiltrationFragment.createArgsFromWorkplace(true)
+            )
         }
         viewModel.observeState().observe(viewLifecycleOwner) { state ->
             render(state)

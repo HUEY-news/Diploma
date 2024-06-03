@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.filter.presentation.model
 
 sealed interface FiltrationState {
     object EmptyFilters : FiltrationState
+    object ChangedFilter : FiltrationState
 }
 
 sealed interface AreaState {
