@@ -195,8 +195,8 @@ class IndustryFragment : Fragment() {
                 industry.name.lowercase().contains(inputTextFromSearch)
             }
 
-            if (filteredList.isEmpty()) showEmptyPlaceholder()
-            else hideEmptyPlaceholder()
+            if (filteredList.isEmpty()) { showEmptyPlaceholder() }
+            else { hideEmptyPlaceholder() }
 
             industryAdapter?.setItems(filteredList)
         }
