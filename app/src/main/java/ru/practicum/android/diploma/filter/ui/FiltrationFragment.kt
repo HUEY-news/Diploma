@@ -41,6 +41,7 @@ class FiltrationFragment : Fragment() {
 
         setOnClickListeners()
         setOnTextChangedListener()
+        setOnFocusChangeListener()
 
         if (viewModel.salary != null) {
             binding.salaryEditText.setText(viewModel.salary.toString(), TextView.BufferType.EDITABLE)
@@ -149,7 +150,10 @@ class FiltrationFragment : Fragment() {
                 findNavController().navigate(R.id.action_filtrationFragment_to_searchFragment)
             }
 
-            resetImageButton.setOnClickListener { isAnyFilterActive() }
+            resetSalaryButton.setOnClickListener {
+                salaryEditText.setText("")
+            }
+
             resetFilterButton.setOnClickListener {
                 viewModel.clearAllFilters()
                 viewModel.setSalaryIsEmpty()
@@ -161,16 +165,26 @@ class FiltrationFragment : Fragment() {
         }
     }
 
+    private fun setOnFocusChangeListener() {
+        binding.salaryEditText.setOnFocusChangeListener {_, hasFocus ->
+            if (!binding.salaryEditText.text.isNullOrEmpty()) {
+                binding.resetSalaryButton.isVisible = hasFocus
+            }
+        }
+    }
+
     private fun setOnTextChangedListener() {
         binding.salaryEditText.addTextChangedListener(
             beforeTextChanged = { s, start, count, after -> },
             onTextChanged = { s, start, before, count -> },
             afterTextChanged = { s ->
                 if (!s.isNullOrEmpty()) {
+                    binding.resetSalaryButton.isVisible = binding.salaryEditText.hasFocus()
                     inputTextFromApply = s.toString()
                     viewModel.setSalary(inputTextFromApply!!)
                     showFiltersMenu()
                 } else {
+                    binding.resetSalaryButton.isVisible = false
                     viewModel.setSalaryIsEmpty()
                     isAnyFilterActive()
                 }
