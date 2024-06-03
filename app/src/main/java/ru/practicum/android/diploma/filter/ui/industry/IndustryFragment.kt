@@ -43,6 +43,7 @@ class IndustryFragment : Fragment() {
         with(binding) {
             resetImageButton.setOnClickListener {
                 textInputEditText.setText("")
+                industryAdapter?.setItems(listIndustries)
                 activity?.window?.currentFocus?.let { view ->
                     val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                     imm?.hideSoftInputFromWindow(view.windowToken, 0)
