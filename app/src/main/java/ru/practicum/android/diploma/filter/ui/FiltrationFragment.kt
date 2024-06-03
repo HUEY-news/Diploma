@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -81,7 +80,8 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun showWorkPlace(workPlace: String) {
-        binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_close)
+        binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_reset)
+        binding.filtrationWorkPlaceTextView.setTextColor(requireContext().getColor(R.color.text_color_selector))
         binding.filtrationWorkPlaceImageView.setOnClickListener { viewModel.clearWorkplace() }
         binding.filtrationWorkPlaceTextView.text = workPlace
         showFiltersMenu()
@@ -89,13 +89,15 @@ class FiltrationFragment : Fragment() {
 
     private fun setDefaultWorkplace() {
         binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
+        binding.filtrationWorkPlaceTextView.setTextColor(requireContext().getColor(R.color.gray))
         binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_arrow_forward)
         binding.filtrationWorkPlaceImageView.setOnClickListener(null)
         isAnyFilterActive()
     }
 
     private fun showIndustry(industryName: String) {
-        binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_close)
+        binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_reset)
+        binding.filtrationIndustryTextView.setTextColor(requireContext().getColor(R.color.text_color_selector))
         binding.filtrationIndustryImageView.setOnClickListener { viewModel.setIndustryIsEmpty() }
         binding.filtrationIndustryTextView.text = industryName
         showFiltersMenu()
@@ -103,6 +105,7 @@ class FiltrationFragment : Fragment() {
 
     private fun setDefaultIndustry() {
         binding.filtrationIndustryTextView.text = getString(R.string.industry)
+        binding.filtrationIndustryTextView.setTextColor(requireContext().getColor(R.color.gray))
         binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_arrow_forward)
         binding.filtrationIndustryImageView.setOnClickListener(null)
         isAnyFilterActive()
@@ -194,13 +197,5 @@ class FiltrationFragment : Fragment() {
             binding.applyFilterButton.isVisible = false
             binding.resetFilterButton.isVisible = false
         }
-    }
-
-    companion object {
-        private const val ARGS_INDUSTRY_NAME = "industry_name"
-        fun createArgs(industryName: String): Bundle =
-            bundleOf(
-                ARGS_INDUSTRY_NAME to industryName,
-            )
     }
 }
