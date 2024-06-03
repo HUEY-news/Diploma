@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -49,50 +48,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_container">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/dimens_size_16"
-            android:layout_marginVertical="@dimen/dimens_size_8"
-            android:textColorHint="?attr/gray_white"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:cursorColor="@color/blue"
-            app:hintTextColor="@color/blue"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <EditText
+            android:id="@+id/text_input_edit_text"
+            style="@style/SearchEditTextStyle"
+            android:layout_marginTop="@dimen/dimens_size_8"
+            android:layout_marginBottom="@dimen/dimens_size_16"
+            android:hint="@string/enter_request"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/text_input_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:background="@drawable/shape_search_field_background"
-                android:cursorVisible="true"
-                android:fontFamily="@font/ys_text_regular"
-                android:hint="@string/enter_industry"
-                android:imeOptions="actionDone"
-                android:inputType="text"
-                android:lines="1"
-                android:maxLines="1"
-                android:paddingVertical="@dimen/dimens_size_20"
-                app:colorControlActivated="@color/blue" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageButton
-            android:id="@+id/search_image_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dimens_size_12"
-            android:background="?attr/lightgray_gray"
-            android:src="@drawable/icon_search"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@id/text_input_layout"
-            app:layout_constraintEnd_toEndOf="@id/text_input_layout"
-            app:layout_constraintTop_toTopOf="@id/text_input_layout"
-            app:tint="@color/black" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/reset_image_button"
@@ -102,10 +66,11 @@
             android:background="?attr/lightgray_gray"
             android:src="@drawable/icon_close"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/text_input_layout"
-            app:layout_constraintEnd_toEndOf="@id/text_input_layout"
-            app:layout_constraintTop_toTopOf="@id/text_input_layout"
-            app:tint="@color/black" />
+            app:layout_constraintBottom_toBottomOf="@id/text_input_edit_text"
+            app:layout_constraintEnd_toEndOf="@id/text_input_edit_text"
+            app:layout_constraintTop_toTopOf="@id/text_input_edit_text"
+            app:tint="@color/black"
+            tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout

@@ -44,6 +44,7 @@ class RegionFragment : Fragment() {
         binding.apply {
             resetImageButton.setOnClickListener {
                 textInputEditText.setText("")
+                regionAdapter?.setItems(listRegion)
                 activity?.window?.currentFocus?.let { view ->
                     val imm =
                         requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -96,8 +97,10 @@ class RegionFragment : Fragment() {
             placeholderContainer.isVisible = false
             recyclerView.isVisible = true
         }
-        regionAdapter?.setItems(regions)
-        listRegion = regions
+        listRegion = regions.filter { region ->
+            !region.parentId!!.contains("1001")
+        }
+        regionAdapter?.setItems(listRegion)
     }
 
     private fun inputEditTextInit() {
