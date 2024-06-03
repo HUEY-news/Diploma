@@ -113,4 +113,10 @@ class FiltrationViewModel(
         setCheckboxOnlyWithSalary(false)
         stateLiveDataFiltration.postValue(FiltrationState.EmptyFilters)
     }
+
+    fun getIndustryFilterId(): String? {
+        val filter = filtrationInteractor.getFilter()
+        val industryId = filter?.industryId
+        return industryId
+    }
 }

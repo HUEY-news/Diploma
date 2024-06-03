@@ -19,8 +19,9 @@ class IndustyViewHolder(
         }
     }
 
-    fun bind(model: Industry, isSelected: Boolean) {
-        binding.filterIndustryItem.text = model.name
-        binding.filterIndustryItem.isChecked = isSelected
+    fun bind(industry: Industry, onIndustryClickListener: (industry: Industry, position: Int) -> Unit) {
+        binding.filterIndustryItem.text = industry.name
+        binding.filterIndustryItem.isChecked = industry.isChecked
+        binding.filterIndustryItem.setOnClickListener { onIndustryClickListener(industry, adapterPosition) }
     }
 }
