@@ -128,14 +128,15 @@ class IndustryFragment : Fragment() {
         }
 
         if (!industryId.isNullOrEmpty()) {
-            for (industry in industries) {
+            industries.forEachIndexed { index, industry ->
                 if (industry.id == industryId) {
-                    industry.isChecked = true
+                    industryAdapter?.setPosition(index)
                 }
             }
         }
 
         listIndustries = industries
+        industryAdapter
         industryAdapter?.setItems(listIndustries)
 
     }
