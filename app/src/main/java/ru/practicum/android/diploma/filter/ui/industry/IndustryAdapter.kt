@@ -10,7 +10,7 @@ import ru.practicum.android.diploma.filter.domain.model.Industry
 
 class IndustryAdapter(
     private val itemClickListener: ItemClickListener
-    ) : ListAdapter<Industry, RecyclerView.ViewHolder>(IndustryDiffCallBack()) {
+) : ListAdapter<Industry, RecyclerView.ViewHolder>(IndustryDiffCallBack()) {
 
     private var industries: MutableList<Industry> = mutableListOf()
     private var selectedPosition = RecyclerView.NO_POSITION
