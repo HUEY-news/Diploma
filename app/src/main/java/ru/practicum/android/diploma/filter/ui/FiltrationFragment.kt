@@ -80,6 +80,7 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun showWorkPlace(workPlace: String) {
+        binding.workPlaceHeader.isVisible = true
         binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_reset)
         binding.filtrationWorkPlaceTextView.setTextColor(requireContext().getColor(R.color.text_color_selector))
         binding.filtrationWorkPlaceImageView.setOnClickListener { viewModel.clearWorkplace() }
@@ -88,6 +89,7 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun setDefaultWorkplace() {
+        binding.workPlaceHeader.isVisible = false
         binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
         binding.filtrationWorkPlaceTextView.setTextColor(requireContext().getColor(R.color.gray))
         binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_arrow_forward)
@@ -96,6 +98,7 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun showIndustry(industryName: String) {
+        binding.industryHeader.isVisible = true
         binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_reset)
         binding.filtrationIndustryTextView.setTextColor(requireContext().getColor(R.color.text_color_selector))
         binding.filtrationIndustryImageView.setOnClickListener { viewModel.setIndustryIsEmpty() }
@@ -104,6 +107,7 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun setDefaultIndustry() {
+        binding.industryHeader.isVisible = false
         binding.filtrationIndustryTextView.text = getString(R.string.industry)
         binding.filtrationIndustryTextView.setTextColor(requireContext().getColor(R.color.gray))
         binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_arrow_forward)
