@@ -166,7 +166,7 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun setOnFocusChangeListener() {
-        binding.salaryEditText.setOnFocusChangeListener {_, hasFocus ->
+        binding.salaryEditText.setOnFocusChangeListener { _, hasFocus ->
             if (!binding.salaryEditText.text.isNullOrEmpty()) {
                 binding.resetSalaryButton.isVisible = hasFocus
             }
