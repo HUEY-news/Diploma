@@ -63,10 +63,11 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
             viewModel.setFilterSearch(filterSearch)
-            if (filterSearch?.countryId != null || filterSearch?.regionId != null ||
-                filterSearch?.industryId != null || filterSearch?.expectedSalary != null ||
-                filterSearch?.isOnlyWithSalary != false
-            ) {
+            val isWorkplaceFilter = filterSearch?.countryId != null || filterSearch?.regionId != null
+            val isIndustryFilter = filterSearch?.industryId != null
+            val isSalaryFilter = filterSearch?.expectedSalary != null || filterSearch?.isOnlyWithSalary != false
+
+            if (isWorkplaceFilter || isIndustryFilter || isSalaryFilter) {
                 binding.filterButton.setImageResource(R.drawable.icon_filter_on)
             } else {
                 binding.filterButton.setImageResource(R.drawable.icon_filter_off)
