@@ -70,10 +70,13 @@ class SearchFragment : Fragment() {
                     showPlaceholderSearch()
                 }
             }
-            searchFieldEditText.setText(viewModel.getText())
-            resetImageButton.setImageResource(R.drawable.icon_close)
-            resetImageButton.isVisible = true
-            viewModel.searchDebounce(viewModel.getText())
+            val editText = viewModel.getText()
+            if (!editText.isNullOrEmpty()) {
+                searchFieldEditText.setText(editText)
+                resetImageButton.setImageResource(R.drawable.icon_close)
+                resetImageButton.isVisible = true
+                viewModel.searchDebounce(editText)
+            }
         }
         inputEditTextInit()
         viewModel.observeState().observe(viewLifecycleOwner) {

@@ -24,7 +24,7 @@ class ResourceInteractorImpl(private val resourceProvider: ResourceProvider) : R
         resourceProvider.addToShared(editTextString)
     }
 
-    override fun getShared(): String {
+    override fun getShared(): String? {
         return resourceProvider.getShared()
     }
 }

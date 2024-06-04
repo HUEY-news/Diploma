@@ -175,7 +175,7 @@ class SearchViewModel(
         resourceInteractor.addToShared(inputTextFromSearch)
     }
 
-    fun getText(): String {
+    fun getText(): String? {
         return resourceInteractor.getShared()
     }
 

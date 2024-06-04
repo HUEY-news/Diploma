@@ -36,7 +36,12 @@ class ResourceProvider(
     }
 
     fun clearShared() {
-        sharedPreferences.edit().clear().apply()
+        sharedPreferences.edit()
+            .putString(
+                EDIT_TEXT_KEY,
+                ""
+            )
+            .apply()
     }
 
     fun addToShared(editTextString: String) {
@@ -48,8 +53,7 @@ class ResourceProvider(
             .apply()
     }
 
-    fun getShared(): String {
-        val editTextString = sharedPreferences.getString(EDIT_TEXT_KEY, null)
-        return editTextString.toString()
+    fun getShared(): String? {
+        return sharedPreferences.getString(EDIT_TEXT_KEY, null)
     }
 }

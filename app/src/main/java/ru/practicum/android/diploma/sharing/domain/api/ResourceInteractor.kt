@@ -9,5 +9,5 @@ interface ResourceInteractor {
 
     fun addToShared(editTextString: String)
 
-    fun getShared(): String
+    fun getShared(): String?
 }
