@@ -177,7 +177,7 @@ class SearchViewModel(
     fun clearText() {
         resourceInteractor.clearShared()
     }
-        
+
     fun setFilterSearch(filterSearch: FilterSearch?) {
         this.filterSearch = filterSearch
     }
