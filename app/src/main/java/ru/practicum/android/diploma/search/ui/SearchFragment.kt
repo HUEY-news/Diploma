@@ -59,9 +59,9 @@ class SearchFragment : Fragment() {
         scrollListener()
         searchAdapterReset()
         setupToolbar()
-
         binding.apply {
             resetImageButton.setOnClickListener {
+                viewModel.clearText()
                 searchFieldEditText.setText("")
                 activity?.window?.currentFocus?.let { view ->
                     val imm =
@@ -70,6 +70,10 @@ class SearchFragment : Fragment() {
                     showPlaceholderSearch()
                 }
             }
+            searchFieldEditText.setText(viewModel.getText())
+            resetImageButton.setImageResource(R.drawable.icon_close)
+            resetImageButton.isVisible = true
+            viewModel.searchDebounce(viewModel.getText())
         }
         inputEditTextInit()
         viewModel.observeState().observe(viewLifecycleOwner) {
@@ -135,6 +139,7 @@ class SearchFragment : Fragment() {
             },
             afterTextChanged = { s ->
                 inputTextFromSearch = s.toString()
+                viewModel.saveText(inputTextFromSearch!!)
             }
         )
 

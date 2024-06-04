@@ -122,6 +122,7 @@ class SearchViewModel(
                                 ),
                             )
                         }
+
                         vacancies.isEmpty() -> {
                             flagSuccessfulDownload = false
                             renderState(
@@ -168,6 +169,18 @@ class SearchViewModel(
             renderState(VacanciesState.Loading)
             searchRequest(request)
         }
+    }
+
+    fun saveText(inputTextFromSearch: String) {
+        resourceInteractor.addToShared(inputTextFromSearch)
+    }
+
+    fun getText(): String {
+        return resourceInteractor.getShared()
+    }
+
+    fun clearText() {
+        resourceInteractor.clearShared()
     }
 
     companion object {
