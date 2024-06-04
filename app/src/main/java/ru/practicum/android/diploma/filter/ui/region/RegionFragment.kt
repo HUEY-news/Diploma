@@ -155,8 +155,11 @@ class RegionFragment : Fragment() {
                 region.name!!.lowercase().contains(inputTextFromSearch)
             }
 
-            if (filteredList.isEmpty()) { showEmptyPlaceholder() }
-            else { hideEmptyPlaceholder() }
+            if (filteredList.isEmpty()) {
+                showEmptyPlaceholder()
+            } else {
+                hideEmptyPlaceholder()
+            }
 
             regionAdapter?.setItems(filteredList)
         }
