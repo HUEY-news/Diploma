@@ -58,8 +58,8 @@ class RegionFragment : Fragment() {
 
         val backPath = R.id.action_regionFragment_to_placeOfWorkFragment
         binding.buttonBack.setOnClickListener { findNavController().navigate(backPath) }
-        requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() { findNavController().navigate(backPath)}
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { findNavController().navigate(backPath) }
         })
 
         viewModel.searchRequest()

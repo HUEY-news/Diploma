@@ -40,8 +40,8 @@ class PlaceOfWorkFragment : Fragment() {
 
         val backPath = R.id.action_placeOfWorkFragment_to_filtrationFragment
         binding.buttonBack.setOnClickListener { findNavController().navigate(backPath) }
-        requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() { findNavController().navigate(backPath)}
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { findNavController().navigate(backPath) }
         })
 
         viewModel.updateInfoFromShared()

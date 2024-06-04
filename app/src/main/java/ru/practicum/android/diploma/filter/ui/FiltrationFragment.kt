@@ -216,8 +216,8 @@ class FiltrationFragment : Fragment() {
         val backPath = R.id.action_filtrationFragment_to_searchFragment
         binding.filtrationVacancyToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
         binding.filtrationVacancyToolbar.setNavigationOnClickListener { findNavController().navigate(backPath) }
-        requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() { findNavController().navigate(backPath)}
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { findNavController().navigate(backPath) }
         })
     }
 
