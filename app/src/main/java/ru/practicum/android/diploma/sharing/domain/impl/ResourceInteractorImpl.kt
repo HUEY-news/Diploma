@@ -15,4 +15,16 @@ class ResourceInteractorImpl(private val resourceProvider: ResourceProvider) : R
     override fun checkInternetConnection(): Boolean {
         return resourceProvider.checkInternetConnection()
     }
+
+    override fun clearShared() {
+        resourceProvider.clearShared()
+    }
+
+    override fun addToShared(editTextString: String) {
+        resourceProvider.addToShared(editTextString)
+    }
+
+    override fun getShared(): String? {
+        return resourceProvider.getShared()
+    }
 }

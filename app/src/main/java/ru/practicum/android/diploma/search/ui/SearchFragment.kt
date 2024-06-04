@@ -78,6 +78,7 @@ class SearchFragment : Fragment() {
         setupToolbar()
         binding.apply {
             resetImageButton.setOnClickListener {
+                viewModel.clearText()
                 searchFieldEditText.setText("")
                 activity?.window?.currentFocus?.let { view ->
                     val imm =
@@ -85,6 +86,13 @@ class SearchFragment : Fragment() {
                     imm?.hideSoftInputFromWindow(view.windowToken, 0)
                     showPlaceholderSearch()
                 }
+            }
+            val editText = viewModel.getText()
+            if (!editText.isNullOrEmpty()) {
+                searchFieldEditText.setText(editText)
+                resetImageButton.setImageResource(R.drawable.icon_close)
+                resetImageButton.isVisible = true
+                viewModel.searchDebounce(editText)
             }
         }
         inputEditTextInit()
@@ -136,6 +144,7 @@ class SearchFragment : Fragment() {
             },
             afterTextChanged = { s ->
                 inputTextFromSearch = s.toString()
+                viewModel.saveText(inputTextFromSearch!!)
             }
         )
 
