@@ -19,7 +19,6 @@ import ru.practicum.android.diploma.filter.presentation.model.AreaState
 import ru.practicum.android.diploma.filter.presentation.model.CheckBoxState
 import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 import ru.practicum.android.diploma.filter.presentation.model.IndustryState
-import ru.practicum.android.diploma.filter.ui.industry.IndustryFragment
 
 class FiltrationFragment : Fragment() {
 
@@ -95,7 +94,10 @@ class FiltrationFragment : Fragment() {
         binding.workPlaceHeader.isVisible = true
         binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_reset)
         binding.filtrationWorkPlaceTextView.setTextColor(requireContext().getColor(R.color.text_color_selector))
-        binding.filtrationWorkPlaceImageView.setOnClickListener { viewModel.clearWorkplace() }
+        binding.filtrationWorkPlaceImageView.setOnClickListener {
+            viewModel.setChangedState()
+            viewModel.clearWorkplace()
+        }
         binding.filtrationWorkPlaceTextView.text = workPlace
         showFiltersMenu()
     }
@@ -112,7 +114,10 @@ class FiltrationFragment : Fragment() {
         binding.industryHeader.isVisible = true
         binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_reset)
         binding.filtrationIndustryTextView.setTextColor(requireContext().getColor(R.color.text_color_selector))
-        binding.filtrationIndustryImageView.setOnClickListener { viewModel.setIndustryIsEmpty() }
+        binding.filtrationIndustryImageView.setOnClickListener {
+            viewModel.setChangedState()
+            viewModel.setIndustryIsEmpty()
+        }
         binding.filtrationIndustryTextView.text = industryName
         showFiltersMenu()
     }
@@ -148,11 +153,7 @@ class FiltrationFragment : Fragment() {
                 findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
             }
             filtrationIndustry.setOnClickListener {
-                val arguments = IndustryFragment.createBundle(viewModel.getIndustryFilterId())
-                findNavController().navigate(
-                    R.id.action_filtrationFragment_to_industryFragment,
-                    arguments
-                )
+                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
             }
             filtrationPayCheckbox.setOnClickListener {
                 viewModel.setCheckboxOnlyWithSalary(filtrationPayCheckbox.isChecked)
@@ -194,7 +195,9 @@ class FiltrationFragment : Fragment() {
                     binding.resetSalaryButton.isVisible = binding.salaryEditText.hasFocus()
                     inputTextFromApply = s.toString()
                     viewModel.setSalary(inputTextFromApply!!)
-                    viewModel.setChangedState()
+                    if (viewModel.salary.toString().isNotEmpty() && viewModel.salary.toString() != inputTextFromApply) {
+                        viewModel.setChangedState()
+                    }
                     showFiltersMenu()
                 } else {
                     binding.resetSalaryButton.isVisible = false
