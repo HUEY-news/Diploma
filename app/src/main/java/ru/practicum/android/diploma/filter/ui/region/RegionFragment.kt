@@ -41,8 +41,9 @@ class RegionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
+        with(binding) {
             resetImageButton.setOnClickListener {
+                hideEmptyPlaceholder()
                 textInputEditText.setText("")
                 regionAdapter?.setItems(listRegion)
                 activity?.window?.currentFocus?.let { view ->
@@ -91,6 +92,19 @@ class RegionFragment : Fragment() {
         }
     }
 
+    private fun showEmptyPlaceholder() {
+        binding.placeholderContainer.isVisible = true
+        binding.placeholderImage.isVisible = true
+        binding.placeholderMessage.isVisible = true
+        binding.placeholderImage.setImageResource(R.drawable.placeholder_incorrect_request)
+        binding.placeholderMessage.text = requireContext().getString(R.string.there_is_no_such_region)
+    }
+    private fun hideEmptyPlaceholder() {
+        binding.placeholderContainer.isVisible = false
+        binding.placeholderImage.isVisible = false
+        binding.placeholderMessage.isVisible = false
+    }
+
     private fun showContent(regions: ArrayList<Area>) {
         with(binding) {
             progressBar.isVisible = false
@@ -136,9 +150,18 @@ class RegionFragment : Fragment() {
                     it.toString()
                 }
             }
-            regionAdapter?.setItems(listRegion.filter { region ->
+
+            val filteredList = listRegion.filter { region ->
                 region.name!!.lowercase().contains(inputTextFromSearch)
-            })
+            }
+
+            if (filteredList.isEmpty()) {
+                showEmptyPlaceholder()
+            } else {
+                hideEmptyPlaceholder()
+            }
+
+            regionAdapter?.setItems(filteredList)
         }
     }
 
