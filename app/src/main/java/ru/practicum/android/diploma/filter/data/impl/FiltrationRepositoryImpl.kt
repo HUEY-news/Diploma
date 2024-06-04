@@ -24,7 +24,7 @@ class FiltrationRepositoryImpl(
         }
     }
 
-    override fun checkFilter(filter: Filter): Boolean =
+    fun checkFilter(filter: Filter): Boolean =
         with(filter) {
             isOnlyWithSalary == null &&
                 countryName == null &&

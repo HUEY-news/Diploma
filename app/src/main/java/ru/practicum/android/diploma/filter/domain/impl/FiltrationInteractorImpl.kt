@@ -12,7 +12,6 @@ class FiltrationInteractorImpl(
 ) : FiltrationInteractor {
 
     override fun getFilter(): Filter? = repository.getFilter()
-    override fun checkFilter(filter: Filter) = repository.checkFilter(filter)
 
     override fun updateIndustry(industry: Industry) {
         repository.updateIndustry(industry)

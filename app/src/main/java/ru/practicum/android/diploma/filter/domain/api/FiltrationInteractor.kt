@@ -7,7 +7,6 @@ import ru.practicum.android.diploma.filter.domain.model.Industry
 
 interface FiltrationInteractor {
     fun getFilter(): Filter?
-    fun checkFilter(filter: Filter): Boolean
     fun updateIndustry(industry: Industry)
     fun clearIndustry()
     fun updateSalary(salary: String)
