@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -49,6 +50,7 @@ class IndustryFragment : Fragment() {
 
         with(binding) {
             resetImageButton.setOnClickListener {
+                hideEmptyPlaceholder()
                 textInputEditText.setText("")
                 industryAdapter?.setItems(listIndustries)
                 activity?.window?.currentFocus?.let { view ->
@@ -56,7 +58,13 @@ class IndustryFragment : Fragment() {
                     imm?.hideSoftInputFromWindow(view.windowToken, 0)
                 }
             }
-            buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
+
+            val backPath = R.id.action_industryFragment_to_filtrationFragment
+            binding.buttonBack.setOnClickListener { findNavController().navigate(backPath) }
+            requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() { findNavController().navigate(backPath) }
+            })
+
             selectButton.setOnClickListener {
                 findNavController().navigate(
                     R.id.action_industryFragment_to_filtrationFragment,
@@ -121,6 +129,19 @@ class IndustryFragment : Fragment() {
         }
     }
 
+    private fun showEmptyPlaceholder() {
+        binding.placeholderContainer.isVisible = true
+        binding.placeholderImage.isVisible = true
+        binding.placeholderMessage.isVisible = true
+        binding.placeholderImage.setImageResource(R.drawable.placeholder_incorrect_request)
+        binding.placeholderMessage.text = requireContext().getString(R.string.there_is_no_such_industry)
+    }
+    private fun hideEmptyPlaceholder() {
+        binding.placeholderContainer.isVisible = false
+        binding.placeholderImage.isVisible = false
+        binding.placeholderMessage.isVisible = false
+    }
+
     private fun showContent(industries: ArrayList<Industry>) {
         with(binding) {
             progressBar.isVisible = false
@@ -176,9 +197,18 @@ class IndustryFragment : Fragment() {
                     it.toString()
                 }
             }
-            industryAdapter?.setItems(listIndustries.filter { industry ->
+
+            val filteredList = listIndustries.filter { industry ->
                 industry.name.lowercase().contains(inputTextFromSearch)
-            })
+            }
+
+            if (filteredList.isEmpty()) {
+                showEmptyPlaceholder()
+            } else {
+                hideEmptyPlaceholder()
+            }
+
+            industryAdapter?.setItems(filteredList)
         }
     }
 

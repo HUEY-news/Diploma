@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -19,6 +20,8 @@ import ru.practicum.android.diploma.filter.presentation.model.AreaState
 import ru.practicum.android.diploma.filter.presentation.model.CheckBoxState
 import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 import ru.practicum.android.diploma.filter.presentation.model.IndustryState
+import ru.practicum.android.diploma.filter.ui.industry.IndustryFragment
+import ru.practicum.android.diploma.search.ui.SearchFragment
 
 class FiltrationFragment : Fragment() {
 
@@ -153,14 +156,21 @@ class FiltrationFragment : Fragment() {
                 findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
             }
             filtrationIndustry.setOnClickListener {
-                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
+                val arguments = IndustryFragment.createBundle(viewModel.getIndustryFilterId())
+                findNavController().navigate(
+                    R.id.action_filtrationFragment_to_industryFragment,
+                    arguments
+                )
             }
             filtrationPayCheckbox.setOnClickListener {
                 viewModel.setCheckboxOnlyWithSalary(filtrationPayCheckbox.isChecked)
                 viewModel.setChangedState()
             }
             applyFilterButton.setOnClickListener {
-                findNavController().navigate(R.id.action_filtrationFragment_to_searchFragment)
+                findNavController().navigate(
+                    R.id.action_filtrationFragment_to_searchFragment,
+                    SearchFragment.createArgsFilter(viewModel.createFilterFromShared())
+                )
             }
 
             resetSalaryButton.setOnClickListener {
@@ -214,10 +224,13 @@ class FiltrationFragment : Fragment() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.icon_back)
         }
+
+        val backPath = R.id.action_filtrationFragment_to_searchFragment
         binding.filtrationVacancyToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
-        binding.filtrationVacancyToolbar.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
+        binding.filtrationVacancyToolbar.setNavigationOnClickListener { findNavController().navigate(backPath) }
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { findNavController().navigate(backPath) }
+        })
     }
 
     companion object {

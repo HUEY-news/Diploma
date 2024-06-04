@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.filter.domain.api.FiltrationInteractor
+import ru.practicum.android.diploma.filter.presentation.model.FilterSearch
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
@@ -22,7 +22,6 @@ import ru.practicum.android.diploma.util.debounce
 class SearchViewModel(
     private val resourceInteractor: ResourceInteractor,
     private val searchInteractor: SearchInteractor,
-    private val filtrationInteractor: FiltrationInteractor,
 ) :
     ViewModel() {
     var lastText: String = ""
@@ -33,32 +32,28 @@ class SearchViewModel(
     private val options: HashMap<String, String> = HashMap()
     private var flagDebounce = false
     var isNextPageLoading = false
+    private var filterSearch: FilterSearch? = null
 
-    private fun setOption() {
-        val country = filtrationInteractor.getFilter()?.countryId
-        val region = filtrationInteractor.getFilter()?.regionId
-        val industry = filtrationInteractor.getFilter()?.industryId
-        val salary = filtrationInteractor.getFilter()?.expectedSalary
-        val onlyWithSalary = filtrationInteractor.getFilter()?.isOnlyWithSalary
+    private fun setOption(filterSearch: FilterSearch?) {
         maxPages = totalVacanciesCount / VACANCIES_PER_PAGE + 1
         if (totalVacanciesCount > VACANCIES_PER_PAGE && currentPage < maxPages) {
             options[PAGE] = currentPage.toString()
             options[PER_PAGE] = VACANCIES_PER_PAGE.toString()
         }
-        if (country != null) {
-            options[AREA] = country
+        if (filterSearch?.countryId != null) {
+            options[AREA] = filterSearch.countryId
         }
-        if (region != null) {
-            options[AREA] = region
+        if (filterSearch?.regionId != null) {
+            options[AREA] = filterSearch.regionId
         }
-        if (industry != null) {
-            options[INDUSTRY] = industry
+        if (filterSearch?.industryId != null) {
+            options[INDUSTRY] = filterSearch.industryId
         }
-        if (salary != null) {
-            options[SALARY] = salary.toString()
+        if (filterSearch?.expectedSalary != null) {
+            options[SALARY] = filterSearch.expectedSalary.toString()
         }
-        if (onlyWithSalary != null && onlyWithSalary != false) {
-            options[ONLY_WITH_SALARY] = onlyWithSalary.toString()
+        if (filterSearch?.isOnlyWithSalary != null && filterSearch.isOnlyWithSalary != false) {
+            options[ONLY_WITH_SALARY] = filterSearch.isOnlyWithSalary.toString()
         }
     }
 
@@ -103,7 +98,7 @@ class SearchViewModel(
         }
         lastText = newSearchText
         viewModelScope.launch {
-            setOption()
+            setOption(filterSearch)
             searchInteractor
                 .searchVacancy(newSearchText, options)
                 .collect { pair ->
@@ -164,6 +159,15 @@ class SearchViewModel(
         }
     }
 
+    fun checkFilter(filter: FilterSearch): Boolean =
+        with(filter) {
+            isOnlyWithSalary == null &&
+                regionId == null &&
+                countryId == null &&
+                industryId == null &&
+                expectedSalary == null
+        }
+
     fun downloadData(request: String) {
         if (!flagDebounce) {
             renderState(VacanciesState.Loading)
@@ -181,6 +185,9 @@ class SearchViewModel(
 
     fun clearText() {
         resourceInteractor.clearShared()
+        
+    fun setFilterSearch(filterSearch: FilterSearch?) {
+        this.filterSearch = filterSearch
     }
 
     companion object {
