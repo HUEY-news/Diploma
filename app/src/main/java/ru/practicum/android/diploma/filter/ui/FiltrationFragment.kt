@@ -19,6 +19,7 @@ import ru.practicum.android.diploma.filter.presentation.model.AreaState
 import ru.practicum.android.diploma.filter.presentation.model.CheckBoxState
 import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 import ru.practicum.android.diploma.filter.presentation.model.IndustryState
+import ru.practicum.android.diploma.filter.ui.industry.IndustryFragment
 
 class FiltrationFragment : Fragment() {
 
@@ -153,7 +154,11 @@ class FiltrationFragment : Fragment() {
                 findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
             }
             filtrationIndustry.setOnClickListener {
-                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
+                val arguments = IndustryFragment.createBundle(viewModel.getIndustryFilterId())
+                findNavController().navigate(
+                    R.id.action_filtrationFragment_to_industryFragment,
+                    arguments
+                )
             }
             filtrationPayCheckbox.setOnClickListener {
                 viewModel.setCheckboxOnlyWithSalary(filtrationPayCheckbox.isChecked)
