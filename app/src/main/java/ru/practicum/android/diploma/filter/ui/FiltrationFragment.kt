@@ -19,6 +19,7 @@ import ru.practicum.android.diploma.filter.presentation.model.AreaState
 import ru.practicum.android.diploma.filter.presentation.model.CheckBoxState
 import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 import ru.practicum.android.diploma.filter.presentation.model.IndustryState
+import ru.practicum.android.diploma.search.ui.SearchFragment
 
 class FiltrationFragment : Fragment() {
 
@@ -160,7 +161,10 @@ class FiltrationFragment : Fragment() {
                 viewModel.setChangedState()
             }
             applyFilterButton.setOnClickListener {
-                findNavController().navigate(R.id.action_filtrationFragment_to_searchFragment)
+                findNavController().navigate(
+                    R.id.action_filtrationFragment_to_searchFragment,
+                    SearchFragment.createArgsFilter(viewModel.createFilterFromShared())
+                )
             }
 
             resetSalaryButton.setOnClickListener {

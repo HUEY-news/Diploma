@@ -13,7 +13,17 @@
         android:title="@string/search_vacancies"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/filter_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dimens_size_16"
+            android:clickable="true"
+            android:src="@drawable/icon_filter_off" />
+    </androidx.appcompat.widget.Toolbar>
 
     <EditText
         android:id="@+id/search_field_edit_text"

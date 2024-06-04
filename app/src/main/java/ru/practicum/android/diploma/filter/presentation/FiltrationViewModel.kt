@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import ru.practicum.android.diploma.filter.domain.api.FiltrationInteractor
 import ru.practicum.android.diploma.filter.presentation.model.AreaState
 import ru.practicum.android.diploma.filter.presentation.model.CheckBoxState
+import ru.practicum.android.diploma.filter.presentation.model.FilterSearch
 import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 import ru.practicum.android.diploma.filter.presentation.model.IndustryState
 import ru.practicum.android.diploma.filter.presentation.model.SalaryState
@@ -58,6 +59,21 @@ class FiltrationViewModel(
         if (checkOnNull(country, region, industry, salary, onlyWithSalary)) {
             stateLiveDataFiltration.postValue(FiltrationState.EmptyFilters)
         }
+    }
+
+    fun createFilterFromShared(): FilterSearch {
+        val industryId = filtrationInteractor.getFilter()?.industryId
+        val onlyWithSalary = filtrationInteractor.getFilter()?.isOnlyWithSalary
+        val countryId = filtrationInteractor.getFilter()?.countryId
+        val regionId = filtrationInteractor.getFilter()?.regionId
+        val salary = filtrationInteractor.getFilter()?.expectedSalary
+        return FilterSearch(
+            industryId = industryId,
+            countryId = countryId,
+            regionId = regionId,
+            isOnlyWithSalary = onlyWithSalary,
+            expectedSalary = salary
+        )
     }
 
     private fun checkOnNull(
