@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -54,7 +55,13 @@ class RegionFragment : Fragment() {
         }
         regionAdapterInit()
         inputEditTextInit()
-        binding.buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
+
+        val backPath = R.id.action_regionFragment_to_placeOfWorkFragment
+        binding.buttonBack.setOnClickListener { findNavController().navigate(backPath) }
+        requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { findNavController().navigate(backPath)}
+        })
+
         viewModel.searchRequest()
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
     }

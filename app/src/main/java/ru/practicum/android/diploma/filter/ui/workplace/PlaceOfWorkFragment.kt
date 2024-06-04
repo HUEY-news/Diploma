@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -36,7 +37,13 @@ class PlaceOfWorkFragment : Fragment() {
                 viewModel.setArgumentCountry(countryName)
             }
         }
-        binding.buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
+
+        val backPath = R.id.action_placeOfWorkFragment_to_filtrationFragment
+        binding.buttonBack.setOnClickListener { findNavController().navigate(backPath) }
+        requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { findNavController().navigate(backPath)}
+        })
+
         viewModel.updateInfoFromShared()
         binding.resetCountryButton.setOnClickListener {
             viewModel.cleanCountryData()
