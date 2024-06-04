@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -218,10 +219,13 @@ class FiltrationFragment : Fragment() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.icon_back)
         }
+
+        val backPath = R.id.action_filtrationFragment_to_searchFragment
         binding.filtrationVacancyToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
-        binding.filtrationVacancyToolbar.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
+        binding.filtrationVacancyToolbar.setNavigationOnClickListener { findNavController().navigate(backPath) }
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { findNavController().navigate(backPath) }
+        })
     }
 
     companion object {
