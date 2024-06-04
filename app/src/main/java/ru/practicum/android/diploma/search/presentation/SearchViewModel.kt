@@ -159,15 +159,6 @@ class SearchViewModel(
         }
     }
 
-    fun checkFilter(filter: FilterSearch): Boolean =
-        with(filter) {
-            isOnlyWithSalary == null &&
-                regionId == null &&
-                countryId == null &&
-                industryId == null &&
-                expectedSalary == null
-        }
-
     fun downloadData(request: String) {
         if (!flagDebounce) {
             renderState(VacanciesState.Loading)
@@ -185,6 +176,7 @@ class SearchViewModel(
 
     fun clearText() {
         resourceInteractor.clearShared()
+    }
         
     fun setFilterSearch(filterSearch: FilterSearch?) {
         this.filterSearch = filterSearch
