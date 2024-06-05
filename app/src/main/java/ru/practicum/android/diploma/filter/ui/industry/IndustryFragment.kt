@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import ru.practicum.android.diploma.filter.domain.model.Industry
 import ru.practicum.android.diploma.filter.presentation.industry.IndustryViewModel
 import ru.practicum.android.diploma.filter.presentation.industry.model.IndustriesState
 import ru.practicum.android.diploma.filter.presentation.industry.model.IndustryState
+import ru.practicum.android.diploma.filter.ui.FiltrationFragment
 import java.util.Locale
 
 class IndustryFragment : Fragment() {
@@ -28,8 +30,14 @@ class IndustryFragment : Fragment() {
     private var inputTextFromSearch: String? = null
     private var industryAdapter: IndustryAdapter? = null
     private var listIndustries = emptyList<Industry>()
+    private var industryId: String? = null
 
     private val viewModel by viewModel<IndustryViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        industryId = arguments?.getString(INDUSTRY_ID)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentIndustryBinding.inflate(inflater, container, false)
@@ -42,16 +50,25 @@ class IndustryFragment : Fragment() {
 
         with(binding) {
             resetImageButton.setOnClickListener {
+                hideEmptyPlaceholder()
                 textInputEditText.setText("")
+                industryAdapter?.setItems(listIndustries)
                 activity?.window?.currentFocus?.let { view ->
                     val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
                     imm?.hideSoftInputFromWindow(view.windowToken, 0)
                 }
             }
-            buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
+
+            val backPath = R.id.action_industryFragment_to_filtrationFragment
+            binding.buttonBack.setOnClickListener { findNavController().navigate(backPath) }
+            requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() { findNavController().navigate(backPath) }
+            })
+
             selectButton.setOnClickListener {
                 findNavController().navigate(
                     R.id.action_industryFragment_to_filtrationFragment,
+                    FiltrationFragment.createArgsFromIndustry(true)
                 )
             }
         }
@@ -112,14 +129,38 @@ class IndustryFragment : Fragment() {
         }
     }
 
+    private fun showEmptyPlaceholder() {
+        binding.placeholderContainer.isVisible = true
+        binding.placeholderImage.isVisible = true
+        binding.placeholderMessage.isVisible = true
+        binding.placeholderImage.setImageResource(R.drawable.placeholder_incorrect_request)
+        binding.placeholderMessage.text = requireContext().getString(R.string.there_is_no_such_industry)
+    }
+    private fun hideEmptyPlaceholder() {
+        binding.placeholderContainer.isVisible = false
+        binding.placeholderImage.isVisible = false
+        binding.placeholderMessage.isVisible = false
+    }
+
     private fun showContent(industries: ArrayList<Industry>) {
         with(binding) {
             progressBar.isVisible = false
             placeholderContainer.isVisible = false
             recyclerView.isVisible = true
         }
-        industryAdapter?.setItems(industries)
+
+        if (!industryId.isNullOrEmpty()) {
+            industries.forEachIndexed { index, industry ->
+                if (industry.id == industryId) {
+                    industryAdapter?.setPosition(index)
+                }
+            }
+        }
+
         listIndustries = industries
+        industryAdapter
+        industryAdapter?.setItems(listIndustries)
+
     }
 
     private fun inputEditTextInit() {
@@ -156,9 +197,18 @@ class IndustryFragment : Fragment() {
                     it.toString()
                 }
             }
-            industryAdapter?.setItems(listIndustries.filter { industry ->
+
+            val filteredList = listIndustries.filter { industry ->
                 industry.name.lowercase().contains(inputTextFromSearch)
-            })
+            }
+
+            if (filteredList.isEmpty()) {
+                showEmptyPlaceholder()
+            } else {
+                hideEmptyPlaceholder()
+            }
+
+            industryAdapter?.setItems(filteredList)
         }
     }
 
@@ -175,5 +225,13 @@ class IndustryFragment : Fragment() {
         industryAdapter = null
         _binding = null
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val INDUSTRY_ID = "INDUSTRY_ID"
+
+        fun createBundle(industryId: String?) = Bundle().apply {
+            putString(INDUSTRY_ID, industryId)
+        }
     }
 }

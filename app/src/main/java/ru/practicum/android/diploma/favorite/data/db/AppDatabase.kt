@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ru.practicum.android.diploma.convertor.TypeConverter
 
-@Database(version = 1, entities = [FavoriteVacancyEntity::class])
+@Database(version = 2, entities = [FavoriteVacancyEntity::class])
 @TypeConverters(TypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun favoriteVacancyDao(): FavoriteVacancyDao

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -41,9 +42,11 @@ class RegionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
+        with(binding) {
             resetImageButton.setOnClickListener {
+                hideEmptyPlaceholder()
                 textInputEditText.setText("")
+                regionAdapter?.setItems(listRegion)
                 activity?.window?.currentFocus?.let { view ->
                     val imm =
                         requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -53,7 +56,13 @@ class RegionFragment : Fragment() {
         }
         regionAdapterInit()
         inputEditTextInit()
-        binding.buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
+
+        val backPath = R.id.action_regionFragment_to_placeOfWorkFragment
+        binding.buttonBack.setOnClickListener { findNavController().navigate(backPath) }
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { findNavController().navigate(backPath) }
+        })
+
         viewModel.searchRequest()
         viewModel.observeState().observe(viewLifecycleOwner) { render(it) }
     }
@@ -90,14 +99,29 @@ class RegionFragment : Fragment() {
         }
     }
 
+    private fun showEmptyPlaceholder() {
+        binding.placeholderContainer.isVisible = true
+        binding.placeholderImage.isVisible = true
+        binding.placeholderMessage.isVisible = true
+        binding.placeholderImage.setImageResource(R.drawable.placeholder_incorrect_request)
+        binding.placeholderMessage.text = requireContext().getString(R.string.there_is_no_such_region)
+    }
+    private fun hideEmptyPlaceholder() {
+        binding.placeholderContainer.isVisible = false
+        binding.placeholderImage.isVisible = false
+        binding.placeholderMessage.isVisible = false
+    }
+
     private fun showContent(regions: ArrayList<Area>) {
         with(binding) {
             progressBar.isVisible = false
             placeholderContainer.isVisible = false
             recyclerView.isVisible = true
         }
-        regionAdapter?.setItems(regions)
-        listRegion = regions
+        listRegion = regions.filter { region ->
+            !region.parentId!!.contains("1001")
+        }
+        regionAdapter?.setItems(listRegion)
     }
 
     private fun inputEditTextInit() {
@@ -133,9 +157,18 @@ class RegionFragment : Fragment() {
                     it.toString()
                 }
             }
-            regionAdapter?.setItems(listRegion.filter { region ->
+
+            val filteredList = listRegion.filter { region ->
                 region.name!!.lowercase().contains(inputTextFromSearch)
-            })
+            }
+
+            if (filteredList.isEmpty()) {
+                showEmptyPlaceholder()
+            } else {
+                hideEmptyPlaceholder()
+            }
+
+            regionAdapter?.setItems(filteredList)
         }
     }
 

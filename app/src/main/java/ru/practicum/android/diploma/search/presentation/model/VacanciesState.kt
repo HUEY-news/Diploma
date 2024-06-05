@@ -15,6 +15,10 @@ sealed interface VacanciesState {
         val errorMessage: String,
     ) : VacanciesState
 
+    data class ErrorToast(
+        val errorMessage: String,
+    ) : VacanciesState
+
     data class Empty(
         val message: String,
     ) : VacanciesState

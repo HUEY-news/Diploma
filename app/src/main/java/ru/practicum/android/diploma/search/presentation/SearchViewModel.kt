@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.filter.domain.api.FiltrationInteractor
+import ru.practicum.android.diploma.filter.presentation.model.FilterSearch
 import ru.practicum.android.diploma.search.domain.api.SearchInteractor
 import ru.practicum.android.diploma.search.domain.model.SimpleVacancy
 import ru.practicum.android.diploma.search.presentation.model.VacanciesState
@@ -22,7 +22,6 @@ import ru.practicum.android.diploma.util.debounce
 class SearchViewModel(
     private val resourceInteractor: ResourceInteractor,
     private val searchInteractor: SearchInteractor,
-    private val filtrationInteractor: FiltrationInteractor,
 ) :
     ViewModel() {
     var lastText: String = ""
@@ -31,32 +30,30 @@ class SearchViewModel(
     var totalVacanciesCount: Int = 0
     var flagSuccessfulDownload: Boolean = false
     private val options: HashMap<String, String> = HashMap()
+    private var flagDebounce = false
+    var isNextPageLoading = false
+    private var filterSearch: FilterSearch? = null
 
-    private fun setOption() {
-        val country = filtrationInteractor.getFilter()?.countryId
-        val region = filtrationInteractor.getFilter()?.regionId
-        val industry = filtrationInteractor.getFilter()?.industryId
-        val salary = filtrationInteractor.getFilter()?.expectedSalary
-        val onlyWithSalary = filtrationInteractor.getFilter()?.isOnlyWithSalary
+    private fun setOption(filterSearch: FilterSearch?) {
         maxPages = totalVacanciesCount / VACANCIES_PER_PAGE + 1
         if (totalVacanciesCount > VACANCIES_PER_PAGE && currentPage < maxPages) {
             options[PAGE] = currentPage.toString()
             options[PER_PAGE] = VACANCIES_PER_PAGE.toString()
         }
-        if (country != null) {
-            options[AREA] = country
+        if (filterSearch?.countryId != null) {
+            options[AREA] = filterSearch.countryId
         }
-        if (region != null) {
-            options[AREA] = region
+        if (filterSearch?.regionId != null) {
+            options[AREA] = filterSearch.regionId
         }
-        if (industry != null) {
-            options[INDUSTRY] = industry
+        if (filterSearch?.industryId != null) {
+            options[INDUSTRY] = filterSearch.industryId
         }
-        if (salary != null) {
-            options[SALARY] = salary.toString()
+        if (filterSearch?.expectedSalary != null) {
+            options[SALARY] = filterSearch.expectedSalary.toString()
         }
-        if (onlyWithSalary != null && onlyWithSalary != false) {
-            options[ONLY_WITH_SALARY] = onlyWithSalary.toString()
+        if (filterSearch?.isOnlyWithSalary != null && filterSearch.isOnlyWithSalary != false) {
+            options[ONLY_WITH_SALARY] = filterSearch.isOnlyWithSalary.toString()
         }
     }
 
@@ -64,7 +61,7 @@ class SearchViewModel(
 
     fun observeState(): LiveData<VacanciesState> = stateLiveData
 
-    private val trackSearchDebounce =
+    private val vacancySearchDebounce =
         debounce<String>(SEARCH_DEBOUNCE_DELAY, viewModelScope, true) { changedText ->
             run {
                 SearchViewModel
@@ -74,8 +71,16 @@ class SearchViewModel(
         }
 
     fun searchDebounce(changedText: String) {
-        lastText = changedText
-        trackSearchDebounce(changedText)
+        if (changedText.trim().isEmpty()) {
+            renderState(VacanciesState.Empty(message = resourceInteractor.getErrorEmptyListVacancy()))
+            return
+        }
+        if (lastText != changedText) {
+            currentPage = 0
+            lastText = changedText
+            flagDebounce = true
+            vacancySearchDebounce(changedText)
+        }
     }
 
     private fun updateTotalVacanciesCount(vacancies: List<SimpleVacancy>) {
@@ -87,40 +92,43 @@ class SearchViewModel(
     }
 
     private fun searchRequest(newSearchText: String) {
+        if (newSearchText.trim().isEmpty()) {
+            renderState(VacanciesState.Empty(message = resourceInteractor.getErrorEmptyListVacancy()))
+            return
+        }
         lastText = newSearchText
-        if (newSearchText.isNotEmpty()) {
-            viewModelScope.launch {
-                setOption()
-                searchInteractor
-                    .searchVacancy(newSearchText, options)
-                    .collect { pair ->
-                        val vacancies = ArrayList<SimpleVacancy>()
-                        if (pair.first != null) {
-                            setContent(vacancies)
-                            vacancies.addAll(pair.first!!)
-                            updateTotalVacanciesCount(vacancies)
+        viewModelScope.launch {
+            setOption(filterSearch)
+            searchInteractor
+                .searchVacancy(newSearchText, options)
+                .collect { pair ->
+                    val vacancies = ArrayList<SimpleVacancy>()
+                    if (pair.first != null) {
+                        setContent(vacancies)
+                        vacancies.addAll(pair.first!!)
+                        updateTotalVacanciesCount(vacancies)
+                    }
+                    when {
+                        pair.second != null -> {
+                            flagSuccessfulDownload = false
+                            renderState(
+                                VacanciesState.Error(
+                                    errorMessage = pair.second!!
+                                ),
+                            )
                         }
-                        when {
-                            pair.second != null -> {
-                                flagSuccessfulDownload = false
-                                renderState(
-                                    VacanciesState.Error(
-                                        errorMessage = pair.second!!
-                                    ),
-                                )
-                            }
 
-                            vacancies.isEmpty() -> {
-                                flagSuccessfulDownload = false
-                                renderState(
-                                    VacanciesState.Empty(
-                                        message = resourceInteractor.getErrorEmptyListVacancy()
-                                    ),
-                                )
-                            }
+                        vacancies.isEmpty() -> {
+                            flagSuccessfulDownload = false
+                            renderState(
+                                VacanciesState.Empty(
+                                    message = resourceInteractor.getErrorEmptyListVacancy()
+                                ),
+                            )
                         }
                     }
-            }
+                }
+            isNextPageLoading = false
         }
     }
 
@@ -138,14 +146,40 @@ class SearchViewModel(
     }
 
     fun uploadData() {
-        currentPage++
-        searchRequest(lastText)
-        renderState(VacanciesState.BottomLoading)
+        if (resourceInteractor.checkInternetConnection()) {
+            maxPages = totalVacanciesCount / VACANCIES_PER_PAGE + 1
+            if (currentPage < maxPages && !isNextPageLoading) {
+                isNextPageLoading = true
+                currentPage++
+                searchRequest(lastText)
+                renderState(VacanciesState.BottomLoading)
+            }
+        } else {
+            renderState(VacanciesState.ErrorToast(errorMessage = resourceInteractor.getErrorInternetConnection()))
+        }
     }
 
     fun downloadData(request: String) {
-        renderState(VacanciesState.Loading)
-        searchRequest(request)
+        if (!flagDebounce) {
+            renderState(VacanciesState.Loading)
+            searchRequest(request)
+        }
+    }
+
+    fun saveText(inputTextFromSearch: String) {
+        resourceInteractor.addToShared(inputTextFromSearch)
+    }
+
+    fun getText(): String? {
+        return resourceInteractor.getShared()
+    }
+
+    fun clearText() {
+        resourceInteractor.clearShared()
+    }
+
+    fun setFilterSearch(filterSearch: FilterSearch?) {
+        this.filterSearch = filterSearch
     }
 
     companion object {

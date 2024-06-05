@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFiltrationWorkplaceBinding
 import ru.practicum.android.diploma.filter.presentation.workplace.PlaceOfWorkViewModel
 import ru.practicum.android.diploma.filter.presentation.workplace.model.AreaState
+import ru.practicum.android.diploma.filter.ui.FiltrationFragment
 
 class PlaceOfWorkFragment : Fragment() {
     private var _binding: FragmentFiltrationWorkplaceBinding? = null
@@ -35,7 +37,13 @@ class PlaceOfWorkFragment : Fragment() {
                 viewModel.setArgumentCountry(countryName)
             }
         }
-        binding.buttonBack.setOnClickListener { parentFragmentManager.popBackStack() }
+
+        val backPath = R.id.action_placeOfWorkFragment_to_filtrationFragment
+        binding.buttonBack.setOnClickListener { findNavController().navigate(backPath) }
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { findNavController().navigate(backPath) }
+        })
+
         viewModel.updateInfoFromShared()
         binding.resetCountryButton.setOnClickListener {
             viewModel.cleanCountryData()
@@ -44,7 +52,10 @@ class PlaceOfWorkFragment : Fragment() {
             viewModel.cleanRegionData()
         }
         binding.selectButton.setOnClickListener {
-            findNavController().navigate(R.id.action_placeOfWorkFragment_to_filtrationFragment)
+            findNavController().navigate(
+                R.id.action_placeOfWorkFragment_to_filtrationFragment,
+                FiltrationFragment.createArgsFromWorkplace(true)
+            )
         }
         viewModel.observeState().observe(viewLifecycleOwner) { state ->
             render(state)

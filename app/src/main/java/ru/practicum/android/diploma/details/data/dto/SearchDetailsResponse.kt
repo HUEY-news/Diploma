@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.details.data.dto
 
 import com.google.gson.annotations.SerializedName
 import ru.practicum.android.diploma.details.data.model.AddressDto
+import ru.practicum.android.diploma.details.data.model.Area
 import ru.practicum.android.diploma.details.data.model.ContactsDto
 import ru.practicum.android.diploma.details.data.model.EmployerDto
 import ru.practicum.android.diploma.details.data.model.ExperienceDto
@@ -14,6 +15,7 @@ import ru.practicum.android.diploma.search.data.dto.Response
 data class SearchDetailsResponse(
     @SerializedName("id") val id: String,
     @SerializedName("address") val address: AddressDto?,
+    @SerializedName("area") val area: Area?,
     @SerializedName("alternate_url") val alternateUrl: String?,
     @SerializedName("contacts") val contacts: ContactsDto?,
     @SerializedName("description") val description: String?,

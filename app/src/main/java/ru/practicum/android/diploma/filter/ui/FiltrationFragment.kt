@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -19,12 +20,16 @@ import ru.practicum.android.diploma.filter.presentation.model.AreaState
 import ru.practicum.android.diploma.filter.presentation.model.CheckBoxState
 import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 import ru.practicum.android.diploma.filter.presentation.model.IndustryState
+import ru.practicum.android.diploma.filter.ui.industry.IndustryFragment
+import ru.practicum.android.diploma.search.ui.SearchFragment
 
 class FiltrationFragment : Fragment() {
+
     private var _binding: FragmentFiltrationBinding? = null
     private val binding get() = _binding!!
     private var inputTextFromApply: String? = null
     private val viewModel by viewModel<FiltrationViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,24 +42,24 @@ class FiltrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (arguments != null) {
+            val fromRegion = arguments?.getBoolean(ARGS_FROM_WORKPLACE)
+            val fromIndustry = arguments?.getBoolean(ARGS_FROM_INDUSTRY)
+            if (fromRegion == true || fromIndustry == true) {
+                viewModel.setChangedState()
+            }
+        }
         setOnClickListeners()
         setOnTextChangedListener()
+        setOnFocusChangeListener()
         if (viewModel.salary != null) {
             binding.salaryEditText.setText(viewModel.salary.toString(), TextView.BufferType.EDITABLE)
         }
         viewModel.updateFilterParametersFromShared()
-        viewModel.observeAreaState().observe(viewLifecycleOwner) {
-            renderArea(it)
-        }
-        viewModel.observeIndustryState().observe(viewLifecycleOwner) {
-            renderIndustry(it)
-        }
-        viewModel.observeCheckboxState().observe(viewLifecycleOwner) {
-            renderCheckBox(it)
-        }
-        viewModel.observeFiltrationState().observe(viewLifecycleOwner) {
-            render(it)
-        }
+        viewModel.observeAreaState().observe(viewLifecycleOwner) { renderArea(it) }
+        viewModel.observeIndustryState().observe(viewLifecycleOwner) { renderIndustry(it) }
+        viewModel.observeCheckboxState().observe(viewLifecycleOwner) { renderCheckBox(it) }
+        viewModel.observeFiltrationState().observe(viewLifecycleOwner) { render(it) }
     }
 
     private fun renderCheckBox(checkBoxState: CheckBoxState) {
@@ -80,12 +85,20 @@ class FiltrationFragment : Fragment() {
     private fun render(state: FiltrationState) {
         when (state) {
             is FiltrationState.EmptyFilters -> showEmptyFilters()
+            is FiltrationState.ChangedFilter -> showApplyButton()
         }
     }
 
+    private fun showApplyButton() {
+        binding.applyFilterButton.isVisible = true
+    }
+
     private fun showWorkPlace(workPlace: String) {
-        binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_close)
+        binding.workPlaceHeader.isVisible = true
+        binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_reset)
+        binding.filtrationWorkPlaceTextView.setTextColor(requireContext().getColor(R.color.text_color_selector))
         binding.filtrationWorkPlaceImageView.setOnClickListener {
+            viewModel.setChangedState()
             viewModel.clearWorkplace()
         }
         binding.filtrationWorkPlaceTextView.text = workPlace
@@ -93,14 +106,19 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun setDefaultWorkplace() {
+        binding.workPlaceHeader.isVisible = false
         binding.filtrationWorkPlaceTextView.text = getString(R.string.place_of_work)
+        binding.filtrationWorkPlaceTextView.setTextColor(requireContext().getColor(R.color.gray))
         binding.filtrationWorkPlaceImageView.setImageResource(R.drawable.icon_arrow_forward)
         binding.filtrationWorkPlaceImageView.setOnClickListener(null)
     }
 
     private fun showIndustry(industryName: String) {
-        binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_close)
+        binding.industryHeader.isVisible = true
+        binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_reset)
+        binding.filtrationIndustryTextView.setTextColor(requireContext().getColor(R.color.text_color_selector))
         binding.filtrationIndustryImageView.setOnClickListener {
+            viewModel.setChangedState()
             viewModel.setIndustryIsEmpty()
         }
         binding.filtrationIndustryTextView.text = industryName
@@ -108,7 +126,9 @@ class FiltrationFragment : Fragment() {
     }
 
     private fun setDefaultIndustry() {
+        binding.industryHeader.isVisible = false
         binding.filtrationIndustryTextView.text = getString(R.string.industry)
+        binding.filtrationIndustryTextView.setTextColor(requireContext().getColor(R.color.gray))
         binding.filtrationIndustryImageView.setImageResource(R.drawable.icon_arrow_forward)
         binding.filtrationIndustryImageView.setOnClickListener(null)
     }
@@ -122,36 +142,56 @@ class FiltrationFragment : Fragment() {
 
     private fun showEmptyFilters() {
         if (viewModel.salary == null) {
-            binding.applyFilterButton.isVisible = false
             binding.resetFilterButton.isVisible = false
         }
     }
 
     private fun showFiltersMenu() {
-        binding.applyFilterButton.isVisible = true
         binding.resetFilterButton.isVisible = true
     }
 
     private fun setOnClickListeners() {
-        binding.apply {
+        with(binding) {
             filtrationWorkPlace.setOnClickListener {
                 findNavController().navigate(R.id.action_filtrationFragment_to_placeOfWorkFragment)
             }
             filtrationIndustry.setOnClickListener {
-                findNavController().navigate(R.id.action_filtrationFragment_to_industryFragment)
+                val arguments = IndustryFragment.createBundle(viewModel.getIndustryFilterId())
+                findNavController().navigate(
+                    R.id.action_filtrationFragment_to_industryFragment,
+                    arguments
+                )
             }
             filtrationPayCheckbox.setOnClickListener {
                 viewModel.setCheckboxOnlyWithSalary(filtrationPayCheckbox.isChecked)
+                viewModel.setChangedState()
             }
+            applyFilterButton.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_filtrationFragment_to_searchFragment,
+                    SearchFragment.createArgsFilter(viewModel.createFilterFromShared())
+                )
+            }
+
+            resetSalaryButton.setOnClickListener {
+                salaryEditText.setText("")
+            }
+
             resetFilterButton.setOnClickListener {
                 viewModel.clearAllFilters()
                 viewModel.setSalaryIsEmpty()
+                filtrationPayCheckbox.isChecked = false
                 binding.salaryEditText.setText("")
                 binding.applyFilterButton.isVisible = false
                 binding.resetFilterButton.isVisible = false
             }
-            applyFilterButton.setOnClickListener {
-                findNavController().navigate(R.id.action_filtrationFragment_to_searchFragment)
+        }
+    }
+
+    private fun setOnFocusChangeListener() {
+        binding.salaryEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (!binding.salaryEditText.text.isNullOrEmpty()) {
+                binding.resetSalaryButton.isVisible = hasFocus
             }
         }
     }
@@ -162,11 +202,17 @@ class FiltrationFragment : Fragment() {
             onTextChanged = { s, start, before, count -> },
             afterTextChanged = { s ->
                 if (!s.isNullOrEmpty()) {
+                    binding.resetSalaryButton.isVisible = binding.salaryEditText.hasFocus()
                     inputTextFromApply = s.toString()
                     viewModel.setSalary(inputTextFromApply!!)
+                    if (viewModel.salary.toString().isNotEmpty() && viewModel.salary.toString() != inputTextFromApply) {
+                        viewModel.setChangedState()
+                    }
                     showFiltersMenu()
                 } else {
+                    binding.resetSalaryButton.isVisible = false
                     viewModel.setSalaryIsEmpty()
+                    viewModel.setChangedState()
                 }
             }
         )
@@ -178,17 +224,26 @@ class FiltrationFragment : Fragment() {
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.icon_back)
         }
+
+        val backPath = R.id.action_filtrationFragment_to_searchFragment
         binding.filtrationVacancyToolbar.setTitleTextAppearance(requireContext(), R.style.ToolbarAppStyle)
-        binding.filtrationVacancyToolbar.setNavigationOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
+        binding.filtrationVacancyToolbar.setNavigationOnClickListener { findNavController().navigate(backPath) }
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { findNavController().navigate(backPath) }
+        })
     }
 
     companion object {
-        private const val ARGS_INDUSTRY_NAME = "industry_name"
-        fun createArgs(industryName: String): Bundle =
+        private const val ARGS_FROM_WORKPLACE = "from_workplace"
+        fun createArgsFromWorkplace(isFromWorkplace: Boolean): Bundle =
             bundleOf(
-                ARGS_INDUSTRY_NAME to industryName,
+                ARGS_FROM_WORKPLACE to isFromWorkplace,
+            )
+
+        private const val ARGS_FROM_INDUSTRY = "from_industry"
+        fun createArgsFromIndustry(isFromIndustry: Boolean): Bundle =
+            bundleOf(
+                ARGS_FROM_INDUSTRY to isFromIndustry,
             )
     }
 }

@@ -8,10 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.ItemIndustryBinding
 import ru.practicum.android.diploma.filter.domain.model.Industry
 
-class IndustryAdapter(private val itemClickListener: ItemClickListener) :
-    ListAdapter<Industry, RecyclerView.ViewHolder>(IndustryDiffCallBack()) {
+class IndustryAdapter(
+    private val itemClickListener: ItemClickListener
+) : ListAdapter<Industry, RecyclerView.ViewHolder>(IndustryDiffCallBack()) {
+
     private var industries: MutableList<Industry> = mutableListOf()
     private var selectedPosition = RecyclerView.NO_POSITION
+
+    fun setPosition(position: Int) {
+        selectedPosition = position
+    }
 
     fun setItems(items: List<Industry>) {
         industries.clear()
@@ -21,7 +27,7 @@ class IndustryAdapter(private val itemClickListener: ItemClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return IndustyViewHolder(
+        return IndustryViewHolder(
             ItemIndustryBinding.inflate(layoutInflater, parent, false),
             { position: Int ->
                 if (position != RecyclerView.NO_POSITION) {
@@ -46,7 +52,7 @@ class IndustryAdapter(private val itemClickListener: ItemClickListener) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         industries.getOrNull(position)?.let { industry ->
-            (holder as IndustyViewHolder).bind(industry, position == selectedPosition)
+            (holder as IndustryViewHolder).bind(industry, position == selectedPosition)
         }
     }
 

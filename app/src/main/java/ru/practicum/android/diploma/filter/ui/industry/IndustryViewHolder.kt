@@ -4,16 +4,17 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.ItemIndustryBinding
 import ru.practicum.android.diploma.filter.domain.model.Industry
 
-class IndustyViewHolder(
+class IndustryViewHolder(
     private val binding: ItemIndustryBinding,
     onItemClick: (position: Int) -> Unit,
     private val onRadioButtonClick: (position: Int) -> Unit
-) :
-    RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
+
     init {
         itemView.setOnClickListener {
             onItemClick(adapterPosition)
         }
+
         binding.filterIndustryItem.setOnClickListener {
             onRadioButtonClick(adapterPosition)
         }

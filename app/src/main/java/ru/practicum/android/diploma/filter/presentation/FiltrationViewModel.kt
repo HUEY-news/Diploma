@@ -6,31 +6,30 @@ import androidx.lifecycle.ViewModel
 import ru.practicum.android.diploma.filter.domain.api.FiltrationInteractor
 import ru.practicum.android.diploma.filter.presentation.model.AreaState
 import ru.practicum.android.diploma.filter.presentation.model.CheckBoxState
+import ru.practicum.android.diploma.filter.presentation.model.FilterSearch
 import ru.practicum.android.diploma.filter.presentation.model.FiltrationState
 import ru.practicum.android.diploma.filter.presentation.model.IndustryState
 import ru.practicum.android.diploma.filter.presentation.model.SalaryState
 
 class FiltrationViewModel(
-    private val filtrationInteractor: FiltrationInteractor,
+    private val filtrationInteractor: FiltrationInteractor
 ) : ViewModel() {
+
     private val stateLiveDataFiltration = MutableLiveData<FiltrationState>()
     private val stateLiveDataArea = MutableLiveData<AreaState>()
     private val stateLiveDataSalary = MutableLiveData<SalaryState>()
     private val stateLiveDataIndustry = MutableLiveData<IndustryState>()
     private val stateLiveDataCheckBox = MutableLiveData<CheckBoxState>()
-    private val stateLiveDataChange = MutableLiveData<Boolean>()
+
     val salary by lazy(LazyThreadSafetyMode.NONE) {
         filtrationInteractor.getFilter()?.expectedSalary
     }
 
-    fun observeChangedState(): LiveData<Boolean> = stateLiveDataChange
     fun observeFiltrationState(): LiveData<FiltrationState> = stateLiveDataFiltration
     fun observeAreaState(): LiveData<AreaState> = stateLiveDataArea
-
-    fun observeSalaryState(): LiveData<SalaryState> = stateLiveDataSalary
-
     fun observeIndustryState(): LiveData<IndustryState> = stateLiveDataIndustry
     fun observeCheckboxState(): LiveData<CheckBoxState> = stateLiveDataCheckBox
+
     private fun updateWorkplaceFromShared(country: String?, region: String?) {
         val stringCountryRegion: String
         if (country != null && region != null) {
@@ -49,19 +48,32 @@ class FiltrationViewModel(
         val onlyWithSalary = filtrationInteractor.getFilter()?.isOnlyWithSalary
         val country = filtrationInteractor.getFilter()?.countryName
         val region = filtrationInteractor.getFilter()?.regionName
+
         updateWorkplaceFromShared(country, region)
-        if (industry != null) {
-            setIndustry(industry)
-        }
-        if (salary != null) {
-            setSalary(salary.toString())
-        }
+
+        if (industry != null) setIndustry(industry)
+        if (salary != null) setSalary(salary.toString())
         if (onlyWithSalary != null) {
-            setCheckboxOnlyWithSalary(onlyWithSalary)
+            stateLiveDataCheckBox.postValue(CheckBoxState.IsCheck(onlyWithSalary))
         }
         if (checkOnNull(country, region, industry, salary, onlyWithSalary)) {
             stateLiveDataFiltration.postValue(FiltrationState.EmptyFilters)
         }
+    }
+
+    fun createFilterFromShared(): FilterSearch {
+        val industryId = filtrationInteractor.getFilter()?.industryId
+        val onlyWithSalary = filtrationInteractor.getFilter()?.isOnlyWithSalary
+        val countryId = filtrationInteractor.getFilter()?.countryId
+        val regionId = filtrationInteractor.getFilter()?.regionId
+        val salary = filtrationInteractor.getFilter()?.expectedSalary
+        return FilterSearch(
+            industryId = industryId,
+            countryId = countryId,
+            regionId = regionId,
+            isOnlyWithSalary = onlyWithSalary,
+            expectedSalary = salary
+        )
     }
 
     private fun checkOnNull(
@@ -115,5 +127,15 @@ class FiltrationViewModel(
         setSalaryIsEmpty()
         setCheckboxOnlyWithSalary(false)
         stateLiveDataFiltration.postValue(FiltrationState.EmptyFilters)
+    }
+
+    fun setChangedState() {
+        stateLiveDataFiltration.postValue(FiltrationState.ChangedFilter)
+    }
+
+    fun getIndustryFilterId(): String? {
+        val filter = filtrationInteractor.getFilter()
+        val industryId = filter?.industryId
+        return industryId
     }
 }
